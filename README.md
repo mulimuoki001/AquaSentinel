@@ -1,0 +1,1 @@
+Use GitDocify to generate the documented code in your README.md
