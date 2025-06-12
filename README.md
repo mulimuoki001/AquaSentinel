@@ -11,6 +11,8 @@
 
 ---
 
+## [**Repo Link**](https://github.com/mulimuoki001/AquaSentinel)
+
 ## 🔧 Tech Stack
 
 ### 💻 Frontend
