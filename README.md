@@ -1,4 +1,4 @@
-Use GitDocify to generate the documented code in your README.md# 🌱 AquaSentinel
+# 🌱 AquaSentinel
 
 **AquaSentinel** is a full-stack smart irrigation monitoring dashboard tailored for Rwanda’s Small-Scale Irrigation Technology (SSIT) ecosystem. It enables farmers, irrigation service providers, and government actors to monitor real-time water usage, soil moisture, and system performance from a centralized platform.
 
