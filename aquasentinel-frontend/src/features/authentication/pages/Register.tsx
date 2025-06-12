@@ -54,7 +54,7 @@ const RegisterPage = () => {
         <button type="submit">Register</button>
           </form>
           <div className="register-footer">
-              <p>Already have an account? <a href="/">Login</a></p>
+              <p>Already have an account? <a href="/login">Login</a></p>
               {error && <p className="error-message">{error}</p>}
   			</div>
     </div>

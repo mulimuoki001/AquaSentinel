@@ -1,32 +1,13 @@
-import dotenv from 'dotenv';
-import { Pool } from 'pg';
-import { db } from './db';
+import dotenv from "dotenv";
+import { db } from "./db";
 
 dotenv.config();
 
-const basePool = new Pool({
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT || '5432'),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
 export const ensureDatabaseAndTables = async () => {
   try {
-    // Ensure DB exists
-    const dbName = process.env.DB_NAME!;
-    const dbCheck = await basePool.query(`SELECT 1 FROM pg_database WHERE datname = $1`, [dbName]);
-    if (dbCheck.rowCount === 0) {
-      await basePool.query(`CREATE DATABASE ${dbName}`);
-      console.log(`✅ Database '${dbName}' created`);
-    } else {
-      console.log(`✅ Database '${dbName}' exists`);
-    }
-
-    // Connect to the DB and ensure tables
+    // Connect and ensure tables (not the DB)
     await db.connect();
-    console.log('✅ Connected to PostgreSQL database');
+    console.log("✅ Connected to PostgreSQL database");
 
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -39,8 +20,8 @@ export const ensureDatabaseAndTables = async () => {
       );
     `);
 
-    console.log('✅ Users table is ready');
+    console.log("✅ Users table is ready");
   } catch (err) {
-    console.error('❌ Error setting up database or tables:', err);
+    console.error("❌ Error setting up database or tables:", err);
   }
 };

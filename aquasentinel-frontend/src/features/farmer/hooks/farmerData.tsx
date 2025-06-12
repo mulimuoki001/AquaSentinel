@@ -15,7 +15,7 @@ const useFarmerData = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/dashboard/farmer');
+                const response = await axios.get('/dashboard/farmer');
                 const responseData = response.data as { id: number, name: string }[];
                 if (Array.isArray(responseData)) {
                     setData(responseData);

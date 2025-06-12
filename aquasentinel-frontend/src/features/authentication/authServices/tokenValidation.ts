@@ -7,7 +7,7 @@ export const validateToken = async (): Promise<{
     if (!token) {
       return { valid: false };
     }
-    const response = await fetch("http://localhost:3000/auth/validate-token", {
+    const response = await fetch("/auth/validate-token", {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

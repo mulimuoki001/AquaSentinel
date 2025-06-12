@@ -6,7 +6,7 @@ const logoutService = {
           const token = localStorage.getItem('token');
           localStorage.removeItem('token');
         const headers = { Authorization: `Bearer ${token}` };
-        await axios.post('http://localhost:3000/auth/logout', {}, { headers });
+        await axios.post('/auth/logout', {}, { headers });
     } catch (error) {
       console.error(error);
     }

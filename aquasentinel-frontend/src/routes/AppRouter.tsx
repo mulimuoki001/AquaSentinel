@@ -8,8 +8,8 @@ import RABDashboard from '../features/RAB/pages/profilePage';
 const AppRoutes = () => {
     return (
             <Routes>
-            <Route path="/" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Register />} />
                 <Route path="/dashboard/farmer" element={<FarmerDashboard />} />
                 <Route path="/dashboard/provider" element={<ProviderDashboard />} />
                 <Route path="/dashboard/RAB" element={<RABDashboard />} />
