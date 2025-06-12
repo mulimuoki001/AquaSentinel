@@ -121,17 +121,6 @@ After login:
 
 ---
 
-## ⚙️ Tech Stack
-
-- **Frontend**: React + Vite + TypeScript
-- **Backend**: Node.js + Express + TypeScript
-- **Database**: PostgreSQL (via Heroku Postgres)
-- **Deployment**: Heroku
-- **API Security**: JWT-based Auth
-- **Other Tools**: Axios, React Router DOM, pg
-
----
-
 ## 🔎 API Highlights (Secured with Bearer Tokens)
 
 - `POST /auth/register`
@@ -140,4 +129,29 @@ After login:
 - `GET /dashboard/farmer`
 - `GET /dashboard/provider`
 - `GET /dashboard/RAB`
+
+---
+## 🎨 UX/UI Design
+
+The user interface and experience of AquaSentinel were designed using **Figma**, following a role-based, mobile-first approach to ensure clarity, usability, and accessibility across different user types.
+
+Key design considerations:
+- 📱 **Mobile-first responsiveness** for accessibility in rural field environments
+- 🧭 **Clear navigation flow** for farmers, service providers, and government officials
+- 🎯 **Role-based UI layouts** tailored to the specific needs of each user type
+- 🖍️ **Accessible color palette** to enhance visibility for low-light field usage
+- 📐 **Component-based structure** for scalable and consistent styling
+- 💡 **Smart recommendations and alert icons** to highlight critical irrigation issues
+
+🔗 [View Figma Design Prototype](https://www.figma.com/design/zGQKLuGimZMtkcjFn0JGZS/AquaSentinel-Dashboard-Designs?node-id=308-14250&t=M8WpbPqWjnarsdtz-1)  
+
+
+---
+
+## 📦 Deployment Plan
+At the moment, the prototype was deployed using **Heroku**, however, in future I intend to deploy the dashboard using **Render**
+
+
+
+
 
