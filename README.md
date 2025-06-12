@@ -86,7 +86,8 @@
 
 ## 🌍 Live Demo
 
-🔗 [**Visit the Live App on Heroku**](https://aqua-sentinel-109c335846c9.herokuapp.com)
+🔗 [**Visit the Live App on Heroku**](https://aqua-sentinel-109c335846c9.herokuapp.com/)
+🔗 [**Here is the demo video**](https://www.youtube.com/watch?v=QaGcHhv9uPI)
 
 Use the app to:
 - Monitor water usage by plot
