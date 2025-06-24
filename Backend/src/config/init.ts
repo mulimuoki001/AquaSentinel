@@ -16,8 +16,19 @@ export const ensureDatabaseAndTables = async () => {
         email VARCHAR(100) UNIQUE NOT NULL,
         password TEXT NOT NULL,
         role VARCHAR(50) NOT NULL,
+        farmname VARCHAR(100),
+        farmlocation VARCHAR(100),
+        farmphone VARCHAR(20),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+    `);
+
+    //Add new columns to users table if they don't exist
+    await db.query(`
+      ALTER TABLE users
+      ADD COLUMN IF NOT EXISTS farmname VARCHAR(100),
+      ADD COLUMN IF NOT EXISTS farmlocation VARCHAR(100),
+      ADD COLUMN IF NOT EXISTS farmphone VARCHAR(20);
     `);
 
     console.log("✅ Users table is ready");

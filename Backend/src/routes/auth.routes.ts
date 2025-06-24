@@ -6,19 +6,12 @@ import {
   register,
   validateToken,
 } from "../controllers/auth.controller";
-import { authenticateJWT } from "../middleware/auth.middleware";
-import { authorizeRoles } from "../middleware/role.middleware";
 const router = Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.post("/logout", authenticateJWT, logout);
+router.post("/logout", logout);
 router.get("/validate-token", validateToken);
-router.post(
-  "/logout-all",
-  authenticateJWT,
-  authorizeRoles("provider"),
-  logoutAll
-);
+router.post("/logout-all", logoutAll);
 
 export default router;

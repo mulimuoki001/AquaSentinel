@@ -2,32 +2,43 @@ import fs from "fs";
 
 const file = "activeTokens.json";
 
-export function loadActiveTokens(): Record<string, string> {
+export function loadActiveTokens(): Record<
+  string,
+  { token: string; expirationTime: number }
+> {
   if (!fs.existsSync(file)) fs.writeFileSync(file, "{}");
   const data = fs.readFileSync(file, "utf8").trim();
   return data ? JSON.parse(data) : {};
 }
 
+export function saveActiveTokens(tokens: any) {
+  fs.writeFileSync(file, JSON.stringify(tokens, null, 2));
+}
 export function removeActiveTokens() {
   fs.writeFileSync(file, "{}");
 }
 
-export function saveActiveTokens(tokens: Record<string, string>) {
-  fs.writeFileSync(file, JSON.stringify(tokens, null, 2));
-}
-
 export function getActiveToken(userId: number): string | undefined {
-  return loadActiveTokens()[userId];
+  const tokens = loadActiveTokens();
+  return tokens[userId]?.token;
 }
 
-export function setActiveToken(userId: number, token: string) {
+export function setActiveToken(
+  userId: number,
+  token: string,
+  expirationTime: number
+) {
   const tokens = loadActiveTokens();
-  tokens[userId] = token;
+  tokens[userId] = { token, expirationTime };
   saveActiveTokens(tokens);
 }
-
-export function removeActiveToken(userId: number) {
+export function removeActiveToken(token: string) {
   const tokens = loadActiveTokens();
-  delete tokens[userId];
-  saveActiveTokens(tokens);
+  const key = Object.keys(tokens).find((key) => tokens[key].token === token);
+  if (key) {
+    delete tokens[key];
+    saveActiveTokens(tokens);
+  } else {
+    console.log("Token not found");
+  }
 }

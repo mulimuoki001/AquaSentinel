@@ -1,11 +1,13 @@
-export const registerUser = async (email: string, password: string, role: string) => {
+export const registerUser = async (name: string, email: string, password: string, role: string, farmname: string, farmlocation: string, farmphone: string) => {
     try {
-        const response = await fetch('/auth/register', {
+        const response = await fetch('http://localhost:3000/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password, role })
+            body: JSON.stringify({
+                name, email, password, role, farmname, farmlocation, farmphone
+            })
         });
 
         if (!response.ok) {

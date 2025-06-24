@@ -4,9 +4,13 @@ const logoutService = {
   async logout() {
         try {
           const token = localStorage.getItem('token');
-          localStorage.removeItem('token');
-        const headers = { Authorization: `Bearer ${token}` };
-        await axios.post('/auth/logout', {}, { headers });
+          if (token) {
+            const headers = { Authorization: `Bearer ${token}` };
+            await axios.post('http://localhost:3000/auth/logout', {}, { headers });
+            localStorage.removeItem('token');
+          } else {
+            console.log('Token not found');
+          }
     } catch (error) {
       console.error(error);
     }

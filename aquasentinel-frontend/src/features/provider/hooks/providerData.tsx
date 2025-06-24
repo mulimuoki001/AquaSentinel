@@ -7,6 +7,7 @@ const useProviderData = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        console.log("Current token:", token);
         if (!token) {
             console.error('Token not found');
         }
@@ -14,7 +15,7 @@ const useProviderData = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const fetchData = async () => {
             try {
-                const response = await axios.get('/dashboard/provider');
+                const response = await axios.get('http://localhost:3000/dashboard/provider');
                 const responseData = response.data as { id: number, name: string }[];
                 if (Array.isArray(responseData)) {
                     setData(responseData);

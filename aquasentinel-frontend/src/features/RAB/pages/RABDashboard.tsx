@@ -1,6 +1,6 @@
+import withTokenValidation from '../../authentication/hooks/tokenValidationWrapper';
 import LogoutPage from '../../authentication/pages/Logout';
 import RABProfile from '../components/RABProfile';
-
 const RABDashboard = () => {
   return (
     <div>
@@ -10,4 +10,4 @@ const RABDashboard = () => {
   );
 };
 
-export default RABDashboard;
+export default withTokenValidation(RABDashboard);

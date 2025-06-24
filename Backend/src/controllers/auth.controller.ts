@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { RequestHandler } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { db } from "../config/db";
 import { getUserByEmail } from "../models/user.model";
 import {
@@ -13,16 +13,22 @@ import {
 const fs = require("fs");
 
 export const register: RequestHandler = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, farmname, farmlocation, farmphone } =
+    req.body;
   try {
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
       res.status(409).json({ message: "User already exists" });
     }
+    if (role === "farmer") {
+      if (!farmname || !farmlocation || !farmphone) {
+        res.status(400).json({ message: "Farm information is required" });
+      }
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await db.query(
-      `INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)`,
-      [name, email, hashedPassword, role]
+      `INSERT INTO users (name, email, password, role, farmname, farmlocation, farmphone) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [name, email, hashedPassword, role, farmname, farmlocation, farmphone]
     );
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -42,22 +48,37 @@ export const login: RequestHandler = async (req, res) => {
     }
     //Token management
     const existingToken = await getActiveToken(user.id);
-    console.log("Existing token:", existingToken);
     if (existingToken && !tokenBlacklist.has(existingToken)) {
-      res.status(400).json({ message: "User already logged in" });
+      res.status(201).json({
+        message: "User already logged in",
+        newToken: existingToken,
+        role: user.role,
+        userId: user.id,
+      });
+    } else {
+      // Generate token
+      const newToken = jwt.sign(
+        {
+          userId: user.id,
+          role: user.role,
+        },
+        process.env.JWT_SECRET || "secret",
+        {
+          expiresIn: 36000,
+        }
+      );
+      const expirationTime = Date.now() + 60; // 60 seconds
+      console.log("Expiration time:", expirationTime);
+      await setActiveToken(user.id, newToken, expirationTime);
+
+      res.status(200).json({
+        message: "User logged in successfully",
+        newToken,
+        userId: user.id,
+        role: user.role,
+        expirationTime,
+      });
     }
-    // Generate token
-    const newToken = jwt.sign(
-      { userId: user.id, role: user.role },
-      process.env.JWT_SECRET || "secret",
-      {
-        expiresIn: "1h",
-      }
-    );
-
-    await setActiveToken(user.id, newToken);
-
-    res.status(200).json({ newToken, role: user.role, userId: user.id });
   } catch (error) {
     res.status(500).json({ message: "Error logging in", error });
   }
@@ -84,30 +105,31 @@ fs.readFile("tokenBlacklist.json", "utf8", (err: Error, data: string) => {
 // Logout endpoint
 export const logout: RequestHandler = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
-  if (!token) res.status(400).json({ message: "Token missing" });
-
-  try {
-    const decoded = jwt.verify(
-      token!,
-      process.env.JWT_SECRET || "secret"
-    ) as any;
-    //Add token to blacklist
-    tokenBlacklist.add(token!);
-    //Save token blacklist to file
-    fs.writeFile(
-      "tokenBlacklist.json",
-      JSON.stringify([...tokenBlacklist]),
-      (err: NodeJS.ErrnoException | null) => {
-        if (err) console.error("❌ Error saving token blacklist:", err.message);
-        else console.log("✅ Token added to blacklist and saved to file");
-      }
-    );
-    //Delete token from database
-    await removeActiveToken(decoded.userId);
-    res.status(200).json({ message: "Logged out successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error logging out" });
+  if (!token) {
+    res.status(400).json({ message: "Token missing" });
+  } else {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
+      //Add token to blacklist
+      tokenBlacklist.add(token!);
+      //Save token blacklist to file
+      fs.writeFile(
+        "tokenBlacklist.json",
+        JSON.stringify([...tokenBlacklist]),
+        (err: NodeJS.ErrnoException | null) => {
+          if (err)
+            console.error("❌ Error saving token blacklist:", err.message);
+          else console.log("✅ Token added to blacklist and saved to file");
+        }
+      );
+      //Delete token from database
+      await removeActiveToken(token);
+      console.log("Token removed from database");
+      res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error logging out" });
+    }
   }
 };
 
@@ -115,8 +137,8 @@ export const logout: RequestHandler = async (req, res) => {
 export const logoutAll: RequestHandler = async (req, res) => {
   try {
     const allActiveTokens = await loadActiveTokens();
-    Object.values(allActiveTokens).forEach((token: string) => {
-      tokenBlacklist.add(token);
+    Object.values(allActiveTokens).forEach((tokenObject) => {
+      tokenBlacklist.add(tokenObject.token);
     });
 
     fs.writeFile(
@@ -135,9 +157,28 @@ export const logoutAll: RequestHandler = async (req, res) => {
     res.status(500).json({ message: "Error logging out all users" });
   }
 };
-
+const logoutUser = async (token: string) => {
+  try {
+    // Add token to blacklist
+    tokenBlacklist.add(token);
+    // Save token blacklist to file
+    fs.writeFile(
+      "tokenBlacklist.json",
+      JSON.stringify([...tokenBlacklist]),
+      (err: NodeJS.ErrnoException | null) => {
+        if (err) console.error("Error saving token blacklist:", err.message);
+        else console.log("Token added to blacklist and saved to file");
+      }
+    );
+    // Delete token from database
+    await removeActiveToken(token);
+    console.log("Token removed from database");
+  } catch (error) {
+    console.error(error);
+  }
+};
 //Token validation
-export const validateToken: RequestHandler = (req, res) => {
+export const validateToken: RequestHandler = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
     res.status(401).json({ valid: false, error: "No token provided" });
@@ -151,12 +192,45 @@ export const validateToken: RequestHandler = (req, res) => {
       .status(401)
       .json({ valid: false, error: "Token blacklisted", role: user.role });
     return;
-  }
+  } else {
+    try {
+      const decodedToken = jwt.verify(
+        token,
+        process.env.JWT_SECRET || "secret"
+      ) as JwtPayload;
+      const expirationDate = decodedToken.exp ? decodedToken.exp : null;
+      console.log("expirationDate", expirationDate);
 
-  try {
-    jwt.verify(token, process.env.JWT_SECRET || "secret");
-    res.status(200).json({ valid: true, role: user.role });
-  } catch (err) {
-    res.status(401).json({ valid: false, error: "Token expired or invalid" });
+      // Check if token is about to expire
+      if (expirationDate) {
+        const logoutTime = new Date(expirationDate);
+        const currentTime = Date.now();
+        const dateDifference = logoutTime.getTime() - currentTime;
+        console.log("dateDifference", dateDifference);
+        if (dateDifference <= 20000) {
+          console.log("Token is about to expire");
+          res
+            .status(401)
+            .json({ valid: false, error: "Token is about to expire" });
+          await logoutUser(token);
+          return;
+        }
+      }
+
+      // Token is valid and not about to expire, send response
+      res.status(200).json({ valid: true, role: user.role });
+    } catch (err) {
+      if (err instanceof jwt.TokenExpiredError) {
+        res.status(401).json({
+          valid: false,
+          error: "Token is expired",
+        });
+      } else {
+        res.status(500).json({
+          valid: false,
+          error: "Token is invalid",
+        });
+      }
+    }
   }
 };
