@@ -1,7 +1,141 @@
 .settings-container {
   display: flex;
   flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.settings-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.settings-box {
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 16px;
+  flex: 1 1 300px;
+  min-width: 250px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.settings-box h3 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  margin-bottom: 12px;
+}
+
+.setting-pill {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.setting-pill.selected {
+  background: #007bff;
+}
+
+.setting-pills {
+  display: flex;
+  gap: 8px;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  position: absolute;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* System Preferences */
+.preferences-box {
+  background: #1a1a1a;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.pref-button {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.pref-button:hover {
+  background: #555;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .settings-grid {
+    flex-direction: column;
+  }
+
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .pref-button {
+    width: 100%;
+  }
 }

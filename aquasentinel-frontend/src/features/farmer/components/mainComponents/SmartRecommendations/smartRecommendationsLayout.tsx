@@ -16,7 +16,7 @@ const SmartRecommendationsLayout = () => {
   return (
     <div className="layout">
       <NavBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} handleLogout={handleLogout}/>
-      <SmartRecommendations sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
+        <SmartRecommendations sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
     </div>
   );
 };

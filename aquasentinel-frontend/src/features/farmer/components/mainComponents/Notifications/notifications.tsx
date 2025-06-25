@@ -1,4 +1,17 @@
 import { Link } from "react-router-dom";
+
+interface Notification {
+    id: number;
+    title: string;
+    timestamp: string;
+    read: boolean;
+  }
+  
+  const mockNotifications: Notification[] = [
+    { id: 1, title: "Pump started at 7.15 AM", timestamp: "Today 08:12 AM", read: false },
+    { id: 2, title: "Pump started at 7.15 AM", timestamp: "Today 08:12 AM", read: false },
+    { id: 3, title: "Pump started at 7.15 AM", timestamp: "Today 08:12 AM", read: false },
+  ];
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
@@ -32,7 +45,22 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                     </div>
             </div>
             <div className="notifications-container">
-                <h1>Notifications</h1>
+                <div className="notifications-header">
+                    <h1>Notifications</h1>
+                    <button className="clear-all">Clear All</button>
+                </div>
+                <div className="notifications-list">
+                    {mockNotifications.map((notification) => (
+                        <div key={notification.id} className={`notification-card ${notification.read ? "read" : "unread"}`}>
+                            <div className="notification-content">
+                                <strong>{notification.title}</strong>
+                                <small>{notification.timestamp}</small>
+                            </div>
+                            <button className="mark-read">Mark as read</button>
+                        </div>
+                    ))}
+                </div>
+
             </div>
         </div>
 

@@ -2,6 +2,74 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 24px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.export-title {
+  background-color: #1a1a1a;
+  padding: 20px;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 24px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.export-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  height: 100vh;
+  gap: 26px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 16px;
+}
+
+.export-btn {
+  width: 450px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 50px 50px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.export-btn:hover {
+  background-color: #2b2b2b;
+}
+
+.export-icon {
+  width: 50px;
+  height: 50px;
+}
+
+/* Color specifics */
+.export-btn.csv {
+  border-left: 6px solid #00cc66;
+}
+
+.export-btn.pdf {
+  border-left: 6px solid #e60000;
+}
+
+/* Responsive layout on larger screens */
+@media (max-width: 500px) {
+  .export-buttons {
+    flex-direction: column;
+  }
+
+  .export-btn {
+    width: 350px;
+  }
 }

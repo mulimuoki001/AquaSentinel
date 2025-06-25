@@ -4,7 +4,23 @@ interface NavBarProps {
     handleLogout: () => void
 }
 export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout}) => {
-    
+    const recommendations = [
+        {
+            id: 1,
+          title: "Rain Expected Tomorrow",
+          description: "Reduce irrigation today by 25% to avoid overwatering",
+        },
+        {
+          id: 2,
+          title: "Try Morning Irrigation",
+          description: "Reduces evaporation and Water Loss",
+        },
+        {
+          id: 3,
+          title: "Try Morning Irrigation",
+          description: "Reduces evaporation and Water Loss",
+        },
+    ]
     return (
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
@@ -32,7 +48,14 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                     </div>
             </div>
             <div className="smart-recommendations-container">
-                <h1>Smart Recommendations</h1>
+                <div className="smart-recommendations">
+                    {recommendations.map((recommendation, index) => (
+                        <div key={index} className="recommendation">
+                            <h2>{recommendation.id}  {recommendation.title}</h2>
+                            <p>{recommendation.description}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
 

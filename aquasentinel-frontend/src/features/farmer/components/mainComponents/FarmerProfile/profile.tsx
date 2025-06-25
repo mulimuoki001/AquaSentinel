@@ -32,7 +32,29 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout}) => 
                     </div>
             </div>
             <div className="profile-container">
-                <h1>Profile</h1>
+               {/* Personal Details */}
+                <div className="profile-card">
+                    <div className="profile-header">
+                    <img src="/public/profile-pic.png" alt="Profile" className="profile-avatar" />
+                    <div className="profile-info">
+                        <h3>Brian Muli</h3>
+                        <p>Phone Number: +250 7 12xx xxx</p>
+                        <p>Email Address: mulimwoki100@gmail.com</p>
+                    </div>
+                    </div>
+                    <button className="edit-button">Edit</button>
+                </div>
+
+                {/* Farm Details */}
+                <div className="profile-card">
+                    <div className="profile-info">
+                    <h3>Farm Details</h3>
+                    <p><strong>Farm Name:</strong> Nyanza Hills Farm</p>
+                    <p><strong>Location:</strong> Kayonza, Rwanda</p>
+                    <p><strong>Irrigation Start Date:</strong> 2025-06-20</p>
+                    </div>
+                    <button className="edit-button">Edit</button>
+                </div>
             </div>
         </div>
 

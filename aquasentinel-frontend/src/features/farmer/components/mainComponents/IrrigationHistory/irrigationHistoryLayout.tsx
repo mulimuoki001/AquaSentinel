@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoutService from "../../../../authentication/authServices/Logout";
 import NavBar from "../../generalComponents/navBar";
-import {IrrigationHistory} from "./irrigationHistory";
+import { IrrigationHistory } from "./irrigationHistory";
 
 
 const IrrigationHistoryLayout = () => {
@@ -16,7 +16,7 @@ const IrrigationHistoryLayout = () => {
   return (
     <div className="layout">
       <NavBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} handleLogout={handleLogout}/>
-      <IrrigationHistory sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
+        <IrrigationHistory sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
     </div>
   );
 };

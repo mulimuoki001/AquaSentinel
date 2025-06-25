@@ -1,7 +1,138 @@
-.support-education-container {
+.support-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+/* Tabs */
+.support-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.support-tabs button {
+  background: #1a1a1a;
+  color: #ccc;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.support-tabs img {
+  width: 20px;
+  height: 20px;
+}
+
+.support-tabs .active-tab {
+  border-bottom: 3px solid #4ea1f3;
+  color: #fff;
+}
+
+/* Main layout */
+.support-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Left section */
+.support-left {
+  flex: 1 1 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.video-placeholder {
+  width: 200px;
+  height: 150px;
+  background-color: #111;
+  border: 3px solid #00cccc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  height: 100vh;
+}
+.video-placeholder img {
+  width: 100px;
+  height: 100px;
+}
+
+.play-icon {
+  font-size: 2.5rem;
+  color: #00cccc;
+}
+
+.video-description {
+  margin-top: 12px;
+  font-size: 1rem;
+}
+
+/* Right section */
+.support-right {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.support-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.support-buttons img {
+  width: 20px;
+  height: 20px;
+}
+
+.support-btn {
+  flex: 1;
+  background-color: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Questions list */
+.support-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.question-card {
+  background-color: #111;
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+.question-card img {
+  width: 20px;
+  height: 20px;
+}
+
+.question-icon {
+  font-size: 1.5rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .support-content {
+    flex-direction: column;
+  }
+
+  .support-buttons {
+    flex-direction: column;
+  }
 }

@@ -1,10 +1,27 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Chat from "/public/chat.png";
+import FAQs from "/public/FAQs.png";
+import GettingStarted from "/public/getting-started.png";
+import UserGuide from "/public/guide.png";
+import QMSupport from "/public/question-mark.png";
+import QMSupport2 from "/public/question-mark2.png";
+import SettingsIcon from "/public/Settings.png";
+import Video from "/public/video-player.png";
+import VideoPlayer from "/public/video2.png";
+
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
-export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout}) => {
-    
+export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+    const [activeTab, setActiveTab] = useState("videos");
+    const supportQuestions = [
+        "How do I know when to irrigate?",
+        "How do I know when to irrigate?",
+        "How do I know when to irrigate?",
+        "How do I know when to irrigate?",
+      ];
     return (
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
@@ -31,8 +48,80 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                         </div>
                     </div>
             </div>
-            <div className="support-education-container">
-                <h1>Support & Education</h1>
+            <div className="support-container">
+                {/* Tabs*/}
+                <div className="support-tabs">
+                    <button className={activeTab === "videos" ? "active-tab" : "inactive-tab"} onClick={() => setActiveTab("videos")}><img src={VideoPlayer} alt="support" />Video Tutorials</button>
+                    <button className={activeTab === "guides" ? "active-tab" : "inactive-tab"} onClick={() => setActiveTab("guide")}><img src={UserGuide} alt="support" />User Guide</button>
+                    <button className={activeTab === "faqs" ? "active-tab" : "inactive-tab"} onClick={() => setActiveTab("faqs")} id="faqs"><img src={QMSupport} alt="support" />FAQs</button>
+                    <button className={activeTab === "chat" ? "active-tab" : "inactive-tab"} onClick={() => setActiveTab("chat")}><img src={Chat} alt="support" />Chat Support</button>
+                </div>
+                {/* Main Content */}
+                <div className="support-content">
+                    {activeTab === "videos" && (
+                        <div className="support-left">
+                            <div className="video-placeholder">
+                                    <img src={Video} alt="support" className="play-icon"/>
+                            </div>
+                            <p>Watch our video tutorials to learn how to use Aquasentinel</p>
+                        </div>
+                    )}
+                  {activeTab === "guide" && (
+                        <div className="support-right">
+                            <div className="support-buttons">
+                                <button className="support-button"><img src={GettingStarted} alt="support" />Getting Started</button>
+                                <button className="support-button"><img src={SettingsIcon} alt="support" />Settings</button>
+                                <button className="support-button"><img src={FAQs} alt="support" />FAQs</button>
+                            </div>
+
+                            <div className="support-questions">
+                                {supportQuestions.map((question, index) => (
+                                    <div className="question-card" key={index}>
+                                        <img src={QMSupport2} alt="support" />
+                                        <p>{question}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                  {activeTab === "faqs" && (
+                        <div className="support-right">
+                            <div className="support-buttons">
+                                <button className="support-button"><img src={GettingStarted} alt="support" />Getting Started</button>
+                                <button className="support-button"><img src={SettingsIcon} alt="support" />Settings</button>
+                                <button className="support-button"><img src={FAQs} alt="support" />FAQs</button>
+                            </div>
+
+                            <div className="support-questions">
+                                {supportQuestions.map((question, index) => (
+                                    <div className="question-card" key={index}>
+                                        <img src={QMSupport2} alt="support" />
+                                        <p>{question}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                  {activeTab === "chat" && (
+                        <div className="support-right">
+                            <div className="support-buttons">
+                                <button className="support-button"><img src={GettingStarted} alt="support" />Getting Started</button>
+                                <button className="support-button"><img src={SettingsIcon} alt="support" />Settings</button>
+                                <button className="support-button"><img src={FAQs} alt="support" />FAQs</button>
+                            </div>
+
+                            <div className="support-questions">
+                                {supportQuestions.map((question, index) => (
+                                    <div className="question-card" key={index}>
+                                        <img src={QMSupport2} alt="support" />
+                                        <p>{question}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+                
             </div>
         </div>
 

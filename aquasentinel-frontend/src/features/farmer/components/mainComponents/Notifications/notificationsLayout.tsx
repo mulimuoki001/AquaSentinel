@@ -16,7 +16,7 @@ const NotificationsLayout = () => {
   return (
     <div className="layout">
       <NavBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} handleLogout={handleLogout}/>
-      <Notifications sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
+        <Notifications sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
     </div>
   );
 };

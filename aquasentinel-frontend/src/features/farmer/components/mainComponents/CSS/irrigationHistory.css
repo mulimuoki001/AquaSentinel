@@ -1,7 +1,111 @@
+/* === Container === */
 .irrigation-history-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+/* === Cards Section === */
+.irrigation-history-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.irrigation-history-card {
+  background: #1a1a1a;
+  padding: 16px;
+  border-radius: 8px;
+  flex: 1 1 30%;
+  min-width: 240px;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
+}
+
+.irrigation-history-card h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+/* === Scrollable Table Wrapper === */
+.irrigation-history-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* === Optional: To make scrollbars obvious below 700px */
+@media (max-width: 700px) {
+  .irrigation-history-wrapper {
+    border: 1px solid #333;
+    background-color: #111;
+  }
+}
+
+/* === Table Section === */
+.irrigation-history-table {
+  min-width: 400px;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1a1919;
+  color: #fff;
+}
+
+.irrigation-history-table th,
+.irrigation-history-table td {
+  padding: 12px 16px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #444;
+}
+
+/* === Status Cell === */
+.status-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* === Responsive Adjustments === */
+@media (max-width: 768px) {
+  .irrigation-history-cards {
+    gap: 12px;
+  }
+
+  .irrigation-history-card {
+    flex: 1 1 45%;
+  }
+
+  .irrigation-history-container {
+    padding: 12px;
+  }
+
+  .irrigation-history-table th,
+  .irrigation-history-table td {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .irrigation-history-scroll {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 500px) {
+  .irrigation-history-card {
+    flex: 1 1 100%;
+  }
 }
