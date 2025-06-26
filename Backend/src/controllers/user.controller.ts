@@ -8,7 +8,7 @@ type AuthenticatedRequestHandler = (
 ) => Promise<void>;
 export const getUsers: AuthenticatedRequestHandler = async (req, res) => {
   try {
-    const users = await db.query(`SELECT * FROM users`);
+    const users = await (await db).query(`SELECT * FROM users`);
     res.status(200).json(users.rows);
   } catch (error) {
     console.log(error);
@@ -27,7 +27,7 @@ export const getUserData = async (
     if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
     } else {
-      const user = await db.query(`SELECT * FROM users WHERE id = $1`, [
+      const user = await (await db).query(`SELECT * FROM users WHERE id = $1`, [
         userId,
       ]);
       if (user.rows.length === 0) {

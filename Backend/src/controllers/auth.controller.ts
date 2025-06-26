@@ -26,11 +26,11 @@ export const register: RequestHandler = async (req, res) => {
       }
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await db.query(
+    const user = await (await db).query(
       `INSERT INTO users (name, email, password, role, farmname, farmlocation, farmphone) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
       [name, email, hashedPassword, role, farmname, farmlocation, farmphone]
     );
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: `User registered successfully ${user}` });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error registering user" });

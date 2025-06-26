@@ -1,0 +1,60 @@
+.success-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    color: #1a1919;
+}
+
+.success-page h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2e7d32;
+}
+
+.success-page p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    color: #ffffff;
+    max-width: 400px;
+}
+
+.login-button,
+.register-another-button {
+    background-color: #1a1919;
+    color: #ffffff;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+
+.login-button:hover,
+.register-another-button:hover {
+    background-color: #333333;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .success-page h1 {
+        font-size: 1.5rem;
+    }
+
+    .success-page p {
+        font-size: 0.95rem;
+        padding: 0 10px;
+    }
+
+    .login-button,
+    .register-another-button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}

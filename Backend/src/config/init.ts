@@ -2,14 +2,13 @@ import dotenv from "dotenv";
 import { db } from "./db";
 
 dotenv.config();
-
 export const ensureDatabaseAndTables = async () => {
   try {
     // Connect and ensure tables (not the DB)
-    await db.connect();
+    await (await db).connect();
     console.log("✅ Connected to PostgreSQL database");
 
-    await db.query(`
+    await (await db).query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100),
@@ -24,7 +23,7 @@ export const ensureDatabaseAndTables = async () => {
     `);
 
     //Add new columns to users table if they don't exist
-    await db.query(`
+    await (await db).query(`
       ALTER TABLE users
       ADD COLUMN IF NOT EXISTS farmname VARCHAR(100),
       ADD COLUMN IF NOT EXISTS farmlocation VARCHAR(100),

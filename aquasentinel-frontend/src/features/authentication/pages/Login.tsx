@@ -26,7 +26,7 @@ const Login = () => {
 		}
 
 		checkToken();
-    } ,[]);
+	}, []);
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!email || !password) {
@@ -38,14 +38,14 @@ const Login = () => {
 			const token = response.newToken;
 			const role = response.role;
 			localStorage.setItem('token', token);
-            localStorage.setItem('role', role);
-            if (role === 'farmer') {
-                navigate('/dashboard/farmer');
-            } else if (role === 'provider') {
-                navigate('/dashboard/provider');
-            } else if (role === 'RAB') {
-                navigate('/dashboard/RAB');
-            }
+			localStorage.setItem('role', role);
+			if (role === 'farmer') {
+				navigate('/dashboard/farmer');
+			} else if (role === 'provider') {
+				navigate('/dashboard/provider');
+			} else if (role === 'RAB') {
+				navigate('/dashboard/RAB');
+			}
 		} catch (err: any) {
 			setError(err.message || 'Login failed');
 		}
@@ -80,9 +80,9 @@ const Login = () => {
 				</div>
 			</form>
 			<div className="login-footer">
-				<p>Don't have an account? <a href="/">Register</a></p>
+				<p>Don't have an account? <a href="/register">Register</a></p>
 				{error && <p className="error-message">{error}</p>}
-  			</div>
+			</div>
 		</div>
 	);
 };

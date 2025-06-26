@@ -10,24 +10,28 @@ import SmartRecommendationsLayout from '../features/farmer/components/mainCompon
 import SupportEducationLayout from '../features/farmer/components/mainComponents/SupportEducation/supportEducationLayout';
 import FarmerDashboard from '../features/farmer/pages/FarmerDashboard';
 import ProviderDashboard from '../features/provider/pages/ProviderDashboard';
+import RegistrationSuccess from '../features/authentication/pages/RegistrationSuccessPage';
 import RABDashboard from '../features/RAB/pages/RABDashboard';
+import LandingPage from '../features/authentication/pages/WelcomePage';
 
 const AppRoutes = () => {
     return (
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Register />} />
-                <Route path="/dashboard/farmer/farmer-profile" element={<ProfileLayout />} />
-                <Route path="/dashboard/farmer/support-education" element={<SupportEducationLayout />} />
-                <Route path="/dashboard/farmer/notifications" element={<NotificationsLayout />} />
-                <Route path="/dashboard/farmer/smart-recommendations" element={<SmartRecommendationsLayout />} />
-                <Route path="/dashboard/farmer/settings" element={<SettingsLayout />} />
-                <Route path="/dashboard/farmer/irrigation-history" element={<IrrigationHistoryLayout />} />
-                <Route path="/dashboard/farmer/export-logs" element={<ExportLogsLayout />} />
-                <Route path="/dashboard/farmer" element={<FarmerDashboard />} />
-                <Route path="/dashboard/provider" element={<ProviderDashboard />} />
-                <Route path="/dashboard/RAB" element={<RABDashboard />} />
-            </Routes>
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/registration-success" element={<RegistrationSuccess />} />
+            <Route path="/dashboard/farmer/farmer-profile" element={<ProfileLayout />} />
+            <Route path="/dashboard/farmer/support-education" element={<SupportEducationLayout />} />
+            <Route path="/dashboard/farmer/notifications" element={<NotificationsLayout />} />
+            <Route path="/dashboard/farmer/smart-recommendations" element={<SmartRecommendationsLayout />} />
+            <Route path="/dashboard/farmer/settings" element={<SettingsLayout />} />
+            <Route path="/dashboard/farmer/irrigation-history" element={<IrrigationHistoryLayout />} />
+            <Route path="/dashboard/farmer/export-logs" element={<ExportLogsLayout />} />
+            <Route path="/dashboard/farmer" element={<FarmerDashboard />} />
+            <Route path="/dashboard/provider" element={<ProviderDashboard />} />
+            <Route path="/dashboard/RAB" element={<RABDashboard />} />
+        </Routes>
     )
 };
 

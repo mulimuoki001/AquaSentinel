@@ -1,3 +1,7 @@
-/aquaenv
+/myenv
+/node_modules
+/dist
 /Backend/node_modules
 /aquasentinel-frontend/node_modules
+/Backend/activeTokens
+
