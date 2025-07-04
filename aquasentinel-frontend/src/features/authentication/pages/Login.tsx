@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../authServices/Login';
 import { validateToken } from '../authServices/tokenValidation';
-
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -35,6 +34,8 @@ const Login = () => {
 		}
 		try {
 			const response = await loginUser(email, password);
+			console.log('Login successful:', response);
+			setError('');
 			const token = response.newToken;
 			const role = response.role;
 			localStorage.setItem('token', token);

@@ -1,3 +1,11 @@
+:root {
+  --topbar-height: 100px;
+  --card-text: #F5F5F5;
+  --card-bg: #0e2c38;
+  --border-color: #1568bb;
+
+}
+
 /* === Container === */
 .irrigation-history-container {
   display: flex;
@@ -17,13 +25,13 @@
 }
 
 .irrigation-history-card {
-  background: #1a1a1a;
+  background: var(--card-bg);
   padding: 16px;
   border-radius: 8px;
   flex: 1 1 30%;
   min-width: 240px;
   color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px var(--border-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,21 +51,14 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* === Optional: To make scrollbars obvious below 700px */
-@media (max-width: 700px) {
-  .irrigation-history-wrapper {
-    border: 1px solid #333;
-    background-color: #111;
-  }
-}
 
 /* === Table Section === */
 .irrigation-history-table {
   min-width: 400px;
   width: 100%;
   border-collapse: collapse;
-  background-color: #1a1919;
-  color: #fff;
+  background-color: var(--card-bg);
+  color: var(--card-text);
 }
 
 .irrigation-history-table th,
@@ -65,7 +66,7 @@
   padding: 12px 16px;
   text-align: left;
   white-space: nowrap;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* === Status Cell === */
@@ -81,6 +82,8 @@
 }
 
 /* === Responsive Adjustments === */
+/* === Optional: To make scrollbars obvious below 700px */
+
 @media (max-width: 768px) {
   .irrigation-history-cards {
     gap: 12px;
@@ -99,8 +102,16 @@
     padding: 8px 12px;
     font-size: 14px;
   }
+
   .irrigation-history-scroll {
     min-width: 600px;
+  }
+}
+
+@media (max-width: 700px) {
+  .irrigation-history-wrapper {
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
   }
 }
 

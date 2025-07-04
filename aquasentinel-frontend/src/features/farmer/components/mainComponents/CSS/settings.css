@@ -1,9 +1,16 @@
+:root {
+  --topbar-height: 100px;
+  --settings-text: #F5F5F5;
+  --settings-bg: #0e2c38;
+  --border-color: #1568bb;
+}
+
 .settings-container {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding: 20px;
-  color: #fff;
+  color: var(--settings-text);
   box-sizing: border-box;
 }
 
@@ -15,18 +22,18 @@
 }
 
 .settings-box {
-  background: #1a1a1a;
+  background: var(--settings-bg);
   border-radius: 8px;
   padding: 16px;
   flex: 1 1 300px;
   min-width: 250px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 6px var(--border-color);
 }
 
 .settings-box h3 {
   margin-bottom: 12px;
   font-size: 1.1rem;
-  color: #ccc;
+  color: var(--settings-text);
 }
 
 .setting-item {
@@ -38,7 +45,7 @@
 
 .setting-pill {
   background: #333;
-  color: #fff;
+  color: var(--settings-text);
   border: none;
   padding: 6px 12px;
   border-radius: 20px;
@@ -92,21 +99,21 @@
   transition: 0.4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #2196f3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(20px);
 }
 
 /* System Preferences */
 .preferences-box {
-  background: #1a1a1a;
+  background: var(--settings-bg);
   padding: 16px;
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 6px var(--border-color);
 }
 
 .pref-button {

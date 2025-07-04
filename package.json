@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+    "luxon": "^3.6.1",
+    "multer": "^2.0.1",
+    "papaparse": "^5.5.3"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.6.2",
+    "@types/papaparse": "^5.3.16"
+  }
+}

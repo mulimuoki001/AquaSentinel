@@ -19,19 +19,53 @@ export const ensureDatabaseAndTables = async () => {
         farmlocation VARCHAR(100),
         farmphone VARCHAR(20),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        
+      );
+    `);
+    await (await db).query(`
+      ALTER TABLE users
+      ADD COLUMN IF NOT EXISTS profile_image TEXT;
+    `);
+    await (await db).query(`
+      CREATE TABLE IF NOT EXISTS moisture_data1 (
+        id SERIAL PRIMARY KEY,
+        moisture INT NOT NULL,
+        moisture_unit TEXT DEFAULT '%',
+        moisture_change INT,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
-    //Add new columns to users table if they don't exist
     await (await db).query(`
-      ALTER TABLE users
-      ADD COLUMN IF NOT EXISTS farmname VARCHAR(100),
-      ADD COLUMN IF NOT EXISTS farmlocation VARCHAR(100),
-      ADD COLUMN IF NOT EXISTS farmphone VARCHAR(20);
+      CREATE TABLE IF NOT EXISTS water_flow_sensor_data (
+        id SERIAL PRIMARY KEY,
+        flowRate FLOAT NOT NULL,
+        flowUnit TEXT DEFAULT 'L/min',
+        pumpStatus TEXT DEFAULT 'OFF',
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        date DATE DEFAULT CURRENT_DATE,
+        time TIME DEFAULT CURRENT_TIME
+      );
     `);
 
+    await (await db).query(`
+      CREATE TABLE IF NOT EXISTS pump_sessions (
+        id SERIAL PRIMARY KEY,
+        start_time TIMESTAMP NOT NULL,
+        end_time TIMESTAMP ,
+        duration FLOAT,
+        date DATE DEFAULT CURRENT_DATE,
+        total_liters FLOAT
+      );
+      
+    `);
     console.log("✅ Users table is ready");
   } catch (err) {
     console.error("❌ Error setting up database or tables:", err);
   }
 };
+
+
+
+
+

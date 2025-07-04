@@ -1,93 +1,148 @@
-body {
-  background-color: #272727;
-  font-family: Arial, sans-serif;
-  color: #ecf0f1;
+:root {
+  --primary-blue: #033e5c;
+  --secondary-blue: #062f58;
+  --form-bg: #2f2f2f;
+  --input-bg: #3f3f3f;
+  --border-color: #1568bb;
+  --accent-green: #1c9205;
+  --text-light: #ecf0f1;
+  --highlight-blue: #04647c;
+  --focus-glow: rgba(22, 177, 255, 0.6);
+  --form-bg: #0e2c38;
+  --input-bg: #3f3f3f;
 
+}
+
+/* Body Styling */
+body {
+  /* background: linear-gradient(to bottom, var(--primary-blue)); */
+  background: linear-gradient(to bottom, var(--primary-blue), #D6F6FF);
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: var(--text-light);
   margin: 0;
   padding: 0;
 }
 
+/* Container */
 .registration-container {
   max-width: 800px;
   margin: auto;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Box */
 .register-container {
   max-width: 500px;
-  margin: auto;
-  padding: 1rem;
+  margin: 40px auto;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #2f2f2f;
-  border: 1px solid #444;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background-color: var(--form-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
+/* Header */
 .register-header {
   text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-light);
 }
 
 .register-header h2 {
-  color: #ecf0f1;
+  color: var(--text-light);
+  font-size: 28px;
 }
 
+/* Form Fields */
 .register-form {
-  margin-top: 20px;
-}
-
-.register-role {
   width: 100%;
-  background-color: #04647c;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  color: var(--text-light);
 }
-
-
 
 .register-form input,
 .register-form select,
 .register-form button {
-  width: 400px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #555;
-  background-color: #3f3f3f;
-  border-radius: 5px;
-  color: #fff;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  border-radius: 6px;
+  color: var(--text-light);
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
 }
 
-.register-form input:focus {
-  border-color: #666;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+.register-form input::placeholder {
+  color: #bbbbbb;
+}
+
+.register-form input:focus,
+.register-form select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 8px var(--focus-glow);
+}
+
+/* Role select background */
+.register-role {
+  background-color: var(--highlight-blue);
+}
+
+/* Button */
+.register-form button {
+  background-color: var(--primary-blue);
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .register-form button:hover {
-  background-color: #1c9205;
+  background-color: #1293D1;
 }
 
-.form-select:focus {
-  border-color: #aaa;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
+/* Footer */
 .register-footer {
   text-align: center;
   margin-top: 20px;
+  color: var(--text-dark);
 }
 
 .register-footer a {
-  color: #04647c;
+  color: var(--highlight-blue);
   text-decoration: none;
+  font-weight: bold;
 }
 
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Success Message */
 .success-message {
-  color: green;
+  color: var(--accent-green);
   margin-top: 10px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .register-container {
+    margin: 20px;
+    padding: 1rem;
+  }
+
+  .register-form input,
+  .register-form select,
+  .register-form button {
+    width: 100%;
+    font-size: 15px;
+  }
 }

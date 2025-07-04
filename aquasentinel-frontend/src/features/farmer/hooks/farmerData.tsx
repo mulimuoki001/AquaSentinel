@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const useFarmerData = () => {
-  const [data, setData] = useState<{ id: number, name: string, role: string } | null>(null);
+  const [data, setData] = useState<{ id: number, name: string, role: string, email: string, farmname: string, farmlocation: string, farmphone: string } | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const useFarmerData = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/users/data');
-        const responseData = response.data as { id: number, name: string, role: string };
+        const responseData = response.data as { id: number, name: string, role: string, email: string, farmname: string, farmlocation: string, farmphone: string };
         setData(responseData);
       } catch (error: any) {
         setError(error);
@@ -27,5 +27,6 @@ const useFarmerData = () => {
 
   return { data, error };
 };
+
 
 export default useFarmerData;

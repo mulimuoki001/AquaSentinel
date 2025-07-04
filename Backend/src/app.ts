@@ -5,6 +5,7 @@ import path from "path";
 import authRoutes from "./routes/auth.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
 import userRoutes from "./routes/user.routes";
+import moistureRoutes from "./routes/sensor.routes";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/api/sensors", moistureRoutes);
 
 // //React router fallback
 // app.get("*", (req, res) => {

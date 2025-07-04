@@ -1,3 +1,13 @@
+:root {
+  --topbar-height: 100px;
+  --card-text: #F5F5F5;
+  --card-bg: #0e2c38;
+  --border-color: #1568bb;
+  --recommendation-bg: #597580;
+  --recommendation-text: ##ffffff;
+
+}
+
 .smart-recommendations-container {
   padding: 20px;
   color: white;
@@ -6,7 +16,7 @@
 }
 
 .smart-recommendations {
-  background-color: #1a1a1a;
+  background-color: var(--card-bg);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -18,21 +28,21 @@
 }
 
 .recommendation {
-  background-color: #2b2b2b;
+  background-color: var(--recommendation-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2px var(--border-color);
 }
 
 .recommendation h2 {
   font-size: 18px;
   margin-bottom: 8px;
-  color: #ffffff;
+  color: var(--recommendation-text);
 }
 
 .recommendation p {
   font-size: 14px;
-  color: #ccc;
+  color: var(--recommendation-text);
   margin: 0;
 }
 

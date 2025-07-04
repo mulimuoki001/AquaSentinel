@@ -17,10 +17,12 @@ import LandingPage from '../features/authentication/pages/WelcomePage';
 const AppRoutes = () => {
     return (
         <Routes>
+            // Authentication Routes
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/registration-success" element={<RegistrationSuccess />} />
+            // Farmer Dashboard Routes
             <Route path="/dashboard/farmer/farmer-profile" element={<ProfileLayout />} />
             <Route path="/dashboard/farmer/support-education" element={<SupportEducationLayout />} />
             <Route path="/dashboard/farmer/notifications" element={<NotificationsLayout />} />
@@ -29,7 +31,9 @@ const AppRoutes = () => {
             <Route path="/dashboard/farmer/irrigation-history" element={<IrrigationHistoryLayout />} />
             <Route path="/dashboard/farmer/export-logs" element={<ExportLogsLayout />} />
             <Route path="/dashboard/farmer" element={<FarmerDashboard />} />
+            // Provider  Dashboard Routes
             <Route path="/dashboard/provider" element={<ProviderDashboard />} />
+            // RAB Dashboard Routes
             <Route path="/dashboard/RAB" element={<RABDashboard />} />
         </Routes>
     )

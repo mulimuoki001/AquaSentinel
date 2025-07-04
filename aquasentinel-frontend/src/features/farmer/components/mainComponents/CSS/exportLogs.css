@@ -1,3 +1,11 @@
+:root {
+  --topbar-height: 100px;
+  --card-text: #F5F5F5;
+  --export-bg: #0e2c38;
+  --border-color: #1568bb;
+
+}
+
 .export-logs-container {
   display: flex;
   flex-direction: column;
@@ -8,7 +16,7 @@
 }
 
 .export-title {
-  background-color: #1a1a1a;
+  background-color: var(--export-bg);
   padding: 20px;
   font-size: 15px;
   color: white;

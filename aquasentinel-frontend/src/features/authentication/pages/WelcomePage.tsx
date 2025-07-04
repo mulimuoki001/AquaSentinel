@@ -6,7 +6,7 @@ const LandingPage = () => {
         <div className="landing-container">
             <div className="overlay">
                 <div className="landing-content">
-                    <h1 className="landing-title">Welcome to AquaSentinel</h1>
+                    <h1 className="landing-title">Welcome to AquaSentinel Dashboard</h1>
                     <p className="landing-subtitle">
                         Smart Monitoring. Smarter Irrigation.
                     </p>

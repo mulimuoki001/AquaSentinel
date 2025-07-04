@@ -1,10 +1,22 @@
 /* src/styles/Login.css */
+:root {
+  --primary-blue: #033e5c;
+  --secondary-blue: #062f58;
+  --input-bg: #72a4f0;
+  --border-color: #1568bb;
+  --accent-green: #1c9205;
+  --text-light: #ecf0f1;
+  --highlight-blue: #04647c;
+  --focus-glow: rgba(22, 177, 255, 0.6);
+  --form-bg: #0e2c38;
+}
+
 .login-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 2rem;
-  background-color: #2f2f2f;
-  border: 1px solid #444;
+  background-color: var(--form-bg);
+  border: 1px solid var(--border-color);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   display: flex;
@@ -16,8 +28,8 @@
   margin-bottom: 1rem;
   width: 100%;
   padding: 10px;
-  border: 1px solid #555;
-  background-color: #3f3f3f;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
   border-radius: 5px;
   color: #fff;
 }
@@ -43,7 +55,7 @@
   align-items: center;
   width: 100%;
   padding: 10px;
-  background-color: #666;
+  background-color: var(--primary-blue);
   justify-content: center;
   align-items: center;
   color: #fff;
@@ -53,7 +65,7 @@
 }
 
 .login-button-container button:hover {
-  background-color: #1c9205;
+  background-color: #0b7dda;
 }
 
 .error-message {

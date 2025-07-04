@@ -2,13 +2,13 @@ import dotenv from "dotenv";
 import app from "./app";
 import { db } from "./config/db"; // Assuming you export the Pool instance here
 import { ensureDatabaseAndTables } from "./config/init";
-
+import { mqttClient } from "./config/mqttClient";
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 
 const PORT = process.env.PORT || 3000;
-
+let moistureData: string | null = null;
 // ✅ Test DB connection before starting server
 async function testDbConnection() {
   try {
@@ -19,7 +19,22 @@ async function testDbConnection() {
     throw err;
   }
 }
+//Make sure MQTT client is connected
+mqttClient.on("connect", () => {
+  console.log("✅ MQTT client connected");
+});
+mqttClient.on("message", (topic, message) => {
+  // Store the latest moisture data
+  moistureData = message.toString();
+  // console.log(`📨 MQTT [${topic}]: ${message.toString()}`);
+  // Optionally: parse and store to DB
+});
 
+
+mqttClient.on("error", (err) => {
+  console.error("❌ MQTT connection error:", err.message);
+});
+// Start the server
 async function startServer() {
   try {
     await testDbConnection();
@@ -38,4 +53,4 @@ async function startServer() {
 
 startServer();
 
-export default app;
+export { moistureData }; // Export for use in controllers

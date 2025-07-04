@@ -1,3 +1,12 @@
+:root {
+  --topbar-height: 100px;
+  --profile-text: #F5F5F5;
+  --profile-bg: #0e2c38;
+  --border-color: #1568bb;
+  --profile-read-bg: #297391;
+
+}
+
 .profile-container {
   padding: 20px;
   display: flex;
@@ -6,18 +15,18 @@
   box-sizing: border-box;
   max-width: 100%;
   width: 100%;
-  color: #fff;
+  color: var(--profile-text);
 }
 
 .profile-card {
-  background-color: #1a1a1a;
+  background-color: var(--profile-bg);
   padding: 16px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 6px var(--border-color);
 }
 
 .profile-header {
@@ -40,13 +49,13 @@
 .profile-info p {
   margin: 4px 0;
   font-size: 0.95rem;
-  color: #ccc;
+  color: var(--profile-text);
 }
 
 .edit-button {
   background-color: #444;
   border: none;
-  color: #fff;
+  color: var(--profile-text);
   padding: 8px 16px;
   align-self: flex-start;
   border-radius: 6px;

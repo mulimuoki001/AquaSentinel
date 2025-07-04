@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Chat from "/public/chat.png";
-import FAQs from "/public/FAQs.png";
-import GettingStarted from "/public/getting-started.png";
-import UserGuide from "/public/guide.png";
-import QMSupport from "/public/question-mark.png";
-import QMSupport2 from "/public/question-mark2.png";
-import SettingsIcon from "/public/Settings.png";
-import Video from "/public/video-player.png";
-import VideoPlayer from "/public/video2.png";
+import Chat from "/chat.png";
+import FAQs from "/FAQs.png";
+import GettingStarted from "/getting-started.png";
+import UserGuide from "/guide.png";
+import QMSupport from "/question-mark.png";
+import QMSupport2 from "/question-mark2.png";
+import SettingsIcon from "/Settings.png";
+import Video from "/video-player.png";
+import VideoPlayer from "/video2.png";
 
 interface NavBarProps {
     sidebarOpen: boolean;
@@ -21,32 +21,32 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
         "How do I know when to irrigate?",
         "How do I know when to irrigate?",
         "How do I know when to irrigate?",
-      ];
+    ];
     return (
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
-            <div className="page-title">
-                        <Link to="/dashboard/farmer/notifications"><img src="../../public/fast-backward.png" className="back-icon" alt="back" /></Link>
-                        <h1>Support & Education</h1>
-                        <Link to="/dashboard/farmer/farmer-profile"><img src="../../public/fast-forward.png" alt="forward" /></Link>
-                    </div>
-                    <div className="header-nav">
+                <div className="page-title">
+                    <Link to="/dashboard/farmer/notifications"><img src="../../fast-backward.png" className="back-icon" alt="back" /></Link>
+                    <h1>Support & Education</h1>
+                    <Link to="/dashboard/farmer/farmer-profile"><img src="../../fast-forward.png" alt="forward" /></Link>
+                </div>
+                <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../../public/profile-pic.png" alt="Logout" />
-                        
+                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../../profile-pic.png" alt="" />
+
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
-                        </div>
-                        <div className="header-settings">
-                            <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../public/settings.png" alt="Logout" />
-                        </Link>
-                        <a className="settings-link" href="/dashbaord/farmer/settings">Settings</a>
-                        </div>
-                        <div className="header-logout">
-                            <img className="logout-icon"  src="../../public/logout.png" alt="Logout" onClick={handleLogout}/>
-                            <a className="logout-link"  onClick={handleLogout}>Logout</a>
-                        </div>
                     </div>
+                    <div className="header-settings">
+                        <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
+                        </Link>
+                        <a className="settings-link" href="/dashboard/farmer/settings">Settings</a>
+                    </div>
+                    <div className="header-logout">
+                        <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
+                        <a className="logout-link" onClick={handleLogout}>Logout</a>
+                    </div>
+                </div>
             </div>
             <div className="support-container">
                 {/* Tabs*/}
@@ -61,12 +61,12 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                     {activeTab === "videos" && (
                         <div className="support-left">
                             <div className="video-placeholder">
-                                    <img src={Video} alt="support" className="play-icon"/>
+                                <img src={Video} alt="support" className="play-icon" />
                             </div>
                             <p>Watch our video tutorials to learn how to use Aquasentinel</p>
                         </div>
                     )}
-                  {activeTab === "guide" && (
+                    {activeTab === "guide" && (
                         <div className="support-right">
                             <div className="support-buttons">
                                 <button className="support-button"><img src={GettingStarted} alt="support" />Getting Started</button>
@@ -84,7 +84,7 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                             </div>
                         </div>
                     )}
-                  {activeTab === "faqs" && (
+                    {activeTab === "faqs" && (
                         <div className="support-right">
                             <div className="support-buttons">
                                 <button className="support-button"><img src={GettingStarted} alt="support" />Getting Started</button>
@@ -102,7 +102,7 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                             </div>
                         </div>
                     )}
-                  {activeTab === "chat" && (
+                    {activeTab === "chat" && (
                         <div className="support-right">
                             <div className="support-buttons">
                                 <button className="support-button"><img src={GettingStarted} alt="support" />Getting Started</button>
@@ -121,7 +121,7 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                         </div>
                     )}
                 </div>
-                
+
             </div>
         </div>
 
