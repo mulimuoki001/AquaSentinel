@@ -53,7 +53,16 @@
   background: var(--notifications-bg);
   color: var(--notifications-text);
   border-radius: 8px;
-  padding: 36px;
+  padding: 20px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-card.read {
+  background-color: var(--notifications-read-bg);
+  border-radius: 8px;
+  padding: 20px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
