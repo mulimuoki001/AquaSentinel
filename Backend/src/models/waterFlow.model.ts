@@ -57,18 +57,6 @@ export async function getTotalWaterUsed(startTime: Date, endTime: Date): Promise
   const { rows } = await (await db).query(query, [startTime.toISOString(), endTime.toISOString()]);
   return rows[0]?.total_liters || 0;
 }
-// export async function getAverageFlowRate(startTime: Date, endTime: Date): Promise<number> {
-//   const query = `
-//     SELECT AVG(flow_rate) AS average_flow_rate
-//     FROM water_flow_sensor_data
-//     WHERE timestamp BETWEEN $1 AND $2
-//   `;
-
-//   const { rows } = await (await db).query(query, [startTime.toISOString(), endTime.toISOString()]);
-//   return rows[0]?.average_flow_rate || 0;
-// }
-
-// 
 export async function getPumpRuntime(startTime: Date, endTime: Date): Promise<number> {
   const query = `
     WITH status_pairs AS (

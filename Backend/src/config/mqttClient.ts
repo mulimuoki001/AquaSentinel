@@ -1,6 +1,8 @@
 import mqtt, { MqttClient } from "mqtt";
 import { logPumpSession, getLastPumpStatus } from "../models/pumpSessions.model";
 import { setLatestPumpSession } from "./pumpSession.getter";
+import { getPhoneNumberByUserId } from "../models/user.model";
+import { sendSMS } from "./smsSender";
 import { get } from "http";
 
 
@@ -43,10 +45,20 @@ mqttClient.on("message", async (topic, message) => {
         try {
             const payload = JSON.parse(message.toString());
             const currentStatus = payload.pumpStatus?.toUpperCase() as "ON" | "OFF";
+            const userId = payload.userId;
 
             if ((currentStatus === "ON" || currentStatus === "OFF") && currentStatus !== lastStatus) {
                 console.log(`⚙️ Pump status changed: ${lastStatus} → ${currentStatus}`);
                 const session = await logPumpSession(currentStatus);
+                const message = `Pump turmed: ${currentStatus}`;
+                // if (userId) {
+                //     const { farmphone: phoneNumber } = await getPhoneNumberByUserId(userId);
+
+                //     if (phoneNumber) {
+                //         sendSMS(phoneNumber, message);
+                //     }
+
+                // }
                 setLatestPumpSession(session);
                 lastStatus = currentStatus;
             }

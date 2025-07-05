@@ -22,3 +22,21 @@ export const getUserByEmail = async (email: string) => {
   ]);
   return result.rows[0];
 };
+
+export const getPhoneNumberByUserId = async (userId: number): Promise<{ farmphone: string }> => {
+  try {
+    const result = await (await db).query(
+      "SELECT farmphone FROM users WHERE id = $1",
+      [userId]
+    );
+
+    if (result.rows.length === 0) {
+      throw new Error("User not found");
+    }
+
+    return result.rows[0];
+  } catch (error) {
+    console.error("❌ Error fetching phone number:", error);
+    throw error;
+  }
+};

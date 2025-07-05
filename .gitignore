@@ -4,4 +4,4 @@
 /Backend/node_modules
 /aquasentinel-frontend/node_modules
 /Backend/activeTokens
-
+/Backend/.env

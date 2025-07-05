@@ -230,11 +230,11 @@ void loop()
   Serial.printf("Water Flow: %.2f L/min\n", flowRate);
   Serial.printf("Pump Status: %s\n", relayState == LOW ? "ON" : "OFF");
   Serial.printf("Timestamp: %s\n", isoTime);
-
+  int userId = 2;
   char payload[180];
   snprintf(payload, sizeof(payload),
-           "{\"moisture\": %d, \"moistureUnit\": \"%%\", \"moistureChange\": %d, \"waterFlow\": %.2f, \"flowUnit\": \"L/min\", \"pumpStatus\": \"%s\", \"timeStamp\": \"%s\"}",
-           moisturePercentage, change, flowRate, relayState == LOW ? "ON" : "OFF", isoTime);
+           "{ \"userId\": %d, \"moisture\": %d, \"moistureUnit\": \"%%\", \"moistureChange\": %d, \"waterFlow\": %.2f, \"flowUnit\": \"L/min\", \"pumpStatus\": \"%s\", \"timeStamp\": \"%s\"}",
+           userId, moisturePercentage, change, flowRate, relayState == LOW ? "ON" : "OFF", isoTime);
 
   client.publish("aquasentinel/status", payload);
 
