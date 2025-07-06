@@ -68,6 +68,19 @@
   background-color: #666;
 }
 
+.edit-input {
+  background-color: #444;
+  border: none;
+  color: var(--profile-text);
+  padding: 8px 16px;
+  align-self: flex-start;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 10px 0px;
+  height: fit-content;
+  font-weight: bold;
+}
+
 /* Responsive Breakpoints */
 @media (max-width: 600px) {
   .profile-card {

@@ -1,13 +1,65 @@
 import { Link } from "react-router-dom";
 import useFarmerData from "../../../hooks/farmerData";
+import { useState } from "react";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { data, error } = useFarmerData();
-    console.log("farmer data:", data);
-    ;
+    const { data } = useFarmerData();
+    const [editMode, setEditMode] = useState(false);
+    const [updatedData, setUpdatedData] = useState({
+        name: data?.name,
+        email: data?.email,
+        role: data?.role,
+        farmname: data?.farmname,
+        farmlocation: data?.farmlocation,
+        farmphone: data?.farmphone,
+    });
+    const [profileImage, setProfileImage] = useState<File | null>(null);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUpdatedData({
+            ...updatedData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setProfileImage(e.target.files[0]);
+        }
+    }
+    const handleSubmit = async () => {
+        const formData = new FormData();
+        Object.entries(updatedData).forEach(([key, value]) => {
+            if (value !== undefined) {
+                formData.append(key, value);
+            }
+        });
+        if (profileImage) {
+            formData.append('profileImage', profileImage);
+        }
+        try {
+            const response = await fetch('http://localhost:3000/users/update', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: formData,
+            });
+            if (response.ok) {
+                alert("Profile updated successfully");
+                setEditMode(false);
+                console.log('Profile updated successfully');
+            } else {
+                console.error('Failed to update profile');
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+        }
+    };
+
 
     return (
         <div className="layout">
@@ -39,24 +91,46 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 {/* Personal Details */}
                 <div className="profile-card">
                     <div className="profile-header">
-                        <img src="/profile-pic.png" alt="Profile" className="profile-avatar" />
+                        <img src={profileImage ? URL.createObjectURL(profileImage) : "../../profile-pic.png"} alt="Profile" className="profile-avatar" />
+                        {editMode && <input type="file" accept="image/*" onChange={handleImageChange} />}
                         <div className="profile-info">
-                            <h3>{data?.name}</h3>
-                            <p>Phone Number: {data?.farmphone}</p>
-                            <p>Email Address: {data?.email}</p>
+                            {editMode ? (
+                                <>
+                                    <input className="edit-input" placeholder="Name" type="text" name="name" value={updatedData.name} onChange={handleInputChange} />
+                                    <input className="edit-input" placeholder="Email" type="email" name="email" value={updatedData.email} onChange={handleInputChange} />
+                                    <p><strong>Role:</strong> {data?.role}</p>
+                                </>
+                            ) : (
+                                <>
+                                    <p><strong>Name:</strong> {data?.name}</p>
+                                    <p><strong>Email:</strong> {data?.email}</p>
+                                    <p><strong>Role:</strong> {data?.role}</p>
+                                </>
+                            )}
                         </div>
                     </div>
-                    <button className="edit-button">Edit</button>
+                    <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>{editMode ? "Save" : "Edit"}</button>
                 </div>
 
                 {/* Farm Details */}
                 <div className="profile-card">
                     <div className="profile-info">
                         <h3>Farm Details</h3>
-                        <p><strong>Farm Name:</strong>{data?.farmname}</p>
-                        <p><strong>Location:</strong> {data?.farmlocation}</p>
+                        {editMode ? (
+                            <>
+                                <input type="text" name="farmname" value={updatedData.farmname} onChange={handleInputChange} />
+                                <input type="text" name="farmlocation" value={updatedData.farmlocation} onChange={handleInputChange} />
+                                <input type="text" name="farmphone" value={updatedData.farmphone} onChange={handleInputChange} />
+                            </>
+                        ) : (
+                            <>
+                                <p><strong>Farm Name:</strong> {data?.farmname}</p>
+                                <p><strong>Farm Location:</strong> {data?.farmlocation}</p>
+                                <p><strong>Farm Phone:</strong> {data?.farmphone}</p>
+                            </>
+                        )}
                     </div>
-                    <button className="edit-button">Edit</button>
+                    <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>{editMode ? "Save" : "Edit"}</button>
                 </div>
             </div>
         </div>

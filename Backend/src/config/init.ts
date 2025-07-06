@@ -24,8 +24,15 @@ export const ensureDatabaseAndTables = async () => {
     `);
     await (await db).query(`
       ALTER TABLE users
-      ADD COLUMN IF NOT EXISTS profile_image TEXT;
+      ADD COLUMN IF NOT EXISTS profile_pic TEXT,
+      ADD COLUMN IF NOT EXISTS name TEXT,
+      ADD COLUMN IF NOT EXISTS email TEXT,
+      ADD COLUMN IF NOT EXISTS farmphone TEXT,
+      ADD COLUMN IF NOT EXISTS farmname TEXT,
+      ADD COLUMN IF NOT EXISTS farmlocation TEXT,
+      ADD COLUMN IF NOT EXISTS last_updated TIMESTAMPTZ DEFAULT NOW();
     `);
+
     await (await db).query(`
       CREATE TABLE IF NOT EXISTS moisture_data1 (
         id SERIAL PRIMARY KEY,

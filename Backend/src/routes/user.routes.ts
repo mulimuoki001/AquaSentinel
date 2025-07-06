@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { getUsers, getUserData } from "../controllers/user.controller";
+import { getUsers, getUserData, updateProfile } from "../controllers/user.controller";
 import { authenticateJWT } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
+import { upload } from "../middleware/upload";
+
 const userRouter = Router();
 userRouter.get(
   "/all",
@@ -10,4 +12,5 @@ userRouter.get(
   getUsers
 );
 userRouter.get("/data", authenticateJWT, getUserData);
+userRouter.post("/update", authenticateJWT, updateProfile, upload.single("profile_pic"));
 export default userRouter;

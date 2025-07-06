@@ -1,6 +1,7 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Response, Request } from "express";
 import { db } from "../config/db";
 import { AuthenticatedRequest } from "../types/types";
+
 
 type AuthenticatedRequestHandler = (
   req: AuthenticatedRequest,
@@ -37,8 +38,8 @@ export const getUserData = async (
         // Remove sensitive data
         delete userData.password;
         // Set the user data on the req object
-        req.userData = userData;
-        next(); // Pass control to the next middleware function
+        // req.userData = userData;
+        // next(); // Pass control to the next middleware function
         res.status(200).json(userData);
       }
     }
@@ -47,3 +48,44 @@ export const getUserData = async (
     res.status(500).json({ message: "Error getting user data" });
   }
 };
+
+
+
+
+export const updateProfile = async (req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    const { name, email, farmphone, farmname, farmlocation } = req.body;
+    const profilePic = req.file?.filename;
+
+    const query = `
+      UPDATE users SET
+        name = $1,
+        email = $2,
+        farmphone = $3,
+        farmname = $4,
+        farmlocation = $5,
+        profile_pic = COALESCE($6, profile_pic),
+        last_updated = NOW()
+      WHERE id = $7
+    `;
+
+    await (await db).query(query, [
+      name,
+      email,
+      farmphone,
+      farmname,
+      farmlocation,
+      profilePic || null,
+      userId,
+    ]);
+
+    res.status(200).json({ message: "Profile updated successfully." });
+  } catch (err) {
+    console.error("Profile update failed:", err);
+    res.status(500).json({ message: "Server error during profile update." });
+  }
+};
+

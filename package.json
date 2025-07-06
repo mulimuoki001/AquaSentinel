@@ -8,6 +8,8 @@
   },
   "devDependencies": {
     "@types/luxon": "^3.6.2",
-    "@types/papaparse": "^5.3.16"
+    "@types/multer": "^2.0.0",
+    "@types/papaparse": "^5.3.16",
+    "@types/twilio": "^3.19.3"
   }
 }
