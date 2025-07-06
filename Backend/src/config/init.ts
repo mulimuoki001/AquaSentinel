@@ -51,11 +51,13 @@ export const ensureDatabaseAndTables = async () => {
     await (await db).query(`
       CREATE TABLE IF NOT EXISTS pump_sessions (
         id SERIAL PRIMARY KEY,
-        start_time TIMESTAMP NOT NULL,
-        end_time TIMESTAMP ,
-        duration FLOAT,
+        user_id INT,
         date DATE DEFAULT CURRENT_DATE,
-        total_liters FLOAT
+        start_time TEXT NOT NULL,
+        end_time TEXT,
+        duration FLOAT,        
+        total_liters FLOAT,
+        status VARCHAR(50)
       );
       
     `);

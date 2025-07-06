@@ -1,6 +1,7 @@
 // topBar.js
 import { Link, useLocation } from "react-router-dom";
 import useFarmerData from "../../hooks/farmerData";
+import useUnreadNotifications from "../../hooks/unreadNotifications";
 
 interface NavBarProps {
   sidebarOpen: boolean;
@@ -10,6 +11,8 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogout }) => {
   const { data, error } = useFarmerData();
   const location = useLocation();
+  const unreadCount = useUnreadNotifications().length;
+
 
   //Todays date
   const today = new Date();
@@ -25,7 +28,9 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
     <div>
       <div className="topBar">
         <div className="topBar-icons">
-          <img className="topBar-logo" src="../../AquaSentinel-logo.png" alt="Aquasentinel" />
+          <Link to="/dashboard/farmer" className={`topBar-logo ${location.pathname === "/dashboard/farmer" ? "active" : ""}`}>
+            <img className="topBar-logo" src="../../AquaSentinel-logo.png" alt="Aquasentinel" />
+          </Link>
           {/*Toggle Icons*/}
           {sidebarOpen ? (
             <img
@@ -47,11 +52,13 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
             <p>Kayonza District</p>
           </div>
           <div className="notifications-topBar">
-            <img src="../../alerts.png" alt="Location" />
-            <p>Notifications</p>
+            <Link to="/dashboard/farmer/notifications" className={`notification-link ${location.pathname === "/dashboard/farmer/notifications" ? "active" : ""}`}>
+              <img src="../../alerts.png" alt="Location" />
+              {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
+            </Link>
           </div>
           <div className="today-date">
-            <img src="../../calendar.png" alt="Calendar" />
+            {/* <img src="../../calendar.png" alt="Calendar" /> */}
             <p>{formattedDate}</p>
           </div>
           <div className="topBar-profile">
@@ -99,7 +106,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
         </Link>
       </div>
 
-    </div>
+    </div >
   );
 };
 

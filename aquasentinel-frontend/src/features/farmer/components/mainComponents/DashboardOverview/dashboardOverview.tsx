@@ -8,6 +8,7 @@ import {
     ResponsiveContainer,
     BarChart, Bar, XAxis, YAxis, LineChart, Line, Tooltip
 } from "recharts";
+import useUnreadNotifications from "../../../hooks/unreadNotifications";
 import { useMemo } from "react";
 
 
@@ -24,6 +25,8 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const pumpColor = pumpStatus === "ON" ? "green" : "red";
     const maxPumpRate = 30; // change based on your max expected L/hr
     const pumpRate = sensorData.waterFlow?.waterFlow || 0;
+    const notifications = useUnreadNotifications();
+    console.log("Notifications:", notifications);
     const gaugeData = [
         {
             name: "Pump Rate",
@@ -36,7 +39,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
     const usageChartData = useMemo(() =>
         waterUsageBuckets.slice(0, 15).map(bucket => ({
-            time: new Date(bucket.bucket_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            time: new Date(bucket.bucket_start).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
             liters: parseFloat(bucket.liters_used || "0")
         })), [waterUsageBuckets]);
 
@@ -213,11 +216,13 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <div className="dashboard-alerts">
                             <div className="alerts-title"><h3>Alerts</h3></div>
                             <div className="alerts">
-                                <div className="alert"><h3>Alert 1</h3></div>
-                                <div className="alert"><h3>Alert 1</h3></div>
-                                <div className="alert"><h3>Alert 1</h3></div>
-                                <div className="alert"><h3>Alert 1</h3></div>
-                                <div className="alert"><h3>Alert 1</h3></div>
+                                {notifications.map((alert, index) => (
+                                    <div key={index} className="alert-item">
+                                        <div className="alert">
+                                            <p>{alert.title}</p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

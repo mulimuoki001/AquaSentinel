@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { fetchRecentMoisture, getWaterUsedLast1hr, fetchRecentWaterFlow, getPumpRuntimeHandler, getWaterUsageGraphData, getAllWaterFlowData } from "../controllers/sensor.controller";
 import { authenticateJWT } from "../middleware/auth.middleware";
-import { getLivePumpSession } from "../controllers/pumpSessions.controller";
+import { getLivePumpSession, getAllPumpSessions, getUserPumpSessions, getTotalWaterUsedDailybyUser } from "../controllers/pumpSessions.controller";
 
 const moistureRouter = Router();
 
@@ -18,6 +18,10 @@ moistureRouter.get("/all-water-flow-data", getAllWaterFlowData, authenticateJWT)
 
 // Pump Session
 moistureRouter.get("/live-pump-session", getLivePumpSession,);
+moistureRouter.get("/all-pump-sessions", getAllPumpSessions, authenticateJWT);
+moistureRouter.get("/user-pump-sessions/:userId", getUserPumpSessions, authenticateJWT);
+moistureRouter.get("/total-water-used-daily-by-user/:userId", getTotalWaterUsedDailybyUser, authenticateJWT);
+
 
 // Delete all water flow data (for testing purposes)
 // moistureRouter.delete("/delete-all-water-flow-data", async (req, res) => await getAllWaterFlowData(req, res));

@@ -19,7 +19,6 @@ const useGraphData = () => {
                     throw new Error(`Water usage buckets fetch failed: ${resWaterUsageBuckets.status}`);
                 }
                 const dataWaterUsageBuckets = await resWaterUsageBuckets.json();
-                console.log("Water usage buckets data:", dataWaterUsageBuckets);
                 setWaterUsageBuckets(dataWaterUsageBuckets?.data || []);
                 setError(null); // ✅ Clear error on success
             } catch (err: any) {

@@ -2,6 +2,11 @@ import dotenv from "dotenv";
 import app from "./app";
 import { db } from "./config/db"; // Assuming you export the Pool instance here
 import { ensureDatabaseAndTables } from "./config/init";
+import { getLastPumpStatus, logPumpSession } from "./models/pumpSessions.model";
+import { setLatestPumpSession } from "./config/pumpSession.getter";
+import { getPhoneNumberByUserId } from "./models/user.model";
+import { sendSMS } from "./config/smsSender";
+
 import { mqttClient } from "./config/mqttClient";
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -40,6 +45,38 @@ async function startServer() {
     await testDbConnection();
     await ensureDatabaseAndTables();
 
+    let lastStatus: "ON" | "OFF" | null = null;
+    (async () => {
+      lastStatus = await getLastPumpStatus();
+      console.log("🔁 Initial pump status:", lastStatus);
+    })();
+    mqttClient.on("message", async (topic, message) => {
+      if (topic === "aquasentinel/status") {
+        try {
+          const payload = JSON.parse(message.toString());
+          const currentStatus = payload.pumpStatus?.toUpperCase() as "ON" | "OFF";
+          const userId = payload.userId;
+
+          if ((currentStatus === "ON" || currentStatus === "OFF") && currentStatus !== lastStatus) {
+            console.log(`⚙️ Pump status changed: ${lastStatus} → ${currentStatus}`);
+            const session = await logPumpSession(currentStatus, userId);
+            const message = `Pump turmed: ${currentStatus}`;
+            // if (userId) {
+            //     const { farmphone: phoneNumber } = await getPhoneNumberByUserId(userId);
+
+            //     if (phoneNumber) {
+            //         sendSMS(phoneNumber, message);
+            //     }
+
+            // }
+            setLatestPumpSession(session);
+            lastStatus = currentStatus;
+          }
+        } catch (error) {
+          console.error("❌ Failed to parse MQTT payload:", error);
+        }
+      }
+    });
     app.listen(PORT, () => {
       console.log(
         `✅ Server is running on port ${PORT}\n🔗 Local: http://localhost:${PORT}/auth/register`

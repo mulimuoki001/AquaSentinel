@@ -98,8 +98,10 @@ export async function getWaterUsageBuckets(startTime: Date, endTime: Date, bucke
       SELECT
         timestamp,
         flowRate,
+        time AS time,
         LEAD(timestamp) OVER (ORDER BY timestamp) AS next_timestamp,
         LEAD(flowRate) OVER (ORDER BY timestamp) AS next_flow_rate,
+        LEAD(time) OVER (ORDER BY timestamp) AS next_time,
         EXTRACT(EPOCH FROM LEAD(timestamp) OVER (ORDER BY timestamp) - timestamp) AS timestamp_diff
       FROM water_flow_sensor_data
       WHERE timestamp BETWEEN $1 AND $2
@@ -116,10 +118,3 @@ export async function getWaterUsageBuckets(startTime: Date, endTime: Date, bucke
 }
 
 
-
-
-// export async function deleteAllWaterFlowData(): Promise<void> {
-//   const query = `TRUNCATE TABLE water_flow_sensor_data RESTART IDENTITY `;
-
-//   await (await db).query(query);
-// }

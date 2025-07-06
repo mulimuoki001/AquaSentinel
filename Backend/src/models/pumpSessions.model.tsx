@@ -1,76 +1,91 @@
 import { db } from "../config/db";
 import { Request, Response } from "express";
 
-export async function logPumpSession(status: "ON" | "OFF") {
+
+export async function logPumpSession(status: "ON" | "OFF", userId?: number) {
   const now = new Date();
+  const timeNow = now.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 
   if (status === "ON") {
-    // Check if there's already an open session
     const check = await (await db).query(`
       SELECT id FROM pump_sessions
       WHERE end_time IS NULL
-      ORDER BY start_time DESC
+      ORDER BY id DESC
       LIMIT 1
     `);
 
     if (check.rows.length === 0) {
-      // Start a new session
       await (await db).query(`
-        INSERT INTO pump_sessions (start_time) VALUES ($1)
-      `, [now.toISOString()]);
+        INSERT INTO pump_sessions (start_time, date, status, user_id)
+        VALUES ($1, CURRENT_DATE, 'In Progress', $2)
+      `, [timeNow, userId ?? null]);
+      console.log("Pump session started");
     }
   }
 
   if (status === "OFF") {
-    // Close the latest open session
     const { rows } = await (await db).query(`
       SELECT id, start_time FROM pump_sessions
       WHERE end_time IS NULL
-      ORDER BY start_time DESC
+      ORDER BY id DESC
       LIMIT 1
     `);
 
     if (rows.length > 0) {
       const session = rows[0];
-      const duration = ((now.getTime() - new Date(session.start_time).getTime()) / (1000 * 60 * 60)).toFixed(0); // minutes
+      const [sh, sm, ss] = session.start_time.split(":").map(Number);
 
-      // Optional: calculate liters used during this session
-      const { rows: waterRows } = await (await db).query(`
-        WITH paired AS (
-          SELECT
-            timestamp,
-            flowrate,
-            LEAD(timestamp) OVER (ORDER BY timestamp) AS next_timestamp,
-            LEAD(flowrate) OVER (ORDER BY timestamp) AS next_flow_rate
-          FROM water_flow_sensor_data
-          WHERE timestamp BETWEEN $1 AND $2
-        )
-        SELECT
-          SUM(
-            (EXTRACT(EPOCH FROM (next_timestamp - timestamp)) / 60.0) *
-            ((flowrate + next_flow_rate) / 2)
-          ) AS total
-        FROM paired
-      `, [session.start_time, now.toISOString()]);
+      const sessionStart = new Date(now);
+      sessionStart.setHours(sh, sm, ss, 0);
 
-      const totalLiters = (waterRows[0]?.total || 0).toFixed(2);
+      const durationMinutes = (now.getTime() - sessionStart.getTime()) / (1000 * 60);
+      const duration = durationMinutes.toFixed(2);
+
+      const endTime = timeNow;
+
+      const { rows: flowRows } = await (await db).query(`
+        SELECT flowrate
+        FROM water_flow_sensor_data
+        WHERE date = CURRENT_DATE
+          AND time >= $1
+          AND time <= $2
+      `, [session.start_time, endTime]);
+
+      const flowrates = flowRows.map(r => parseFloat(r.flowrate)).filter(n => !isNaN(n));
+      const avgFlow = flowrates.length > 0
+        ? flowrates.reduce((sum, r) => sum + r, 0) / flowrates.length
+        : 0;
+
+      const totalLiters = (avgFlow * durationMinutes).toFixed(2);
+      const statusLabel = parseFloat(totalLiters) < 70 ? "Low flow" : "Completed";
 
       await (await db).query(`
         UPDATE pump_sessions
-        SET end_time = $1, duration = $2, total_liters = $3
-        WHERE id = $4
-      `, [now.toISOString(), duration, totalLiters, session.id]);
+        SET end_time = $1,
+            duration = $2,
+            total_liters = $3,
+            status = $4
+        WHERE id = $5
+      `, [endTime, duration, totalLiters, statusLabel, session.id]);
+
+      console.log("Pump session ended");
     }
   }
-  // ✅ Return the full latest session
+
   const result = await (await db).query(`
     SELECT * FROM pump_sessions
-    ORDER BY start_time DESC
+    ORDER BY date DESC, id DESC
     LIMIT 1
   `);
-
+  console.log("Pump session logged:", result.rows[0]);
   return result.rows[0];
 }
+
+
 
 
 export async function getLastPumpStatus(): Promise<"ON" | "OFF" | null> {
@@ -83,4 +98,42 @@ export async function getLastPumpStatus(): Promise<"ON" | "OFF" | null> {
   `);
 
   return rows[0]?.pumpstatus?.toUpperCase() ?? null;
+}
+export async function getPumpSessionsByUserId(userId: number) {
+  const result = await (await db).query(`
+  SELECT 
+    TO_CHAR(date, 'YYYY-MM-DD') AS date,
+    start_time,
+    end_time,
+    duration,
+    total_liters,
+    status
+  FROM pump_sessions
+  WHERE user_id = $1
+  ORDER BY date DESC, id DESC
+`, [userId]);
+  return result.rows;
+}
+
+export async function fetchAllPumpSessions() {
+  const result = await (await db).query(`
+    SELECT * FROM pump_sessions
+    ORDER BY date DESC, id DESC
+    `);
+  return result.rows;
+}
+
+export const getTotalWaterUsedDaily = async (userId: number) => {
+  const result = await (await db).query(`
+  SELECT 
+    TO_CHAR(date, 'YYYY-MM-DD') AS date, 
+    SUM(total_liters) AS total_water_used
+  FROM pump_sessions
+  WHERE user_id = $1
+  GROUP BY date
+  ORDER BY date DESC
+  LIMIT 1
+`, [userId]);
+  console.log("Total water used:", result.rows);
+  return result.rows;
 }
