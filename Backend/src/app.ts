@@ -8,7 +8,7 @@ import userRoutes from "./routes/user.routes";
 import moistureRoutes from "./routes/sensor.routes";
 
 const app = express();
-
+const __rootdir = path.resolve(); // root of your entire project
 dotenv.config();
 
 // Middleware
@@ -23,6 +23,10 @@ app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/api/sensors", moistureRoutes);
+
+
+app.use('/uploads', express.static(path.join(__rootdir, 'uploads')));
+console.log("Serving /uploads from:", path.join(__dirname, "..", "uploads"));
 
 // //React router fallback
 // app.get("*", (req, res) => {

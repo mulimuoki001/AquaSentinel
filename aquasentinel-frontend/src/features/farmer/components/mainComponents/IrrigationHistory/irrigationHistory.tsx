@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import useIrrigationSessions from "../../../hooks/irrigationData";
+import useIrrigationSessions from "./irrigationData";
 import completeIcon from "/complete-icon.png";
 import warningIcon from "/warning-icon.png";
 import InProgressIcon from "/in-progress.png";
@@ -15,13 +15,14 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const irrigationdata = useIrrigationSessions(userId);
     const { totalWaterUsed, loading, error } = useTotalWaterUsedDaily(userId);
     const totalLiters = totalWaterUsed[0]?.total_water_used || 0;
+    const avgTimePerIrrigation = totalWaterUsed[0]?.avg.toFixed(0) || 0;
     const totalSessions = irrigationdata.sessions.length;
     const completedSessions = irrigationdata.sessions.filter(s => s.status === "Completed").length;
+
 
     const efficiencyRate = totalSessions > 0
         ? ((completedSessions / totalSessions) * 100).toFixed(1)
         : "0";
-    console.log("efficiencyRate:", efficiencyRate, "completedSessions:", completedSessions, "totalSessions:", totalSessions);
     let efficiencyColorClass = "";
     if (Number(efficiencyRate) > 0 && Number(efficiencyRate) <= 50) {
         efficiencyColorClass = "text-red";
@@ -53,7 +54,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../../profile-pic.png" alt="Logout" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={farmerData.data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(farmerData.data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
@@ -77,7 +78,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                     </div>
                     <div className="irrigation-history-card">
                         <h3>Avg Duration of Irrigation(per Day)</h3>
-                        <p className="irrigation-history-cardp">40<span>mins</span></p>
+                        <p className="irrigation-history-cardp">{avgTimePerIrrigation} <span>mins</span></p>
                     </div>
 
                     <div className="irrigation-history-card">

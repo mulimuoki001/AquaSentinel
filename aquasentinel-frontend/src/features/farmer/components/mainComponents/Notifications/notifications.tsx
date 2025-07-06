@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { DateTime } from "luxon";
+import useFarmerData from "../../../hooks/farmerData";
 
 interface Notification {
     id: string;
@@ -17,8 +18,8 @@ interface NavBarProps {
 
 export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
-    const lastSessionRef = useRef<any>(null);
     const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
+    const { data } = useFarmerData();
 
 
     // Load saved notifications on mount
@@ -102,7 +103,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                 localStorage.setItem("pump_notifications", JSON.stringify(updated));
                 return updated;
             });
-        }, 10000);
+        }, 1000);
 
         return () => clearInterval(timer);
     }, []);
@@ -148,7 +149,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                 <div className="header-nav">
                     <div className="header-profile">
                         <Link to="/dashboard/farmer/farmer-profile">
-                            <img className="profile-icon" src="../../profile-pic.png" alt="" />
+                            <img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
                     </div>

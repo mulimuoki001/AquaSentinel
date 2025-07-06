@@ -127,12 +127,12 @@ export const getTotalWaterUsedDaily = async (userId: number) => {
   const result = await (await db).query(`
   SELECT 
     TO_CHAR(date, 'YYYY-MM-DD') AS date, 
-    SUM(total_liters) AS total_water_used
+    SUM(total_liters) AS total_water_used,
+    AVG(duration)
   FROM pump_sessions
   WHERE user_id = $1
   GROUP BY date
   ORDER BY date DESC
-  LIMIT 1
 `, [userId]);
   console.log("Total water used:", result.rows);
   return result.rows;

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useSensorData from "../../../hooks/sensorData";
 import useGraphData from "../../../hooks/graphData";
+import useFarmerData from "../../../hooks/farmerData";
 import {
     RadialBarChart,
     RadialBar,
@@ -19,6 +20,7 @@ interface NavBarProps {
 }
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const sensorData = useSensorData();
+    const { data } = useFarmerData();
     const { waterUsageBuckets } = useGraphData();
     // console.log("🔄 Fetching sensor data", sensorData.pumpRuntime);
     const pumpStatus = sensorData.waterFlow?.pumpStatus || "OFF";
@@ -55,7 +57,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../profile-pic.png" alt=" " />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>

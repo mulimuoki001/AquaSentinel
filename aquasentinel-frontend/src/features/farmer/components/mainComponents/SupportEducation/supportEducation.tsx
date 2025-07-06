@@ -9,12 +9,14 @@ import QMSupport2 from "/question-mark2.png";
 import SettingsIcon from "/Settings.png";
 import Video from "/video-player.png";
 import VideoPlayer from "/video2.png";
+import useFarmerData from "../../../hooks/farmerData";
 
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+    const { data } = useFarmerData();
     const [activeTab, setActiveTab] = useState("videos");
     const supportQuestions = [
         "How do I know when to irrigate?",
@@ -32,7 +34,7 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../../profile-pic.png" alt="" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>

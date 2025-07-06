@@ -12,6 +12,8 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
   const { data, error } = useFarmerData();
   const location = useLocation();
   const unreadCount = useUnreadNotifications().length;
+  const profileImage = data?.profile_pic;
+  console.log("profileImage:", profileImage);
 
 
   //Todays date
@@ -63,7 +65,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           </div>
           <div className="topBar-profile">
             <Link to="/dashboard/farmer/farmer-profile" className={`profile-link ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
-              <img src="../../profile-pic.png" alt="Profile" />
+              <img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
             </Link>
             <p>{data?.name}</p>
           </div>
@@ -93,7 +95,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           <hr></hr>
           <br></br></div>
         <Link to="/dashboard/farmer/farmer-profile" className={`sidebar-item ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
-          <img src="../../profile-pic.png" alt="Profile" className="profile-icon" />
+          <img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
           <p>Profile</p>
         </Link>
         <Link to="/dashboard/farmer/settings" className={`sidebar-item ${location.pathname === "/dashboard/farmer/settings" ? "active" : ""}`}>

@@ -4,17 +4,22 @@ import { fetchAllPumpSessions, getPumpSessionsByUserId, getTotalWaterUsedDaily }
 
 export const getLivePumpSession = (req: Request, res: Response): void => {
     const session = getLatestPumpSession();
+    try {
 
-    if (!session) {
-        res.status(404).json({ message: "No recent pump session" });
-    } else {
-        const clientSessionId = req.query.sessionId;
-
-        if (clientSessionId && session?.id.toString() === clientSessionId.toString()) {
-            res.status(200).json({ message: "This is the latest session" });
+        if (!session) {
+            res.status(404).json({ message: "No recent pump session" });
         } else {
-            res.status(200).json({ session });
+            const clientSessionId = req.query.sessionId;
+
+            if (clientSessionId && session?.id.toString() === clientSessionId.toString()) {
+                res.status(200).json({ message: "This is the latest session" });
+            } else {
+                res.status(200).json({ session });
+            }
         }
+    } catch (error) {
+        console.error("❌ Error fetching sessions:", error);
+        res.status(500).json({ message: "Server error" });
     }
 };
 export const getUserPumpSessions = async (req: Request, res: Response): Promise<void> => {

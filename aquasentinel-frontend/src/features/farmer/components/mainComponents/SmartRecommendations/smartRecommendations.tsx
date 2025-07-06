@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import useFarmerData from "../../../hooks/farmerData";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+    const { data } = useFarmerData();
     const recommendations = [
         {
             id: 1,
@@ -31,7 +33,7 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../../profile-pic.png" alt="" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>

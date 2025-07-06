@@ -52,40 +52,59 @@ export const getUserData = async (
 
 
 
-export const updateProfile = async (req: AuthenticatedRequest,
-  res: Response,
-  next: NextFunction) => {
+export const updateProfile = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user?.userId;
     const { name, email, farmphone, farmname, farmlocation } = req.body;
     const profilePic = req.file?.filename;
 
-    const query = `
-      UPDATE users SET
-        name = $1,
-        email = $2,
-        farmphone = $3,
-        farmname = $4,
-        farmlocation = $5,
-        profile_pic = COALESCE($6, profile_pic),
-        last_updated = NOW()
-      WHERE id = $7
-    `;
+    const fields: string[] = [];
+    const values: any[] = [];
+    let index = 1;
 
-    await (await db).query(query, [
-      name,
-      email,
-      farmphone,
-      farmname,
-      farmlocation,
-      profilePic || null,
-      userId,
-    ]);
+    if (name) {
+      fields.push(`name = $${index++}`);
+      values.push(name);
+    }
+    if (email) {
+      fields.push(`email = $${index++}`);
+      values.push(email);
+    }
+    if (farmphone) {
+      fields.push(`farmphone = $${index++}`);
+      values.push(farmphone);
+    }
+    if (farmname) {
+      fields.push(`farmname = $${index++}`);
+      values.push(farmname);
+    }
+    if (farmlocation) {
+      fields.push(`farmlocation = $${index++}`);
+      values.push(farmlocation);
+    }
+    if (profilePic) {
+      fields.push(`profile_pic = $${index++}`);
+      values.push(profilePic);
+    }
 
-    res.status(200).json({ message: "Profile updated successfully." });
+    // Always update timestamp
+    fields.push(`last_updated = NOW()`);
+
+    if (fields.length === 0) {
+      res.status(400).json({ message: "No fields provided to update." });
+    } else {
+      const query = `UPDATE users SET ${fields.join(", ")} WHERE id = $${index}`;
+      values.push(userId);
+
+      await (await db).query(query, values);
+
+      res.status(200).json({ message: "Profile updated successfully." });
+    }
+
   } catch (err) {
     console.error("Profile update failed:", err);
     res.status(500).json({ message: "Server error during profile update." });
   }
 };
+
 

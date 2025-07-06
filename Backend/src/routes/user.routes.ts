@@ -12,5 +12,5 @@ userRouter.get(
   getUsers
 );
 userRouter.get("/data", authenticateJWT, getUserData);
-userRouter.post("/update", authenticateJWT, updateProfile, upload.single("profile_pic"));
+userRouter.put("/update", authenticateJWT, upload.single("profileImage"), updateProfile);
 export default userRouter;

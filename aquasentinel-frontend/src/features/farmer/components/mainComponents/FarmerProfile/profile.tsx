@@ -37,26 +37,81 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 formData.append(key, value);
             }
         });
+
         if (profileImage) {
             formData.append('profileImage', profileImage);
         }
+
+        const emailChanged = updatedData.email !== data?.email;
+
         try {
             const response = await fetch('http://localhost:3000/users/update', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: formData,
             });
+
             if (response.ok) {
-                alert("Profile updated successfully");
-                setEditMode(false);
-                console.log('Profile updated successfully');
+                if (emailChanged) {
+                    alert("Email changed. Please log in again.");
+                    localStorage.removeItem('token'); // Clear token
+                    handleLogout(); // Redirect to login
+                } else {
+                    alert("Profile updated successfully");
+                    setEditMode(false);
+                    console.log('Profile updated successfully');
+                }
             } else {
                 console.error('Failed to update profile');
             }
         } catch (error) {
             console.error('Error updating profile:', error);
+        }
+    };
+
+    // const handleSubmit = async () => {
+    //     const formData = new FormData();
+    //     Object.entries(updatedData).forEach(([key, value]) => {
+    //         if (value !== undefined) {
+    //             formData.append(key, value);
+    //         }
+    //     });
+    //     if (profileImage) {
+    //         formData.append('profileImage', profileImage);
+    //     }
+    //     try {
+    //         const response = await fetch('http://localhost:3000/users/update', {
+    //             method: 'PUT',
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem('token')}`,
+    //             },
+    //             body: formData,
+    //         });
+    //         if (response.ok) {
+    //             alert("Profile updated successfully");
+    //             setEditMode(false);
+    //             console.log('Profile updated successfully');
+    //         } else {
+    //             console.error('Failed to update profile');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error updating profile:', error);
+    //     }
+    // };
+    const resetChanges = () => {
+        if (data) {
+            setUpdatedData({
+                name: data.name || '',
+                email: data.email || '',
+                role: data.role || '',
+                farmname: data.farmname || '',
+                farmlocation: data.farmlocation || '',
+                farmphone: data.farmphone || '',
+            });
+            setProfileImage(null); // reset image too
+            setEditMode(false);
         }
     };
 
@@ -71,7 +126,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../../profile-pic.png" alt="Logout" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
@@ -91,7 +146,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 {/* Personal Details */}
                 <div className="profile-card">
                     <div className="profile-header">
-                        <img src={profileImage ? URL.createObjectURL(profileImage) : "../../profile-pic.png"} alt="Profile" className="profile-avatar" />
+                        <img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
                         {editMode && <input type="file" accept="image/*" onChange={handleImageChange} />}
                         <div className="profile-info">
                             {editMode ? (
@@ -109,7 +164,18 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                             )}
                         </div>
                     </div>
-                    <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>{editMode ? "Save" : "Edit"}</button>
+                    <div className="button-group">
+                        <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>
+                            {editMode ? "Save" : "Edit"}
+                        </button>
+
+                        {editMode && (
+                            <button className="cancel-button" onClick={resetChanges}>
+                                Cancel
+                            </button>
+                        )}
+                    </div>
+
                 </div>
 
                 {/* Farm Details */}
@@ -118,9 +184,9 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                         <h3>Farm Details</h3>
                         {editMode ? (
                             <>
-                                <input type="text" name="farmname" value={updatedData.farmname} onChange={handleInputChange} />
-                                <input type="text" name="farmlocation" value={updatedData.farmlocation} onChange={handleInputChange} />
-                                <input type="text" name="farmphone" value={updatedData.farmphone} onChange={handleInputChange} />
+                                <input placeholder="Farm Name" className="edit-input" type="text" name="farmname" value={updatedData.farmname} onChange={handleInputChange} />
+                                <input placeholder="Farm Location" className="edit-input" type="text" name="farmlocation" value={updatedData.farmlocation} onChange={handleInputChange} />
+                                <input placeholder="Farm Phone" className="edit-input" type="text" name="farmphone" value={updatedData.farmphone} onChange={handleInputChange} />
                             </>
                         ) : (
                             <>
@@ -130,7 +196,18 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                             </>
                         )}
                     </div>
-                    <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>{editMode ? "Save" : "Edit"}</button>
+                    <div className="button-group">
+                        <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>
+                            {editMode ? "Save" : "Edit"}
+                        </button>
+
+                        {editMode && (
+                            <button className="cancel-button" onClick={resetChanges}>
+                                Cancel
+                            </button>
+                        )}
+                    </div>
+
                 </div>
             </div>
         </div>

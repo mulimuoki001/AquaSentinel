@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 interface waterUsedDaily {
     date: string;
     total_water_used: number;
+    avg: number;
 }
 
 export default function useTotalWaterUsedDaily(userId: number | undefined) {

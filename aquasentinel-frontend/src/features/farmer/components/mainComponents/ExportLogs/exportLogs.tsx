@@ -4,12 +4,14 @@ import PDFIcon from "/PDF2.png";
 import { exportToCSV } from "../../utils/exportCSV";
 import { exportToPDF } from "../../utils/exportToPDF";
 import useWaterFlowData from "../../../hooks/waterFlowData";
+import useFarmerData from "../../../hooks/farmerData";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const ExportLogs: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { waterFlowDataList: waterFlowDataList, error } = useWaterFlowData();
+    const { data } = useFarmerData();
     const handleExportCSV = () => {
         const csvReadyData = waterFlowDataList
         exportToCSV(csvReadyData, "waterflow_logs.csv");
@@ -37,7 +39,7 @@ export const ExportLogs: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout })
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img className="profile-icon" src="../../profile-pic.png" alt="" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>

@@ -171,7 +171,7 @@ void loop()
     }
     else if (flowRate <= 75.0)
     {
-      flowRate = 21.0; // Adjusted to avoid exceeding 30 L/min
+      flowRate = 21.0;
     }
     else if (flowRate <= 80.0)
     {
