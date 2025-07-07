@@ -11,7 +11,7 @@ import "../src/features/farmer/components/mainComponents/CSS/profile.css";
 import "../src/features/farmer/components/mainComponents/CSS/settings.css";
 import "../src/features/farmer/components/mainComponents/CSS/smartRecommendations.css";
 import "../src/features/farmer/components/mainComponents/CSS/supportEducation.css";
-import "../src\features\authentication\pages\css\RegistrationSuccess.css";
+import "../src/features/authentication/pages/css/RegistrationSuccess.css";
 import "../src/features/authentication/pages/css/WelcomePage.css";
 import AppRoutes from './routes/AppRouter';
 const App: React.FC = () => {
