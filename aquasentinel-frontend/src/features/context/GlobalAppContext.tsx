@@ -3,7 +3,6 @@ import { DateTime } from "luxon";
 import type { MoistureData, WaterFlowData, WaterUsageBucket, Notification } from "../types/types";
 
 
-
 interface GlobalContextType {
     moisture: MoistureData | null;
     waterFlow: WaterFlowData | null;
