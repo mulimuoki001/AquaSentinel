@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import useFarmerData from "../../../hooks/farmerData";
-
+import { useGlobalContext } from "../../../../context/GlobalAppContext";
 interface Notification {
     id: string;
     title: string;
@@ -17,18 +17,11 @@ interface NavBarProps {
 }
 
 export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const { notifications, setNotifications } = useGlobalContext();
     const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
     const { data } = useFarmerData();
 
 
-    // Load saved notifications on mount
-    useEffect(() => {
-        const saved = localStorage.getItem("pump_notifications");
-        if (saved) {
-            setNotifications(JSON.parse(saved));
-        }
-    }, []);
 
     // Polling for latest session
 

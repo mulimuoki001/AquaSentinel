@@ -77,6 +77,14 @@ async function startServer() {
         }
       }
     });
+
+    app.get('/weather', async (req, res) => {
+      const url = `https://api.weatherapi.com/v1/forecast.json?key=4526809b079e426d84b163312250607&q=Kigali&days=2&aqi=no&alerts=no
+`;
+      const response = await fetch(url);
+      const data = await response.json();
+      res.json(data);
+    });
     app.listen(PORT, () => {
       console.log(
         `✅ Server is running on port ${PORT}\n🔗 Local: http://localhost:${PORT}/auth/register`

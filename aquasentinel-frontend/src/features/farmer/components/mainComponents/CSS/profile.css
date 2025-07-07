@@ -51,7 +51,7 @@ input:-webkit-autofill:focus {
   flex: 1 1 auto;
 }
 
-.profile-avatar {
+.profile-pic {
   width: 60px;
   height: 60px;
   border-radius: 50%;

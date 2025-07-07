@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import useSensorData from "../../../hooks/sensorData";
-import useGraphData from "../../../hooks/graphData";
 import useFarmerData from "../../../hooks/farmerData";
+import { DateTime } from "luxon";
 import {
     RadialBarChart,
     RadialBar,
@@ -9,7 +8,8 @@ import {
     ResponsiveContainer,
     BarChart, Bar, XAxis, YAxis, LineChart, Line, Tooltip
 } from "recharts";
-import useUnreadNotifications from "../../../hooks/unreadNotifications";
+
+import { useGlobalContext } from "../../../../context/GlobalAppContext";
 import { useMemo } from "react";
 
 
@@ -19,16 +19,14 @@ interface NavBarProps {
     handleLogout: () => void
 }
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const sensorData = useSensorData();
     const { data } = useFarmerData();
-    const { waterUsageBuckets } = useGraphData();
+    const { waterUsageBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
     // console.log("🔄 Fetching sensor data", sensorData.pumpRuntime);
-    const pumpStatus = sensorData.waterFlow?.pumpStatus || "OFF";
+    const pumpStatus = waterFlow?.pumpStatus || "OFF";
     const pumpColor = pumpStatus === "ON" ? "green" : "red";
     const maxPumpRate = 30; // change based on your max expected L/hr
-    const pumpRate = sensorData.waterFlow?.waterFlow || 0;
-    const notifications = useUnreadNotifications();
-    console.log("Notifications:", notifications);
+    const pumpRate = waterFlow?.waterFlow || 0;
+    const { unreadNotifications } = useGlobalContext();
     const gaugeData = [
         {
             name: "Pump Rate",
@@ -40,10 +38,13 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
 
     const usageChartData = useMemo(() =>
-        waterUsageBuckets.slice(0, 15).map(bucket => ({
-            time: new Date(bucket.bucket_start).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
-            liters: parseFloat(bucket.liters_used || "0")
+        waterUsageBuckets.slice(0, 29).map(bucket => ({
+            time: DateTime
+                .fromISO(bucket.bucket_start, { zone: "utc" }).plus({ hours: 2 })
+                .setZone("Africa/Kigali").toFormat("HH:mm"),
+            liters: (bucket.liters_used || 0).toFixed(2),
         })), [waterUsageBuckets]);
+
 
 
 
@@ -77,21 +78,28 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                 <div className="dashboard-cards">
                     <div className="card">
-                        <h3>Total Water Used</h3>
-                        <p>{sensorData.waterUsed}<span>L</span></p>
+                        <h3>Total Water Used(1hr)</h3>
+                        <p>{waterUsed}<span>L</span></p>
                     </div>
                     <div className="card">
                         <h3>Current Soil Moisture</h3>
-                        <p>{sensorData.moisture?.moisture}<span>{sensorData.moisture?.moistureUnit}</span></p>
+                        <p>{moisture?.moisture}<span>{moisture?.moistureUnit}</span></p>
                     </div>
 
                     <div className="card">
                         <h3>Pump Runtime</h3>
-                        <p>{(sensorData.pumpRuntime ?? 0) > 60 ? ((sensorData.pumpRuntime !== undefined && sensorData.pumpRuntime !== null && (sensorData.pumpRuntime / 60).toFixed(2))) : sensorData.pumpRuntime?.toFixed(2)} <span>{sensorData.pumpRuntime !== undefined && sensorData.pumpRuntime !== null && parseInt(sensorData.pumpRuntime.toFixed(2)) > 60 ? "hrs" : "mins"}</span></p>
+                        <p>
+                            {typeof pumpRuntime === "number"
+                                ? pumpRuntime >= 60
+                                    ? `${(pumpRuntime / 60).toFixed(0)} hrs`
+                                    : `${pumpRuntime.toFixed(0)} mins`
+                                : "--"}
+                        </p>
+
                     </div>
                     <div className="dashboard-cards2">
                         <div className="water-usage">
-                            <div className="water-usage-title"><h3>Water Usage Last 5hrs</h3></div>
+                            <div className="water-usage-title"><h3>Flow Rate - Last 1hr</h3></div>
                             <div className="water-usage-graph">
                                 <div style={{ width: "100%", height: "100%" }}>
                                     <ResponsiveContainer width="100%" height={260}>
@@ -99,7 +107,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                                             <XAxis
                                                 dataKey="time"
-                                                interval={0}
+                                                interval={1}
 
                                                 tick={({ x, y, payload }) => (
                                                     <text
@@ -171,7 +179,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                         fontWeight: "bold",
                                         fontSize: "16px"
                                     }}>
-                                        {pumpRate} {sensorData.waterFlow?.flowUnit || 'L/min'}
+                                        {pumpRate} {waterFlow?.flowUnit || 'L/min'}
                                     </div>
                                 </div>
 
@@ -182,7 +190,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                         <div className="pump-status">
                             <h3 className="pump-status-title">Pump Status</h3>
-                            <div className="pump-status-current"><div className="pump-status-now" style={{ backgroundColor: pumpColor }}><h1>{sensorData.waterFlow?.pumpStatus}</h1></div></div>
+                            <div className="pump-status-current"><div className="pump-status-now" style={{ backgroundColor: pumpColor }}><h1>{waterFlow?.pumpStatus}</h1></div></div>
                         </div>
                     </div>
                     <div className="dashboard-cards3">
@@ -192,7 +200,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                     <LineChart data={usageChartData}>
                                         <XAxis
                                             dataKey="time"
-                                            interval={0}
+                                            interval={1}
                                             tick={({ x, y, payload }) => (
                                                 <text
                                                     x={x}
@@ -208,7 +216,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                             label={{ value: "Time", position: "insideBottom", dy: 20 }}
                                         />
                                         <YAxis unit="L" label={{ value: "Liters", angle: -90, position: "insideLeft" }} />
-                                        <Tooltip formatter={(value: number) => `${value} L`} />
+                                        <Tooltip formatter={(value: number, name: string) => `${value} L ${name}`} />
                                         <Line type="monotone" dataKey="liters" stroke="limegreen" strokeWidth={2} dot={{ r: 2 }} />
                                     </LineChart>
                                 </ResponsiveContainer>
@@ -218,13 +226,18 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <div className="dashboard-alerts">
                             <div className="alerts-title"><h3>Alerts</h3></div>
                             <div className="alerts">
-                                {notifications.map((alert, index) => (
-                                    <div key={index} className="alert-item">
-                                        <div className="alert">
-                                            <p>{alert.title}</p>
+                                {unreadNotifications.length === 0 ? (
+                                    <p className="no-alerts">No new alerts</p>
+                                ) : (
+                                    unreadNotifications.map((alert, index) => (
+                                        <div key={index} className="alert-item">
+                                            <div className="alert">
+                                                <p>{alert.title}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
+
                             </div>
                         </div>
                     </div>

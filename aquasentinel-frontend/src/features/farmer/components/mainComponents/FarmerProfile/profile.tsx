@@ -146,7 +146,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 {/* Personal Details */}
                 <div className="profile-card">
                     <div className="profile-header">
-                        <img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+                        <img src={data?.profile_pic ? `http://localhost:3000/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-pic" />
                         {editMode && <input type="file" accept="image/*" onChange={handleImageChange} />}
                         <div className="profile-info">
                             {editMode ? (

@@ -1,8 +1,7 @@
 // topBar.js
 import { Link, useLocation } from "react-router-dom";
 import useFarmerData from "../../hooks/farmerData";
-import useUnreadNotifications from "../../hooks/unreadNotifications";
-
+import { useGlobalContext } from "../../../context/GlobalAppContext";
 interface NavBarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
@@ -11,10 +10,7 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogout }) => {
   const { data, error } = useFarmerData();
   const location = useLocation();
-  const unreadCount = useUnreadNotifications().length;
-  const profileImage = data?.profile_pic;
-  console.log("profileImage:", profileImage);
-
+  const { unreadCount } = useGlobalContext();
 
   //Todays date
   const today = new Date();

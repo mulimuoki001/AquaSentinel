@@ -160,7 +160,7 @@ export const getWaterUsedLast1hr = async (req: Request, res: Response) => {
 export const getPumpRuntimeHandler = async (req: Request, res: Response) => {
     try {
         const end = new Date();
-        const start = new Date(end.getTime() - 60 * 60 * 1000); // Last 1 hour
+        const start = new Date(end.getTime() - 6 * 60 * 60 * 1000); // Last 6 hous
         const runtimeInMinutes = await getPumpRuntime(start, end);
         // console.log("Pump runtime in minutes:", runtimeInMinutes.toFixed(0));
         res.json({ success: true, runtimeMinutes: runtimeInMinutes });
@@ -173,8 +173,8 @@ export const getPumpRuntimeHandler = async (req: Request, res: Response) => {
 export const getWaterUsageGraphData = async (req: Request, res: Response) => {
     try {
         const end = new Date();
-        const start = new Date(end.getTime() - 30 * 60 * 1000); // Last 3 hour
-        const buckets = await getWaterUsageBuckets(start, end, 60); // 10-minute intervals
+        const start = new Date(end.getTime() - 60 * 60 * 1000); // 1 hour ago
+        const buckets = await getWaterUsageBuckets(start, end, 1); // 1 for 1 minute buckets
         res.json({ success: true, data: buckets });
     } catch (error) {
         console.error("❌ Error fetching graph data:", error);
@@ -186,7 +186,8 @@ export const getWaterUsageGraphData = async (req: Request, res: Response) => {
 export const getAllWaterFlowData = async (req: Request, res: Response) => {
     try {
         const result = await (await db).query(`
-      SELECT * FROM water_flow_sensor_data
+      SELECT 
+      id, flowRate, flowUnit, pumpStatus, timestamp, TO_CHAR(date, 'YYYY-MM-DD') AS date, time FROM water_flow_sensor_data
       ORDER BY timestamp ASC
     `
         );

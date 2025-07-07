@@ -13,9 +13,9 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const farmerData = useFarmerData();
     const userId = farmerData.data?.id;
     const irrigationdata = useIrrigationSessions(userId);
-    const { totalWaterUsed, loading, error } = useTotalWaterUsedDaily(userId);
+    const { totalWaterUsed } = useTotalWaterUsedDaily(userId);
     const totalLiters = totalWaterUsed[0]?.total_water_used || 0;
-    const avgTimePerIrrigation = totalWaterUsed[0]?.avg.toFixed(0) || 0;
+    const avgTimePerIrrigation = totalWaterUsed[0]?.avg?.toFixed(0) || 0;
     const totalSessions = irrigationdata.sessions.length;
     const completedSessions = irrigationdata.sessions.filter(s => s.status === "Completed").length;
 
