@@ -8,7 +8,7 @@ interface NavBarProps {
   handleLogout: () => void
 }
 const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogout }) => {
-  const { data, error } = useFarmerData();
+  const { data } = useFarmerData();
   const location = useLocation();
   const { unreadCount } = useGlobalContext();
 

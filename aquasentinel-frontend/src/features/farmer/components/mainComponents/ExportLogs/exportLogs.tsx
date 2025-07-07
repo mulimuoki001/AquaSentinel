@@ -10,7 +10,7 @@ interface NavBarProps {
     handleLogout: () => void
 }
 export const ExportLogs: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { waterFlowDataList: waterFlowDataList, error } = useWaterFlowData();
+    const { waterFlowDataList: waterFlowDataList } = useWaterFlowData();
     const { data } = useFarmerData();
     const handleExportCSV = () => {
         const csvReadyData = waterFlowDataList
