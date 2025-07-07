@@ -5,7 +5,7 @@ const RegistrationSuccess = () => {
   return (
     <div className="success-page">
       <h1>🎉 Registration Successful!</h1>
-      <p>You can now log in and start using AquaSentinel.</p>
+      <p>You can now log in and start using AquaSentinel Dashboard.</p>
       <Link to="/login">
         <button className="login-button">Go to Login</button>
       </Link>
