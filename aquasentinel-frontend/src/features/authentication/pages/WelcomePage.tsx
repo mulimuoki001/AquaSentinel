@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import "./CSS/WelcomePage.css"; // Link to your CSS file
 
 const LandingPage = () => {
     return (
