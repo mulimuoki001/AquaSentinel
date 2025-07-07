@@ -1,0 +1,10 @@
+node_modules
+aquasentinel-frontend/node_modules
+.git
+.vscode
+.env
+myenv/
+Dockerfile
+Backend/node_modules
+Backend/.env
+aquasentinel-frontend/.env
