@@ -5,7 +5,7 @@ import { AuthenticatedRequest } from "../types/types";
 
 type AuthenticatedRequestHandler = (
   req: AuthenticatedRequest,
-  res: Response
+  res: Response,
 ) => Promise<void>;
 export const getUsers: AuthenticatedRequestHandler = async (req, res) => {
   try {
