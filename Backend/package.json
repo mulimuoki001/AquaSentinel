@@ -7,7 +7,7 @@
     "dev": "nodemon --legacy-watch --watch src --ext ts,json --exec ts-node src/server.ts",
     "lint": "eslint . --ext .ts",
     "build": "tsc",
-    "start": "ts-node src/server.ts"
+    "start": "NODE_ENV=production ts-node src/server.ts"
   },
   "engines": {
     "node": "18.x"

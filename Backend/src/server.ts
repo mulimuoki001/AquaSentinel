@@ -24,7 +24,13 @@ async function testDbConnection() {
     throw err;
   }
 }
-
+mqttClient.on("connect", () => {
+  console.log("✅ MQTT client connected");
+  mqttClient.subscribe("aquasentinel/status");
+})
+mqttClient.on("error", (err) => {
+  console.error("❌ MQTT connection error:", err.message);
+})
 
 
 // Start the server

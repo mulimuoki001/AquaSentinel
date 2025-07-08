@@ -1,3 +1,4 @@
 /.env
 /activeTokens
 /node_modules
+/package-lock.json
