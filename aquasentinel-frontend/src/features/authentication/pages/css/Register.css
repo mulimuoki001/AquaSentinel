@@ -115,13 +115,13 @@ body {
   color: var(--text-dark);
 }
 
-.register-footer a {
+.login-page-link {
   color: var(--highlight-blue);
   text-decoration: none;
   font-weight: bold;
 }
 
-.register-footer a:hover {
+.login-page-link:hover {
   text-decoration: underline;
 }
 

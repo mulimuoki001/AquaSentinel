@@ -1,7 +1,7 @@
 // Register.js
 import { useState } from 'react';
 import { registerUser } from '../authServices/Register';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -114,7 +114,7 @@ const RegisterPage = () => {
           <button type="submit">Register</button>
         </form>
         <div className="register-footer">
-          <p>Already have an account? <a href="/login">Login</a></p>
+          <p>Already have an account? <Link to="/login" className="login-page-link">Login</Link></p>
           {error && <p className="error-message">{error}</p>}
           {success && <p className="success-message">{success}</p>}
         </div>

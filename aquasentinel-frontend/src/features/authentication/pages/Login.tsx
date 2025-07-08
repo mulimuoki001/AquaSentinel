@@ -1,6 +1,6 @@
 // src/pages/Login.tsx
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { loginUser } from '../authServices/Login';
 import { validateToken } from '../authServices/tokenValidation';
 const Login = () => {
@@ -81,7 +81,7 @@ const Login = () => {
 				</div>
 			</form>
 			<div className="login-footer">
-				<p>Don't have an account? <a href="/register">Register</a></p>
+				<p>Don't have an account? <Link to="/register" className="register-page-link">Register</Link></p>
 				{error && <p className="error-message">{error}</p>}
 			</div>
 		</div>

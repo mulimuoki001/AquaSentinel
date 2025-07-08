@@ -79,7 +79,12 @@ h2 {
   margin-bottom: 1rem;
 }
 
-.login-footer a {
+.register-page-link {
+  margin-top: 1rem;
   color: #04647c;
   text-decoration: none;
+}
+
+.register-page-link:hover {
+  text-decoration: underline;
 }
