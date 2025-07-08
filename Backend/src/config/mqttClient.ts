@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const brokerUrl = `mqtts://${process.env.MQTT_HOST}`; // e.g., aquasentinel-cluster-xxx.hivemq.cloud
+const brokerUrl = `mqtts://${process.env.MQTT_HOST}`;
 const clientId = "AquaSentinelBackend";
 
 const mqttClient: MqttClient = mqtt.connect(brokerUrl, {
