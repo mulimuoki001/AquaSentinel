@@ -17,7 +17,7 @@ let moistureData: string | null = null;
 // ✅ Test DB connection before starting server
 async function testDbConnection() {
   try {
-    const res = await db.query("SELECT NOW()");
+    const res = await (await db).query("SELECT NOW()");
     console.log("✅ DB Connected at:", res.rows[0].now);
   } catch (err) {
     console.error("❌ Failed to connect to DB:", err);

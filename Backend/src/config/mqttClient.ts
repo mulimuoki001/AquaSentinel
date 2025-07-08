@@ -1,20 +1,26 @@
 import mqtt, { MqttClient } from "mqtt";
-import { logPumpSession, getLastPumpStatus } from "../models/pumpSessions.model";
+import dotenv from "dotenv";
 
+dotenv.config();
 
-
-const brokerUrl = "mqtt://192.168.1.66:1883"; // Your local Mosquitto IP
+const brokerUrl = `mqtts://${process.env.MQTT_HOST}`; // e.g., aquasentinel-cluster-xxx.hivemq.cloud
 const clientId = "AquaSentinelBackend";
 
 const mqttClient: MqttClient = mqtt.connect(brokerUrl, {
     clientId,
+    port: parseInt(process.env.MQTT_PORT || "8883"),
     clean: true,
     connectTimeout: 4000,
     reconnectPeriod: 1000,
+    username: process.env.MQTT_USERNAME,
+    password: process.env.MQTT_PASSWORD,
 });
 
 let sensorData: string | null = null;
+
 mqttClient.on("connect", () => {
+    console.log("✅ Connected to HiveMQ MQTT broker");
+
     mqttClient.subscribe("aquasentinel/status", (err) => {
         if (err) {
             console.error("❌ Failed to subscribe:", err.message);
@@ -27,14 +33,9 @@ mqttClient.on("connect", () => {
 mqttClient.on("message", (topic, message) => {
     if (topic === "aquasentinel/status") {
         sensorData = message.toString();
-        // console.log("🌱 Soil Moisture Update:", sensorData);
+        console.log("🌱 Soil Moisture Update:", sensorData);
     }
 });
-
-
-
-
-
 
 mqttClient.on("error", (err) => {
     console.error("❌ MQTT connection error:", err.message);

@@ -16,38 +16,39 @@ async function startWaterFlowLoop() {
     setInterval(() => {
         const raw: any = getRecentWaterFlowData();
         const latestWaterFlowRecord = sensorData ? JSON.parse(sensorData) : null;
-
-        const current = latestWaterFlowRecord.waterFlow;
-        const flowUnit = latestWaterFlowRecord.flowUnit || "L/min";
-        const pumpStatus = latestWaterFlowRecord.pumpStatus || "OFF";
-        // ✅ Convert timestamp to Africa/Kigali timezone
-        const rawTimestamp = latestWaterFlowRecord.timeStamp || new Date().toISOString();
-        const kigaliTime = DateTime
-            .fromISO(rawTimestamp, { zone: "utc" })
-            .setZone("Africa/Kigali")
-
-
-        lastWaterFlow = current;
-        if (!raw) {
+        if (!raw || !latestWaterFlowRecord) {
             console.warn("📭 No MQTT data available yet.");
             return;
+        } else {
+            try {
+                const current = latestWaterFlowRecord.waterFlow;
+                const flowUnit = latestWaterFlowRecord.flowUnit || "L/min";
+                const pumpStatus = latestWaterFlowRecord.pumpStatus || "OFF";
+                // ✅ Convert timestamp to Africa/Kigali timezone
+                const rawTimestamp = latestWaterFlowRecord.timeStamp || new Date().toISOString();
+                const kigaliTime = DateTime
+                    .fromISO(rawTimestamp, { zone: "utc" })
+                    .setZone("Africa/Kigali")
+
+
+                lastWaterFlow = current;
+                const data = {
+                    flowRate: current,
+                    flowUnit,
+                    pumpStatus,
+                    timestamp: rawTimestamp, // e.g., "2025-07-03T12:34:56.789Z"
+                    date: kigaliTime.toFormat("yyyy-MM-dd"),   // e.g., "2025-07-03"
+                    time: kigaliTime.toFormat("HH:mm:ss"),
+                };
+
+                saveWaterFlowData(data);
+
+            } catch (err: any) {
+                console.error("❌ Error parsing MQTT data:", err.message);
+            }
         }
 
-        try {
-            const data = {
-                flowRate: current,
-                flowUnit,
-                pumpStatus,
-                timestamp: rawTimestamp, // e.g., "2025-07-03T12:34:56.789Z"
-                date: kigaliTime.toFormat("yyyy-MM-dd"),   // e.g., "2025-07-03"
-                time: kigaliTime.toFormat("HH:mm:ss"),
-            };
 
-            saveWaterFlowData(data);
-
-        } catch (err: any) {
-            console.error("❌ Error parsing MQTT data:", err.message);
-        }
     }, 5000); // every 5 seconds
 }
 // Start the moisture data loop
@@ -57,29 +58,28 @@ async function startMoistureLoop() {
     setInterval(() => {
         const raw: any = getRecentMoistureData();
         const latestMoistureRecord = sensorData ? JSON.parse(sensorData) : null;
-
-        const current = latestMoistureRecord.moisture;
-        const change = latestMoistureRecord.moistureChange || 0;
-        lastMoisture = current;
-        if (!raw) {
+        if (!raw || !latestMoistureRecord) {
             console.warn("📭 No MQTT data available yet.");
             return;
+        } else {
+            try {
+                const current = latestMoistureRecord.moisture || 0;
+                const change = latestMoistureRecord.moistureChange || 0;
+                lastMoisture = current;
+
+                const data = {
+                    moisture: current,
+                    moistureChange: change,
+                    moistureUnit: latestMoistureRecord.moistureUnit || "%",
+                };
+
+                saveMoistureData(data);
+
+            } catch (err: any) {
+                console.error("❌ Error parsing MQTT data:", err.message);
+            }
         }
 
-        try {
-
-
-            const data = {
-                moisture: current,
-                moistureChange: change,
-                moistureUnit: latestMoistureRecord.moistureUnit || "%",
-            };
-
-            saveMoistureData(data);
-
-        } catch (err: any) {
-            console.error("❌ Error parsing MQTT data:", err.message);
-        }
     }, 5000); // every 1 second
 }
 
