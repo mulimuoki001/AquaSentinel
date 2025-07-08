@@ -51,14 +51,14 @@ async function startServer() {
             console.log(`⚙️ Pump status changed: ${lastStatus} → ${currentStatus}`);
             const session = await logPumpSession(currentStatus, userId);
             const message = `Pump turmed: ${currentStatus}`;
-            if (userId) {
-              const { farmphone: phoneNumber } = await getPhoneNumberByUserId(userId);
+            // if (userId) {
+            //   const { farmphone: phoneNumber } = await getPhoneNumberByUserId(userId);
 
-              if (phoneNumber) {
-                sendSMS(phoneNumber, message);
-              }
+            //   if (phoneNumber) {
+            //     sendSMS(phoneNumber, message);
+            //   }
 
-            }
+            // }
             setLatestPumpSession(session);
             lastStatus = currentStatus;
           }
