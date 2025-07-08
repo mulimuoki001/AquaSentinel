@@ -9,7 +9,7 @@ export function useWeatherRecommendations(pollingIntervalMs: number = 5 * 60 * 1
 
     const fetchWeather = async () => {
         try {
-            const res = await fetch("http://localhost:3000/weather");
+            const res = await fetch("/weather");
             if (!res.ok) {
                 console.warn("⚠️ Weather API request failed:", res.status);
                 return;

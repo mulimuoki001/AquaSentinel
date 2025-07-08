@@ -22,7 +22,7 @@ const useWaterFlowData = () => {
     useEffect(() => {
         const fetchWaterFlowData = async () => {
             try {
-                const res = await fetch("http://localhost:3000/api/sensors/all-water-flow-data");
+                const res = await fetch("/api/sensors/all-water-flow-data");
                 if (!res.ok) {
                     throw new Error(`Water flow data fetch failed: ${res.status}`);
                 }

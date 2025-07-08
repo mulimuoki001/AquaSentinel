@@ -41,12 +41,12 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
             try {
                 const [moistureRes, flowRes, usedRes, runtimeRes, bucketsRes, sessionRes] =
                     await Promise.all([
-                        fetch("http://localhost:3000/api/sensors/moisture"),
-                        fetch("http://localhost:3000/api/sensors/water-flow"),
-                        fetch("http://localhost:3000/api/sensors/water-used-last-1hr"),
-                        fetch("http://localhost:3000/api/sensors/pump-runtime"),
-                        fetch("http://localhost:3000/api/sensors/water-usage-graph"),
-                        fetch("http://localhost:3000/api/sensors/live-pump-session"),
+                        fetch("/api/sensors/moisture"),
+                        fetch("/api/sensors/water-flow"),
+                        fetch("/api/sensors/water-used-last-1hr"),
+                        fetch("/api/sensors/pump-runtime"),
+                        fetch("/api/sensors/water-usage-graph"),
+                        fetch("/api/sensors/live-pump-session"),
                     ]);
                 // Safely handle each one
                 if (moistureRes.ok) {

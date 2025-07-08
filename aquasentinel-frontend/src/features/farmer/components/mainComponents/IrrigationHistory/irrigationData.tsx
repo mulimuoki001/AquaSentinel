@@ -21,7 +21,7 @@ export default function useIrrigationSessions(userId: number | undefined) {
 
     const fetchSessions = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/sensors/user-pump-sessions/${userId}`);
+        const res = await fetch(`/api/sensors/user-pump-sessions/${userId}`);
         const data = await res.json();
         setSessions(data.sessions || []);
         setError(null); // clear previous error if successful

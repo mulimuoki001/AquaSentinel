@@ -1,9 +1,0 @@
-/* Import the Tailwind CSS configuration file */
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-
-/* Use the @tailwind directive to inject the base, component, and utility styles */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

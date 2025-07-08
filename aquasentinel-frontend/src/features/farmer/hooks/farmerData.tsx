@@ -15,7 +15,7 @@ const useFarmerData = () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/users/data');
+        const response = await axios.get('/users/data');
         const responseData = response.data as { id: number, name: string, role: string, email: string, farmname: string, farmlocation: string, farmphone: string, profile_pic: string | null } | null;
         setData(responseData);
       } catch (error: any) {
