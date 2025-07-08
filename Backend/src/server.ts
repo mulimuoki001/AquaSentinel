@@ -24,21 +24,9 @@ async function testDbConnection() {
     throw err;
   }
 }
-//Make sure MQTT client is connected
-mqttClient.on("connect", () => {
-  console.log("✅ MQTT client connected");
-});
-mqttClient.on("message", (topic, message) => {
-  // Store the latest moisture data
-  moistureData = message.toString();
-  // console.log(`📨 MQTT [${topic}]: ${message.toString()}`);
-  // Optionally: parse and store to DB
-});
 
 
-mqttClient.on("error", (err) => {
-  console.error("❌ MQTT connection error:", err.message);
-});
+
 // Start the server
 async function startServer() {
   try {
@@ -51,8 +39,10 @@ async function startServer() {
       console.log("🔁 Initial pump status:", lastStatus);
     })();
     mqttClient.on("message", async (topic, message) => {
+      console.log(`📨 MQTT [${topic}]: ${message.toString()}`);
       if (topic === "aquasentinel/status") {
         try {
+          moistureData = message.toString();
           const payload = JSON.parse(message.toString());
           const currentStatus = payload.pumpStatus?.toUpperCase() as "ON" | "OFF";
           const userId = payload.userId;
@@ -61,14 +51,14 @@ async function startServer() {
             console.log(`⚙️ Pump status changed: ${lastStatus} → ${currentStatus}`);
             const session = await logPumpSession(currentStatus, userId);
             const message = `Pump turmed: ${currentStatus}`;
-            // if (userId) {
-            //     const { farmphone: phoneNumber } = await getPhoneNumberByUserId(userId);
+            if (userId) {
+              const { farmphone: phoneNumber } = await getPhoneNumberByUserId(userId);
 
-            //     if (phoneNumber) {
-            //         sendSMS(phoneNumber, message);
-            //     }
+              if (phoneNumber) {
+                sendSMS(phoneNumber, message);
+              }
 
-            // }
+            }
             setLatestPumpSession(session);
             lastStatus = currentStatus;
           }

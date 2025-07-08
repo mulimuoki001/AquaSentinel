@@ -1,6 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
-
+#include <WiFiClientSecure.h>
 #define MOISTURE_SENSOR_PIN 34
 #define WATER_FLOW_SENSOR_PIN 25
 #define RELAY_PIN 26 // GPIO pin for the relay
@@ -9,10 +9,13 @@ unsigned long lastMillis = 0;
 
 const char *ssid = "AliSabir-2G";
 const char *password = "Ali@Kur_alu2022?";
-const char *mqtt_server = "192.168.1.66";
+const char *mqtt_server = "aquasentinel-cluster-ece0948e.a03.euc1.aws.hivemq.cloud"; // from HiveMQ
+const int mqtt_port = 8883;
+const char *mqtt_user = "aquasentinel"; // From HiveMQ Access Management
+const char *mqtt_pass = "15121@Muli";   // From HiveMQ Access Management
 
-WiFiClient espClient;
-PubSubClient client(espClient);
+WiFiClientSecure secureClient;
+PubSubClient client(secureClient);
 
 // ISR for counting water flow pulses
 void IRAM_ATTR pulseCounter()
@@ -25,10 +28,10 @@ void reconnect()
   while (!client.connected())
   {
     Serial.print("Connecting to MQTT...");
-    if (client.connect("ESP32Client"))
+    if (client.connect("ESP32Client", mqtt_user, mqtt_pass))
     {
       Serial.println("connected!");
-      client.publish("aquasentinel/test", "🚀 ESP32 connected");
+      client.publish("aquasentinel/test", "🚀 ESP32 connected to HiveMQ");
       client.subscribe("aquasentinel/valveControl");
     }
     else
@@ -100,8 +103,8 @@ void setup()
     delay(500);
   }
   Serial.println("\n✅ Time synced");
-
-  client.setServer(mqtt_server, 1883);
+  secureClient.setInsecure(); // Skip certificate verification
+  client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 }
 
@@ -230,7 +233,7 @@ void loop()
   Serial.printf("Water Flow: %.2f L/min\n", flowRate);
   Serial.printf("Pump Status: %s\n", relayState == LOW ? "ON" : "OFF");
   Serial.printf("Timestamp: %s\n", isoTime);
-  int userId = 2;
+  int userId = 1;
   char payload[180];
   snprintf(payload, sizeof(payload),
            "{ \"userId\": %d, \"moisture\": %d, \"moistureUnit\": \"%%\", \"moistureChange\": %d, \"waterFlow\": %.2f, \"flowUnit\": \"L/min\", \"pumpStatus\": \"%s\", \"timeStamp\": \"%s\"}",

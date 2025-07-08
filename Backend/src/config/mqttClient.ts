@@ -18,22 +18,11 @@ const mqttClient: MqttClient = mqtt.connect(brokerUrl, {
 
 let sensorData: string | null = null;
 
-mqttClient.on("connect", () => {
-    console.log("✅ Connected to HiveMQ MQTT broker");
 
-    mqttClient.subscribe("aquasentinel/status", (err) => {
-        if (err) {
-            console.error("❌ Failed to subscribe:", err.message);
-        } else {
-            console.log("📡 Subscribed to 'aquasentinel/status'");
-        }
-    });
-});
 
 mqttClient.on("message", (topic, message) => {
     if (topic === "aquasentinel/status") {
         sensorData = message.toString();
-        console.log("🌱 Soil Moisture Update:", sensorData);
     }
 });
 
