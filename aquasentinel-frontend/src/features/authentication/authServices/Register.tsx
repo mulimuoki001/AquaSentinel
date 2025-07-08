@@ -1,6 +1,6 @@
 export const registerUser = async (name: string, email: string, password: string, role: string, farmname: string, farmlocation: string, farmphone: string) => {
     try {
-        const response = await fetch('http://localhost:3000/auth/register', {
+        const response = await fetch('/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ export const registerUser = async (name: string, email: string, password: string
         const data = await response.json();
         console.log("Registration successful:", data);
         return data;
-    } catch(error) {
+    } catch (error) {
         console.error("Registration failed:", error);
         throw error;
 

@@ -10,7 +10,7 @@ export const validateToken = async (): Promise<{
       return { valid: false };
     } else {
       const response = await fetch(
-        "http://localhost:3000/auth/validate-token",
+        "/auth/validate-token",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

@@ -5,9 +5,8 @@ import { fetchAllPumpSessions, getPumpSessionsByUserId, getTotalWaterUsedDaily }
 export const getLivePumpSession = (req: Request, res: Response): void => {
     const session = getLatestPumpSession();
     try {
-
         if (!session) {
-            res.status(404).json({ message: "No recent pump session" });
+            res.status(404).json({ message: "Session not found" });
         } else {
             const clientSessionId = req.query.sessionId;
 

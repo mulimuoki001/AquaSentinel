@@ -1,5 +1,5 @@
-export const loginUser = async (email: string, password: string): Promise<{ newToken: string, role: string, userId: number}> => {
-	const response = await fetch('http://localhost:3000/auth/login', {
+export const loginUser = async (email: string, password: string): Promise<{ newToken: string, role: string, userId: number }> => {
+	const response = await fetch('/auth/login', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

@@ -48,24 +48,44 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                         fetch("http://localhost:3000/api/sensors/water-usage-graph"),
                         fetch("http://localhost:3000/api/sensors/live-pump-session"),
                     ]);
+                // Safely handle each one
+                if (moistureRes.ok) {
+                    const moistureData = await moistureRes.json();
+                    setMoisture(moistureData?.data?.[0] || null);
+                }
+                if (flowRes.ok) {
+                    const flowData = await flowRes.json();
+                    setWaterFlow(flowData?.data?.[0] || null);
+                }
+                if (usedRes.ok) {
+                    const usedData = await usedRes.json();
+                    setWaterUsed(usedData?.totalWaterUsed || null);
+                }
+                if (runtimeRes.ok) {
+                    const runtimeData = await runtimeRes.json();
+                    setPumpRuntime(runtimeData?.runtimeMinutes || null);
+                }
+                if (bucketsRes.ok) {
+                    const bucketsData = await bucketsRes.json();
+                    setWaterUsageBuckets(bucketsData?.data || []);
+                }
 
-                const moistureData = await moistureRes.json();
-                setMoisture(moistureData?.data?.[0] || null);
+                // ✅ handle session safely
+                let session = null;
+                try {
+                    if (sessionRes.ok) {
+                        const sessionData = await sessionRes.json();
+                        session = sessionData?.session;
+                    } else if (sessionRes.status === 404) {
+                        console.warn("🚫 No live pump session found.");
+                    } else {
+                        throw new Error("Failed to fetch live session");
+                    }
+                } catch (err) {
+                    console.error("❌ Error fetching live session:", err);
+                }
 
-                const flowData = await flowRes.json();
-                setWaterFlow(flowData?.data?.[0] || null);
-
-                const usedData = await usedRes.json();
-                setWaterUsed(usedData?.totalWaterUsed || null);
-
-                const runtimeData = await runtimeRes.json();
-                setPumpRuntime(runtimeData?.runtimeMinutes || null);
-
-                const bucketsData = await bucketsRes.json();
-                setWaterUsageBuckets(bucketsData?.data || []);
-
-                const sessionData = await sessionRes.json();
-                const session = sessionData?.session;
+                // 🧠 Notification Logic
                 if (session) {
                     const currentStatus: "ON" | "OFF" = session.end_time ? "OFF" : "ON";
                     const uniqueId = `${session.id}-${session.end_time ?? "live"}`;
@@ -89,6 +109,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                         setLastStatus(currentStatus);
                     }
                 }
+
 
                 setError(null);
 
