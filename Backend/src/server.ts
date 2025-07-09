@@ -9,6 +9,7 @@ import { sendSMS } from "./config/smsSender";
 import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
+import fs from "fs";
 
 
 import { mqttClient } from "./config/mqttClient";
@@ -95,7 +96,14 @@ async function startServer() {
 
     // ✅ Place this LAST
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "public", "index.html"));
+      const indexPath = path.join(__dirname, "public", "index.html");
+
+      if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+      } else {
+        console.error("❌ index.html not found at:", indexPath);
+        res.status(500).send("Internal server error");
+      }
     });
 
     app.listen(PORT, () => {
