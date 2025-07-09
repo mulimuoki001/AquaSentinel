@@ -95,8 +95,12 @@ async function startServer() {
 
 
     // ✅ Place this LAST
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(__dirname, "public", "index.html"));
+    app.use((req, res, next) => {
+      if (req.method === "GET" && !req.url.startsWith("/api")) {
+        res.sendFile(path.join(__dirname, "public", "index.html"));
+      } else {
+        next();
+      }
     });
 
 
