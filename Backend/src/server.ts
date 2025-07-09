@@ -95,15 +95,8 @@ async function startServer() {
 
 
     // ✅ Place this LAST
-    app.get("*", (req, res) => {
-      const indexPath = path.join(__dirname, "public", "index.html");
-
-      if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
-      } else {
-        console.error("❌ index.html not found at:", indexPath);
-        res.status(500).send("Internal server error");
-      }
+    app.get("*", (_, res) => {
+      res.sendFile(path.join(__dirname, "public", "index.html"));
     });
 
     app.listen(PORT, () => {
