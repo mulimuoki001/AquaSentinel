@@ -1,9 +1,15 @@
 // vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
+  base: "/", // 👈 Required for client-side routing in production
+  build: {
+    outDir: path.resolve(__dirname, '../Backend/public'), // 👈 Match where Express serves static files
+    emptyOutDir: true, // Clean before build
+  },
   server: {
     watch: {
       usePolling: true,

@@ -87,17 +87,12 @@ async function startServer() {
       res.json(data);
     });
 
-    // Required for __dirname when using ES Modules (like import/export syntax)
-    // const __filename = fileURLToPath(import.meta.url);
-    // const __dirname = path.dirname(__filename);
+
 
     // Serve static files from the frontend build in Backend/public
     app.use(express.static(path.join(__dirname, "public")));
 
-    // // Fallback route: send index.html for all unmatched frontend routes
-    // app.get("*", (req, res) => {
-    //   res.sendFile(path.join(__dirname, "public", "index.html"));
-    // });
+
     console.log(app.routes);
 
     app.listen(PORT, () => {
