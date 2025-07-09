@@ -93,7 +93,7 @@ async function startServer() {
     app.use(express.static(path.join(__dirname, "public")));
 
 
-    // ✅ Fallback for React Router routes
+    // ✅ Place this LAST
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "public", "index.html"));
     });
