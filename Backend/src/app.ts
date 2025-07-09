@@ -29,8 +29,21 @@ app.use('/uploads', express.static(path.join(__rootdir, 'uploads')));
 console.log("Serving /uploads from:", path.join(__dirname, "..", "uploads"));
 
 // //React router fallback
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../public", "index.html"));
-// });
+app.get("*", (req, res, next) => {
+    if (
+        req.method === "GET" &&
+        !req.url.startsWith("/api") &&
+        !req.url.startsWith("/auth") &&
+        !req.url.startsWith("/users") &&
+        !req.url.startsWith("/dashboard") &&
+        !req.url.startsWith("/uploads") &&
+        !req.url.includes(".")
+    ) {
+        res.sendFile(path.join(__dirname, "../public", "index.html"));
+    } else {
+        next();
+    }
+});
+
 
 export default app;
