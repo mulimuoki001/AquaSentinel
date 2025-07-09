@@ -23,10 +23,12 @@ const useWaterFlowData = () => {
         const fetchWaterFlowData = async () => {
             try {
                 const res = await fetch("/api/sensors/all-water-flow-data");
+
                 if (!res.ok) {
                     throw new Error(`Water flow data fetch failed: ${res.status}`);
                 }
                 const json = await res.json();
+                console.log("📊 Fetched water flow data from API:", json);
                 setWaterFlowData(json?.data || []);
                 setError(null);
             } catch (err: any) {

@@ -6,6 +6,10 @@ import { getLastPumpStatus, logPumpSession } from "./models/pumpSessions.model";
 import { setLatestPumpSession } from "./config/pumpSession.getter";
 import { getPhoneNumberByUserId } from "./models/user.model";
 import { sendSMS } from "./config/smsSender";
+import path from "path";
+import { fileURLToPath } from "url";
+import express from "express";
+
 
 import { mqttClient } from "./config/mqttClient";
 if (process.env.NODE_ENV !== "production") {
@@ -28,7 +32,7 @@ mqttClient.on("connect", () => {
   console.log("✅ MQTT client connected");
   mqttClient.subscribe("aquasentinel/status");
 })
-mqttClient.on("error", (err) => {
+mqttClient.on("error", (err: Error) => {
   console.error("❌ MQTT connection error:", err.message);
 })
 
@@ -44,7 +48,7 @@ async function startServer() {
       lastStatus = await getLastPumpStatus();
       console.log("🔁 Initial pump status:", lastStatus);
     })();
-    mqttClient.on("message", async (topic, message) => {
+    mqttClient.on("message", async (topic: string, message: Buffer) => {
       console.log(`📨 MQTT [${topic}]: ${message.toString()}`);
 
       if (topic === "aquasentinel/status") {
@@ -82,6 +86,20 @@ async function startServer() {
       const data = await response.json();
       res.json(data);
     });
+
+    // Required for __dirname when using ES Modules (like import/export syntax)
+    // const __filename = fileURLToPath(import.meta.url);
+    // const __dirname = path.dirname(__filename);
+
+    // Serve static files from the frontend build in Backend/public
+    app.use(express.static(path.join(__dirname, "public")));
+
+    // // Fallback route: send index.html for all unmatched frontend routes
+    // app.get("*", (req, res) => {
+    //   res.sendFile(path.join(__dirname, "public", "index.html"));
+    // });
+    console.log(app.routes);
+
     app.listen(PORT, () => {
       console.log(
         `✅ Server is running on port ${PORT}\n🔗 Local: http://localhost:${PORT}/auth/register`
