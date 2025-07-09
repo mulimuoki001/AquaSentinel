@@ -95,9 +95,10 @@ async function startServer() {
 
 
     // ✅ Place this LAST
-    app.get("*", (_, res) => {
+    app.get("*", (_req, res) => {
       res.sendFile(path.join(__dirname, "public", "index.html"));
     });
+
 
     app.listen(PORT, () => {
       console.log(
