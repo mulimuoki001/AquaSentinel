@@ -55,9 +55,11 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
 
                 const flowData: WaterFlowData | null = await flowRes.data as WaterFlowData | null;
                 setWaterFlow(flowData || null);
+                console.log("flowData:", flowData);
 
                 const usedData: number | null = await usedRes.data as number | null;
                 setWaterUsed(usedData || null);
+                console.log("usedData:", usedData);
 
                 const runtimeData: number | null = await runtimeRes.data as number | null;
                 setPumpRuntime(runtimeData || null);
