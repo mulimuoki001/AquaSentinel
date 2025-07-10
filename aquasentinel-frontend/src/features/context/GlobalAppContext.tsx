@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import type { MoistureData, WaterFlowData, WaterUsageBucket, Notification } from "../types/types";
-import api from "../../utils/axiosInstance";
 
 interface GlobalContextType {
     moisture: MoistureData | null;
@@ -39,36 +38,32 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [moistureRes, flowRes, usedRes, runtimeRes, bucketsRes, sessionRes] = await Promise.all([
-                    api.get("/api/sensors/moisture"),
-                    api.get("/api/sensors/water-flow"),
-                    api.get("/api/sensors/water-used-last-1hr"),
-                    api.get("/api/sensors/pump-runtime"),
-                    api.get("/api/sensors/water-usage-graph"),
-                    api.get("/api/sensors/live-pump-session"),
-                ]);
+                const [moistureRes, flowRes, usedRes, runtimeRes, bucketsRes, sessionRes] =
+                    await Promise.all([
+                        fetch("/api/sensors/moisture"),
+                        fetch("/api/sensors/water-flow"),
+                        fetch("/api/sensors/water-used-last-1hr"),
+                        fetch("/api/sensors/pump-runtime"),
+                        fetch("/api/sensors/water-usage-graph"),
+                        fetch("/api/sensors/live-pump-session"),
+                    ]);
 
+                const moistureData = await moistureRes.json();
+                setMoisture(moistureData?.data?.[0] || null);
 
-                const moistureData: MoistureData | null = await moistureRes.data as MoistureData | null;
-                setMoisture(moistureData || null);
-                console.log("moistureData:", moistureData);
+                const flowData = await flowRes.json();
+                setWaterFlow(flowData?.data?.[0] || null);
 
-                const flowData: WaterFlowData | null = await flowRes.data as WaterFlowData | null;
-                setWaterFlow(flowData || null);
-                console.log("flowData:", flowData);
+                const usedData = await usedRes.json();
+                setWaterUsed(usedData?.totalWaterUsed || null);
 
-                const usedData: number | null = await usedRes.data as number | null;
-                setWaterUsed(usedData || null);
-                console.log("usedData:", usedData);
+                const runtimeData = await runtimeRes.json();
+                setPumpRuntime(runtimeData?.runtimeMinutes || null);
 
-                const runtimeData: number | null = await runtimeRes.data as number | null;
-                setPumpRuntime(runtimeData || null);
+                const bucketsData = await bucketsRes.json();
+                setWaterUsageBuckets(bucketsData?.data || []);
 
-                const bucketsData: WaterUsageBucket[] = await bucketsRes.data as WaterUsageBucket[];
-                setWaterUsageBuckets(bucketsData || []);
-
-                const sessionData: any = await sessionRes.data;
-
+                const sessionData = await sessionRes.json();
                 const session = sessionData?.session;
                 if (session) {
                     const currentStatus: "ON" | "OFF" = session.end_time ? "OFF" : "ON";
