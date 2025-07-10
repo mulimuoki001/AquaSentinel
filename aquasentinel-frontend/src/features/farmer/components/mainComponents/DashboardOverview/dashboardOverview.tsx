@@ -27,6 +27,8 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const maxPumpRate = 30; // change based on your max expected L/hr
     const pumpRate = waterFlow?.waterFlow || 0;
     const { unreadNotifications } = useGlobalContext();
+    const token = localStorage.getItem('token');
+    console.log("🎉 Token:", token);
     const gaugeData = [
         {
             name: "Pump Rate",
