@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../../../../../utils/axiosInstance";
 
 interface PumpSession {
   id: number;
@@ -21,8 +22,8 @@ export default function useIrrigationSessions(userId: number | undefined) {
 
     const fetchSessions = async () => {
       try {
-        const res = await fetch(`/api/sensors/user-pump-sessions/${userId}`);
-        const data = await res.json();
+        const res = await api.get(`/api/sensors/user-pump-sessions/${userId}`);
+        const data: any = await res.data;
         setSessions(data.sessions || []);
         setError(null); // clear previous error if successful
       } catch (err) {

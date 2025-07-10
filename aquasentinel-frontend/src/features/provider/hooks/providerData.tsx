@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import api from '../../../utils/axiosInstance';
 
 const useProviderData = () => {
-  const [data, setData] = useState<{id: number, name: string}[]>([]);
-  const [error, setError] = useState<Error | null>(null);
+    const [data, setData] = useState<{ id: number, name: string }[]>([]);
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -15,7 +16,7 @@ const useProviderData = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/dashboard/provider');
+                const response = await api.get('/dashboard/provider');
                 const responseData = response.data as { id: number, name: string }[];
                 if (Array.isArray(responseData)) {
                     setData(responseData);
@@ -24,10 +25,10 @@ const useProviderData = () => {
                 setError(error);
             }
         };
-            fetchData();
-    },[]);
+        fetchData();
+    }, []);
 
-  return { data, error };
+    return { data, error };
 };
 
 export default useProviderData;

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useFarmerData from "../../../hooks/farmerData";
 import { useState } from "react";
+import api from "../../../../../utils/axiosInstance";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
@@ -45,7 +46,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
         const emailChanged = updatedData.email !== data?.email;
 
         try {
-            const response = await fetch('/users/update', {
+            const response = await api.put('/users/update', {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -53,7 +54,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 body: formData,
             });
 
-            if (response.ok) {
+            if (response.status === 200) {
                 if (emailChanged) {
                     alert("Email changed. Please log in again.");
                     localStorage.removeItem('token'); // Clear token

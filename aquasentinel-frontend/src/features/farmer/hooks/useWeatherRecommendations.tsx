@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../../../utils/axiosInstance";
 
 interface Recommendation {
     message: string;
@@ -9,13 +10,13 @@ export function useWeatherRecommendations(pollingIntervalMs: number = 5 * 60 * 1
 
     const fetchWeather = async () => {
         try {
-            const res = await fetch("/weather");
-            if (!res.ok) {
+            const res = await api.get("/weather");
+            if (res.status !== 200) {
                 console.warn("⚠️ Weather API request failed:", res.status);
                 return;
             }
 
-            const data = await res.json();
+            const data: any = await res.data;
             const forecastDays = data.forecast?.forecastday;
             const today = forecastDays?.[0]?.day;
             const tomorrow = forecastDays?.[1]?.day;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../../../utils/axiosInstance";
 
 interface waterUsedDaily {
     date: string;
@@ -16,8 +17,8 @@ export default function useTotalWaterUsedDaily(userId: number | undefined) {
 
         const fetchDailyWaterUsage = async () => {
             try {
-                const res = await fetch(`/api/sensors/total-water-used-daily-by-user/${userId}`);
-                const data = await res.json();
+                const res = await api.get(`/api/sensors/total-water-used-daily-by-user/${userId}`);
+                const data: any = await res.data;
 
                 setTotalWaterUsed(data.totalWaterUsed || []);
                 setError(null); // clear previous error if successful

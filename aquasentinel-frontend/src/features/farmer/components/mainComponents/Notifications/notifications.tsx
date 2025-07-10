@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import useFarmerData from "../../../hooks/farmerData";
 import { useGlobalContext } from "../../../../context/GlobalAppContext";
+import api from "../../../../../utils/axiosInstance";
 interface Notification {
     id: string;
     title: string;
@@ -28,8 +29,8 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
     useEffect(() => {
         const interval = setInterval(async () => {
             try {
-                const res = await fetch("/api/sensors/live-pump-session");
-                const data = await res.json();
+                const res = await api.get("/api/sensors/live-pump-session");
+                const data: any = await res.data;
 
                 if (data.session) {
                     const session = data.session;

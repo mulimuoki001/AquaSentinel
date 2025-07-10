@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../../../utils/axiosInstance";
 
 export interface WaterFlowData {
     id?: number;
@@ -10,11 +11,6 @@ export interface WaterFlowData {
     time?: string;
 }
 
-/**
- * Custom hook to fetch and manage water flow data.
- * Fetches data from the API every 5 seconds and returns the latest data and any error encountered.
- */
-
 const useWaterFlowData = () => {
     const [waterFlowDataList, setWaterFlowData] = useState<WaterFlowData[]>([]) || [];
     const [error, setError] = useState<string | null>(null);
@@ -22,12 +18,12 @@ const useWaterFlowData = () => {
     useEffect(() => {
         const fetchWaterFlowData = async () => {
             try {
-                const res = await fetch("/api/sensors/all-water-flow-data");
+                const res = await api.get("/api/sensors/all-water-flow-data");
 
-                if (!res.ok) {
+                if (res.status !== 200) {
                     throw new Error(`Water flow data fetch failed: ${res.status}`);
                 }
-                const json = await res.json();
+                const json: any = await res.data;
                 console.log("📊 Fetched water flow data from API:", json);
                 setWaterFlowData(json?.data || []);
                 setError(null);

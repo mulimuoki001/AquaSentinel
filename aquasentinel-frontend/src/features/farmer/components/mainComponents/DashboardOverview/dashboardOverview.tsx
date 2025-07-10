@@ -21,10 +21,9 @@ interface NavBarProps {
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { data } = useFarmerData();
     const { waterUsageBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
-    // console.log("🔄 Fetching sensor data", sensorData.pumpRuntime);
     const pumpStatus = waterFlow?.pumpStatus || "OFF";
     const pumpColor = pumpStatus === "ON" ? "green" : "red";
-    const maxPumpRate = 30; // change based on your max expected L/hr
+    const maxPumpRate = 30;
     const pumpRate = waterFlow?.waterFlow || 0;
     const { unreadNotifications } = useGlobalContext();
     const token = localStorage.getItem('token');
