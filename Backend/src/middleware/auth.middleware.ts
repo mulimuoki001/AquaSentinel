@@ -27,10 +27,10 @@ export const authenticateJWT = (
       return next();
     } catch (err) {
       console.error("Error verifying token:", err);
-      res.status(401).json({ message: "Unauthorized" });
+      res.status(401).json({ message: "Unauthorized Access to this route, error verifying token" });
     }
   } else {
     console.log("No authorization header found");
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized Access to this route, no header found" });
   }
 };
