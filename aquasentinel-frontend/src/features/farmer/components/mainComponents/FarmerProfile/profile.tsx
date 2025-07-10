@@ -40,37 +40,32 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
         });
 
         if (profileImage) {
-            formData.append('profileImage', profileImage);
+            formData.append("profileImage", profileImage);
         }
 
         const emailChanged = updatedData.email !== data?.email;
 
         try {
-            const response = await api.put('/users/update', {
-                method: 'PUT',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: formData,
-            });
+            const response = await api.put("/users/update", formData); // ✅ Correct usage
 
             if (response.status === 200) {
                 if (emailChanged) {
                     alert("Email changed. Please log in again.");
-                    localStorage.removeItem('token'); // Clear token
-                    handleLogout(); // Redirect to login
+                    localStorage.removeItem("token");
+                    handleLogout();
                 } else {
                     alert("Profile updated successfully");
                     setEditMode(false);
-                    console.log('Profile updated successfully');
+                    console.log("Profile updated successfully");
                 }
             } else {
-                console.error('Failed to update profile');
+                console.error("Failed to update profile");
             }
         } catch (error) {
-            console.error('Error updating profile:', error);
+            console.error("Error updating profile:", error);
         }
     };
+
 
 
 
