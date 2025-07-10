@@ -1,7 +1,7 @@
-import api from "../../../utils/axiosInstance";
+import axios from 'axios';
 
 export const loginUser = async (email: string, password: string): Promise<{ newToken: string, role: string, userId: number }> => {
-	const response = await api.post('/auth/login', {
+	const response = await axios.post('/auth/login', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
