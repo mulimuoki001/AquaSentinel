@@ -80,6 +80,11 @@
   align-items: center;
 }
 
+.profile-icon {
+  width: 30px;
+  height: 30px;
+}
+
 .dashboard-cards {
   width: 100%;
   display: flex;
