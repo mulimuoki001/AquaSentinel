@@ -26,7 +26,7 @@ export const getUserData = async (
     const userId = req.user?.userId;
     console.log("userId:", userId);
     if (!userId) {
-      res.status(401).json({ message: "Unauthorized" });
+      res.status(401).json({ message: "Unauthorized access" });
     } else {
       const user = await (await db).query(`SELECT * FROM users WHERE id = $1`, [
         userId,
