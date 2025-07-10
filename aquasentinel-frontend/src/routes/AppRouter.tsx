@@ -13,6 +13,7 @@ import ProviderDashboard from '../features/provider/pages/ProviderDashboard';
 import RegistrationSuccess from '../features/authentication/pages/RegistrationSuccessPage';
 import RABDashboard from '../features/RAB/pages/RABDashboard';
 import LandingPage from '../features/authentication/pages/WelcomePage';
+import PrivateRoute from './privateRoute';
 
 const AppRoutes = () => {
     return (
@@ -30,7 +31,7 @@ const AppRoutes = () => {
             <Route path="/dashboard/farmer/settings" element={<SettingsLayout />} />
             <Route path="/dashboard/farmer/irrigation-history" element={<IrrigationHistoryLayout />} />
             <Route path="/dashboard/farmer/export-logs" element={<ExportLogsLayout />} />
-            <Route path="/dashboard/farmer" element={<FarmerDashboard />} />
+            <Route path="/dashboard/farmer" element={<PrivateRoute><FarmerDashboard /></PrivateRoute>} />
             // Provider  Dashboard Routes
             <Route path="/dashboard/provider" element={<ProviderDashboard />} />
             // RAB Dashboard Routes
