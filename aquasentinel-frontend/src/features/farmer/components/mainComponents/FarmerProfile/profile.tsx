@@ -8,7 +8,8 @@ interface NavBarProps {
 }
 export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { data } = useFarmerData();
-    const [editMode, setEditMode] = useState(false);
+    const [personalEditMode, setPersonalEditMode] = useState(false);
+    const [farmEditMode, setFarmEditMode] = useState(false);
     const [updatedData, setUpdatedData] = useState({
         name: data?.name,
         email: data?.email,
@@ -42,9 +43,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
         if (profileImage) {
             formData.append("profileImage", profileImage);
         }
-
-        const emailChanged = updatedData.email !== data?.email;
-
+        const emailChanged = updatedData.email?.toLowerCase() !== data?.email?.toLowerCase();
         try {
             const response = await api.put("/users/update", formData); // ✅ Correct usage
 
@@ -55,7 +54,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                     handleLogout();
                 } else {
                     alert("Profile updated successfully");
-                    setEditMode(false);
+                    setPersonalEditMode(false);
                     console.log("Profile updated successfully");
                 }
             } else {
@@ -80,7 +79,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 farmphone: data.farmphone || '',
             });
             setProfileImage(null); // reset image too
-            setEditMode(false);
+            setPersonalEditMode(false);
         }
     };
 
@@ -116,9 +115,9 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 <div className="profile-card">
                     <div className="profile-header">
                         <img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-pic" />
-                        {editMode && <input type="file" accept="image/*" onChange={handleImageChange} />}
+                        {personalEditMode && <input type="file" accept="image/*" onChange={handleImageChange} />}
                         <div className="profile-info">
-                            {editMode ? (
+                            {personalEditMode ? (
                                 <>
                                     <input className="edit-input" placeholder="Name" type="text" name="name" value={updatedData.name} onChange={handleInputChange} />
                                     <input className="edit-input" placeholder="Email" type="email" name="email" value={updatedData.email} onChange={handleInputChange} />
@@ -134,11 +133,11 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                         </div>
                     </div>
                     <div className="button-group">
-                        <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>
-                            {editMode ? "Save" : "Edit"}
+                        <button className="edit-button" onClick={() => personalEditMode ? handleSubmit() : setPersonalEditMode(true)}>
+                            {personalEditMode ? "Save" : "Edit"}
                         </button>
 
-                        {editMode && (
+                        {personalEditMode && (
                             <button className="cancel-button" onClick={resetChanges}>
                                 Cancel
                             </button>
@@ -151,7 +150,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 <div className="profile-card">
                     <div className="profile-info">
                         <h3>Farm Details</h3>
-                        {editMode ? (
+                        {farmEditMode ? (
                             <>
                                 <input placeholder="Farm Name" className="edit-input" type="text" name="farmname" value={updatedData.farmname} onChange={handleInputChange} />
                                 <input placeholder="Farm Location" className="edit-input" type="text" name="farmlocation" value={updatedData.farmlocation} onChange={handleInputChange} />
@@ -166,11 +165,11 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                         )}
                     </div>
                     <div className="button-group">
-                        <button className="edit-button" onClick={() => editMode ? handleSubmit() : setEditMode(true)}>
-                            {editMode ? "Save" : "Edit"}
+                        <button className="edit-button" onClick={() => farmEditMode ? handleSubmit() : setFarmEditMode(true)}>
+                            {farmEditMode ? "Save" : "Edit"}
                         </button>
 
-                        {editMode && (
+                        {farmEditMode && (
                             <button className="cancel-button" onClick={resetChanges}>
                                 Cancel
                             </button>
