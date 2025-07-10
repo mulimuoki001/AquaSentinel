@@ -51,6 +51,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
 
                 const moistureData: MoistureData | null = await moistureRes.data as MoistureData | null;
                 setMoisture(moistureData || null);
+                console.log("moistureData:", moistureData);
 
                 const flowData: WaterFlowData | null = await flowRes.data as WaterFlowData | null;
                 setWaterFlow(flowData || null);
