@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
-app.use("/dashboard", dashboardRoutes);
+app.use("/dashboard/role", dashboardRoutes);
 app.use("/api/sensors", moistureRoutes);
 
 
