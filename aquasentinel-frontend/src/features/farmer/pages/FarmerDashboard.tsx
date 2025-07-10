@@ -1,13 +1,13 @@
-import withTokenValidation from '../../authentication/hooks/tokenValidationWrapper';
+// import withTokenValidation from '../../authentication/hooks/tokenValidationWrapper';
 import DashboardOverviewLayout from '../components/mainComponents/DashboardOverview/dashboardOverviewLayout';
 
 const FarmerDashboard = () => {
 
   return (
     <div>
-          <DashboardOverviewLayout />
+      <DashboardOverviewLayout />
     </div>
   );
 };
 
-export default withTokenValidation(FarmerDashboard);
+export default FarmerDashboard;
