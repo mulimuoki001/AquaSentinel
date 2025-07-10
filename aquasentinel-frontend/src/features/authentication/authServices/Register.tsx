@@ -1,6 +1,8 @@
+import api from "../../../utils/axiosInstance";
+
 export const registerUser = async (name: string, email: string, password: string, role: string, farmname: string, farmlocation: string, farmphone: string) => {
     try {
-        const response = await fetch('/auth/register', {
+        const response = await api.post('/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -10,12 +12,12 @@ export const registerUser = async (name: string, email: string, password: string
             })
         });
 
-        if (!response.ok) {
-            const error = await response.json();
+        if (response.status !== 200) {
+            const error: any = await response.data;
             throw new Error(error.message || 'Registration failed');
         }
 
-        const data = await response.json();
+        const data: any = await response.data;
         console.log("Registration successful:", data);
         return data;
     } catch (error) {

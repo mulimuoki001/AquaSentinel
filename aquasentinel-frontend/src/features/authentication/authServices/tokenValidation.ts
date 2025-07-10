@@ -1,3 +1,5 @@
+import api from "../../../utils/axiosInstance";
+
 export const validateToken = async (): Promise<{
   valid: boolean;
   role?: string;
@@ -9,14 +11,14 @@ export const validateToken = async (): Promise<{
       console.log("No token found");
       return { valid: false };
     } else {
-      const response = await fetch(
+      const response = await api.get(
         "/auth/validate-token",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         if (response.status === 401) {
           return { valid: false, error: "Unauthorized" };
         } else {
@@ -24,7 +26,7 @@ export const validateToken = async (): Promise<{
         }
       } else {
         try {
-          const data = await response.json();
+          const data: any = await response.data;
           console.log("Token validation response:", data);
           return {
             valid: data.valid,

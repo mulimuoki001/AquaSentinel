@@ -1,4 +1,5 @@
 import axios from 'axios';
+import api from '../../../utils/axiosInstance';
 
 const logoutService = {
   async logout() {
@@ -6,7 +7,7 @@ const logoutService = {
       const token = localStorage.getItem('token');
       if (token) {
         const headers = { Authorization: `Bearer ${token}` };
-        await axios.post('/auth/logout', {}, { headers });
+        await api.post('/auth/logout', {}, { headers });
         localStorage.removeItem('token');
       } else {
         console.log('Token not found');
