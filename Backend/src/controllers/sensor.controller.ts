@@ -191,7 +191,6 @@ export const getAllWaterFlowData = async (req: Request, res: Response) => {
       ORDER BY timestamp ASC
     `
         );
-        console.log("📊 Fetched all water flow data:", result.rows, "records");
         res.json({ success: true, data: result.rows });
     } catch (error) {
         console.error("❌ Error fetching water flow data:", error);
