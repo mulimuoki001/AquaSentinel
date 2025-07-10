@@ -12,11 +12,26 @@ const __rootdir = path.resolve(); // root of your entire project
 dotenv.config();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: "*", // or your frontend domain
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Authorization"]
+}));
+
 app.use(express.json());
 
 //Serving static files
 app.use(express.static(path.join(__dirname, "../public")));
+
+//Log all requests middleware
+app.use((req, res, next) => {
+    console.log("🛰️ Incoming request:");
+    console.log("➡️ URL:", req.originalUrl);
+    console.log("➡️ Method:", req.method);
+    console.log("➡️ Headers:", req.headers);
+    next();
+});
 
 // Routes
 app.use("/auth", authRoutes);

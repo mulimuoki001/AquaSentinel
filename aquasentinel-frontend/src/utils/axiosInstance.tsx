@@ -10,8 +10,12 @@ api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     if (token) {
         config.headers = config.headers || {};
+        console.log("Config headers:", config.headers);
         config.headers.Authorization = `Bearer ${token}`;
+    } else {
+        console.log("Token not found");
     }
+    console.log("Config:", config);
     return config;
 }, (error) => {
     return Promise.reject(error);
