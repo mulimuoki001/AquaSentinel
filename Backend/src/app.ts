@@ -50,7 +50,6 @@ app.get("{/*any}", (req, res, next) => {
         !req.url.startsWith("/api") &&
         !req.url.startsWith("/auth") &&
         !req.url.startsWith("/users") &&
-        !req.url.startsWith("/dashboard") &&
         !req.url.startsWith("/uploads") &&
         !req.url.includes(".")
     ) {
