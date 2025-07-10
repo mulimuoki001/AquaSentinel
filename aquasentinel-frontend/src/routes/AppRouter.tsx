@@ -24,13 +24,13 @@ const AppRoutes = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/registration-success" element={<RegistrationSuccess />} />
             // Farmer Dashboard Routes
-            <Route path="/dashboard/farmer/farmer-profile" element={<ProfileLayout />} />
-            <Route path="/dashboard/farmer/support-education" element={<SupportEducationLayout />} />
-            <Route path="/dashboard/farmer/notifications" element={<NotificationsLayout />} />
-            <Route path="/dashboard/farmer/smart-recommendations" element={<SmartRecommendationsLayout />} />
-            <Route path="/dashboard/farmer/settings" element={<SettingsLayout />} />
-            <Route path="/dashboard/farmer/irrigation-history" element={<IrrigationHistoryLayout />} />
-            <Route path="/dashboard/farmer/export-logs" element={<ExportLogsLayout />} />
+            <Route path="/dashboard/farmer/farmer-profile" element={<PrivateRoute><ProfileLayout /></PrivateRoute>} />
+            <Route path="/dashboard/farmer/support-education" element={<PrivateRoute><SupportEducationLayout /></PrivateRoute>} />
+            <Route path="/dashboard/farmer/notifications" element={<PrivateRoute><NotificationsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/farmer/smart-recommendations" element={<PrivateRoute><SmartRecommendationsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/farmer/settings" element={<PrivateRoute><SettingsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/farmer/irrigation-history" element={<PrivateRoute><IrrigationHistoryLayout /></PrivateRoute>} />
+            <Route path="/dashboard/farmer/export-logs" element={<PrivateRoute><ExportLogsLayout /></PrivateRoute>} />
             <Route path="/dashboard/farmer" element={<PrivateRoute><FarmerDashboard /></PrivateRoute>} />
             // Provider  Dashboard Routes
             <Route path="/dashboard/provider" element={<ProviderDashboard />} />
