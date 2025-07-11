@@ -9,14 +9,15 @@ import QMSupport2 from "/question-mark2.png";
 import SettingsIcon from "/Settings.png";
 import Video from "/video-player.png";
 import VideoPlayer from "/video2.png";
-import useFarmerData from "../../../hooks/farmerData";
+import { useGlobalContext } from "../../../../context/GlobalAppContext";
 
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { data } = useFarmerData();
+    const { userData } = useGlobalContext();
+    const data = userData;
     const [activeTab, setActiveTab] = useState("videos");
     const supportQuestions = [
         "How do I know when to irrigate?",

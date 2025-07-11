@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import useFarmerData from "../../../hooks/farmerData";
 import { DateTime } from "luxon";
 import {
     RadialBarChart,
@@ -19,15 +18,13 @@ interface NavBarProps {
     handleLogout: () => void
 }
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { data } = useFarmerData();
+    const { userData } = useGlobalContext();
     const { waterUsageBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
     const pumpStatus = waterFlow?.pumpStatus || "OFF";
     const pumpColor = pumpStatus === "ON" ? "green" : "red";
     const maxPumpRate = 30;
     const pumpRate = waterFlow?.waterFlow || 0;
     const { unreadNotifications } = useGlobalContext();
-    const token = localStorage.getItem('token');
-    console.log("🎉 Token:", token);
     const gaugeData = [
         {
             name: "Pump Rate",
@@ -59,7 +56,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>

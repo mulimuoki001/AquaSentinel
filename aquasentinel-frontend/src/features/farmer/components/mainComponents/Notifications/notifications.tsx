@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import useFarmerData from "../../../hooks/farmerData";
 import { useGlobalContext } from "../../../../context/GlobalAppContext";
 import api from "../../../../../utils/axiosInstance";
 interface Notification {
@@ -20,7 +19,7 @@ interface NavBarProps {
 export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { notifications, setNotifications } = useGlobalContext();
     const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
-    const { data } = useFarmerData();
+    const { userData } = useGlobalContext();
 
 
 
@@ -143,7 +142,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                 <div className="header-nav">
                     <div className="header-profile">
                         <Link to="/dashboard/farmer/farmer-profile">
-                            <img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+                            <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
                     </div>

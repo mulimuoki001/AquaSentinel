@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import type { MoistureData, WaterFlowData, WaterUsageBucket, Notification } from "../types/types";
+import type { MoistureData, WaterFlowData, WaterUsageBucket, Notification, UserData } from "../types/types";
 
 interface GlobalContextType {
     moisture: MoistureData | null;
@@ -12,6 +12,8 @@ interface GlobalContextType {
     unreadNotifications: Notification[];
     unreadCount: number;
     isLoading: boolean;
+    userData: UserData | null;
+    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
     error: string | null;
     setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }
@@ -28,6 +30,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [userData, setUserData] = useState<UserData | null>(null);
 
     // Initial localStorage load
     useEffect(() => {
@@ -47,6 +50,19 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                         fetch("/api/sensors/water-usage-graph"),
                         fetch("/api/sensors/live-pump-session"),
                     ]);
+
+                const token = localStorage.getItem("token");
+                if (token) {
+                    try {
+                        const userRes = await fetch("/users/data", {
+                            headers: { Authorization: `Bearer ${token}` },
+                        });
+                        const userJson = await userRes.json();
+                        setUserData(userJson);
+                    } catch (err) {
+                        console.error("User data fetch failed", err);
+                    }
+                }
 
                 const moistureData = await moistureRes.json();
                 setMoisture(moistureData?.data?.[0] || null);
@@ -137,6 +153,8 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                 unreadCount,
                 isLoading,
                 error,
+                userData,
+                setUserData,
                 setNotifications,
             }}
         >

@@ -4,14 +4,15 @@ import PDFIcon from "/PDF2.png";
 import { exportToCSV } from "../../utils/exportCSV";
 import { exportToPDF } from "../../utils/exportToPDF";
 import useWaterFlowData from "../../../hooks/waterFlowData";
-import useFarmerData from "../../../hooks/farmerData";
+import { useGlobalContext } from "../../../../context/GlobalAppContext";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const ExportLogs: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { waterFlowDataList: waterFlowDataList } = useWaterFlowData();
-    const { data } = useFarmerData();
+    const { userData } = useGlobalContext();
+    const data = userData;
     const handleExportCSV = () => {
         const csvReadyData = waterFlowDataList
         exportToCSV(csvReadyData, "waterflow_logs.csv");

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import useFarmerData from "../../../hooks/farmerData";
 import { useWeatherRecommendations } from "../../../hooks/useWeatherRecommendations";
+import { useGlobalContext } from "../../../../context/GlobalAppContext";
 
 interface NavBarProps {
     sidebarOpen: boolean;
@@ -8,8 +8,8 @@ interface NavBarProps {
 }
 
 export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { data } = useFarmerData();
     const recommendations = useWeatherRecommendations();
+    const { userData } = useGlobalContext();
 
     return (
         <div className="layout">
@@ -22,7 +22,7 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                 <div className="header-nav">
                     <div className="header-profile">
                         <Link to="/dashboard/farmer/farmer-profile">
-                            <img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+                            <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
                     </div>

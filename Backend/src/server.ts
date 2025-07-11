@@ -50,8 +50,6 @@ async function startServer() {
       console.log("🔁 Initial pump status:", lastStatus);
     })();
     mqttClient.on("message", async (topic: string, message: Buffer) => {
-      console.log(`📨 MQTT [${topic}]: ${message.toString()}`);
-
       if (topic === "aquasentinel/status") {
         try {
           moistureData = message.toString();

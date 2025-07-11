@@ -35,3 +35,13 @@ export interface PumpSession {
     total_liters: number;
     status: string;
 }
+export interface UserData {
+    id: number;
+    name: string;
+    role: string;
+    email: string;
+    farmname: string;
+    farmlocation: string;
+    farmphone: string;
+    profile_pic: string | null;
+}

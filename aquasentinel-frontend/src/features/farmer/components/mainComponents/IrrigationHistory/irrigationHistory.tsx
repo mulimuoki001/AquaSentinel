@@ -3,15 +3,16 @@ import useIrrigationSessions from "./irrigationData";
 import completeIcon from "/complete-icon.png";
 import warningIcon from "/warning-icon.png";
 import InProgressIcon from "/in-progress.png";
+import { useGlobalContext } from "../../../../context/GlobalAppContext";
 import useTotalWaterUsedDaily from "../../../hooks/totalWaterUsedDaily";
-import useFarmerData from "../../../hooks/farmerData";
+
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const farmerData = useFarmerData();
-    const userId = farmerData.data?.id;
+    const { userData } = useGlobalContext();
+    const userId = userData?.id;
     const irrigationdata = useIrrigationSessions(userId);
     const { totalWaterUsed } = useTotalWaterUsedDaily(userId);
     const totalLiters = totalWaterUsed[0]?.total_water_used || 0;
@@ -54,7 +55,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img src={farmerData.data?.profile_pic ? `/uploads/${encodeURIComponent(farmerData.data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>

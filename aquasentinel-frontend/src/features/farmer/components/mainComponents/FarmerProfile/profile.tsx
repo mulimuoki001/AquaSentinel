@@ -1,22 +1,22 @@
 import { Link } from "react-router-dom";
-import useFarmerData from "../../../hooks/farmerData";
 import { useState } from "react";
 import api from "../../../../../utils/axiosInstance";
+import { useGlobalContext } from "../../../../context/GlobalAppContext";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { data } = useFarmerData();
     const [personalEditMode, setPersonalEditMode] = useState(false);
     const [farmEditMode, setFarmEditMode] = useState(false);
+    const { userData } = useGlobalContext();
     const [updatedData, setUpdatedData] = useState({
-        name: data?.name,
-        email: data?.email,
-        role: data?.role,
-        farmname: data?.farmname,
-        farmlocation: data?.farmlocation,
-        farmphone: data?.farmphone,
+        name: userData?.name,
+        email: userData?.email,
+        role: userData?.role,
+        farmname: userData?.farmname,
+        farmlocation: userData?.farmlocation,
+        farmphone: userData?.farmphone,
     });
     const [profileImage, setProfileImage] = useState<File | null>(null);
 
@@ -43,7 +43,10 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
         if (profileImage) {
             formData.append("profileImage", profileImage);
         }
-        const emailChanged = updatedData.email?.toLowerCase() !== data?.email?.toLowerCase();
+        const emailChanged =
+            updatedData.email &&
+            updatedData.email.trim().toLowerCase() !== userData?.email?.toLowerCase();
+
         try {
             const response = await api.put("/users/update", formData); // ✅ Correct usage
 
@@ -55,6 +58,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 } else {
                     alert("Profile updated successfully");
                     setPersonalEditMode(false);
+                    setFarmEditMode(false);
                     console.log("Profile updated successfully");
                 }
             } else {
@@ -69,17 +73,18 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
 
 
     const resetChanges = () => {
-        if (data) {
+        if (userData) {
             setUpdatedData({
-                name: data.name || '',
-                email: data.email || '',
-                role: data.role || '',
-                farmname: data.farmname || '',
-                farmlocation: data.farmlocation || '',
-                farmphone: data.farmphone || '',
+                name: userData.name || '',
+                email: userData.email || '',
+                role: userData.role || '',
+                farmname: userData.farmname || '',
+                farmlocation: userData.farmlocation || '',
+                farmphone: userData.farmphone || '',
             });
             setProfileImage(null); // reset image too
             setPersonalEditMode(false);
+            setFarmEditMode(false);
         }
     };
 
@@ -94,7 +99,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 </div>
                 <div className="header-nav">
                     <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+                        <Link to="/dashboard/farmer/farmer-profile"><img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
 
                         </Link>
                         <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
@@ -114,20 +119,20 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 {/* Personal Details */}
                 <div className="profile-card">
                     <div className="profile-header">
-                        <img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-pic" />
+                        <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-pic" />
                         {personalEditMode && <input type="file" accept="image/*" onChange={handleImageChange} />}
                         <div className="profile-info">
                             {personalEditMode ? (
                                 <>
                                     <input className="edit-input" placeholder="Name" type="text" name="name" value={updatedData.name} onChange={handleInputChange} />
                                     <input className="edit-input" placeholder="Email" type="email" name="email" value={updatedData.email} onChange={handleInputChange} />
-                                    <p><strong>Role:</strong> {data?.role}</p>
+                                    <p><strong>Role:</strong> {userData?.role}</p>
                                 </>
                             ) : (
                                 <>
-                                    <p><strong>Name:</strong> {data?.name}</p>
-                                    <p><strong>Email:</strong> {data?.email}</p>
-                                    <p><strong>Role:</strong> {data?.role}</p>
+                                    <p><strong>Name:</strong> {userData?.name}</p>
+                                    <p><strong>Email:</strong> {userData?.email}</p>
+                                    <p><strong>Role:</strong> {userData?.role}</p>
                                 </>
                             )}
                         </div>
@@ -158,9 +163,9 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                             </>
                         ) : (
                             <>
-                                <p><strong>Farm Name:</strong> {data?.farmname}</p>
-                                <p><strong>Farm Location:</strong> {data?.farmlocation}</p>
-                                <p><strong>Farm Phone:</strong> {data?.farmphone}</p>
+                                <p><strong>Farm Name:</strong> {userData?.farmname}</p>
+                                <p><strong>Farm Location:</strong> {userData?.farmlocation}</p>
+                                <p><strong>Farm Phone:</strong> {userData?.farmphone}</p>
                             </>
                         )}
                     </div>

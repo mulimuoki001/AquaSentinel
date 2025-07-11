@@ -23,6 +23,7 @@ export async function saveWaterFlowData(data: WaterFlowRecord): Promise<void> {
     data.date,
     data.time
   ];
+  console.log("Saving water flow data:", data);
 
   await (await db).query(query, values);
 }

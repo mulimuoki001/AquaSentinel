@@ -1,6 +1,4 @@
-// topBar.js
 import { Link, useLocation } from "react-router-dom";
-import useFarmerData from "../../hooks/farmerData";
 import { useGlobalContext } from "../../../context/GlobalAppContext";
 interface NavBarProps {
   sidebarOpen: boolean;
@@ -8,7 +6,7 @@ interface NavBarProps {
   handleLogout: () => void
 }
 const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogout }) => {
-  const { data } = useFarmerData();
+  const { userData } = useGlobalContext();
   const location = useLocation();
   const { unreadCount } = useGlobalContext();
 
@@ -61,9 +59,9 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           </div>
           <div className="topBar-profile">
             <Link to="/dashboard/farmer/farmer-profile" className={`profile-link ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
-              <img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+              <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
             </Link>
-            <p>{data?.name}</p>
+            <p>{userData?.name}</p>
           </div>
         </div>
       </div>
@@ -91,7 +89,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           <hr></hr>
           <br></br></div>
         <Link to="/dashboard/farmer/farmer-profile" className={`sidebar-item ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
-          <img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+          <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData?.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
           <p>Profile</p>
         </Link>
         <Link to="/dashboard/farmer/settings" className={`sidebar-item ${location.pathname === "/dashboard/farmer/settings" ? "active" : ""}`}>
