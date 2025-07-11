@@ -51,7 +51,7 @@ export const ensureDatabaseAndTables = async () => {
         pumpStatus TEXT DEFAULT 'OFF',
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         date DATE DEFAULT CURRENT_DATE,
-        time TIME DEFAULT CURRENT_TIME
+        time TEXT
       );
     `);
 
@@ -68,6 +68,7 @@ export const ensureDatabaseAndTables = async () => {
       );
       
     `);
+    await (await db).query(`DELETE FROM water_flow_sensor_data;`);
     console.log("✅ Users table is ready");
   } catch (err) {
     console.error("❌ Error setting up database or tables:", err);
