@@ -88,7 +88,7 @@
 
 ## 🌍 Live Demo
 
-🔗 [**Visit the Live App on Heroku**](https://aqua-sentinel-109c335846c9.herokuapp.com/)
+🔗 [**Visit the Live App on Railway**](https://aquasentinel-dashboard.up.railway.app/)
 🔗 [**Here is the demo video**](https://www.youtube.com/watch?v=QaGcHhv9uPI)
 
 Use the app to:
@@ -120,7 +120,7 @@ All dashboards require **login via JWT tokens**.
 
 After login:
 - A token is stored in `localStorage`
-- All secure routes are protected on both frontend and backend
+- All secure routes are protected on both the frontend and backend
 
 ---
 
@@ -152,7 +152,7 @@ Key design considerations:
 ---
 
 ## 📦 Deployment Plan
-At the moment, the prototype was deployed using **Heroku**, however, in future I intend to deploy the dashboard using **Render**
+Railway (Full-stack deployment with Dockerized services)
 
 
 
