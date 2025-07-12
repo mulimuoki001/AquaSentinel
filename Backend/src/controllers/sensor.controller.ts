@@ -19,6 +19,7 @@ export async function startWaterFlowLoop() {
             return;
         } else {
             try {
+                const userId = latestWaterFlowRecord.userId;
                 const current = latestWaterFlowRecord.waterFlow;
                 const flowUnit = latestWaterFlowRecord.flowUnit || "L/min";
                 const pumpStatus = latestWaterFlowRecord.pumpStatus || "OFF";
@@ -31,6 +32,7 @@ export async function startWaterFlowLoop() {
 
                 lastWaterFlow = current;
                 const data = {
+                    userId,
                     flowRate: current,
                     flowUnit,
                     pumpStatus,

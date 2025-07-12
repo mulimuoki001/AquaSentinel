@@ -1,6 +1,7 @@
 import { db } from "../config/db";
 
 export interface WaterFlowRecord {
+  userId?: number;
   flowRate: number;
   flowUnit?: string;
   pumpStatus?: string;
@@ -12,10 +13,11 @@ export interface WaterFlowRecord {
 // ✅ Save a water flow reading
 export async function saveWaterFlowData(data: WaterFlowRecord): Promise<void> {
   const query = `
-    INSERT INTO water_flow_sensor_data (flowRate, flowUnit, pumpStatus, timestamp, date, time)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO water_flow_sensor_data (userId, flowRate, flowUnit, pumpStatus, timestamp, date, time)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
   `;
   const values = [
+    data.userId,
     data.flowRate,
     data.flowUnit,
     data.pumpStatus,

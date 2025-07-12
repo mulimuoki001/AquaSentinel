@@ -46,6 +46,7 @@ export const ensureDatabaseAndTables = async () => {
     await (await db).query(`
       CREATE TABLE IF NOT EXISTS water_flow_sensor_data (
         id SERIAL PRIMARY KEY,
+        userId INT NOT NULL,
         flowRate FLOAT NOT NULL,
         flowUnit TEXT DEFAULT 'L/min',
         pumpStatus TEXT DEFAULT 'OFF',
