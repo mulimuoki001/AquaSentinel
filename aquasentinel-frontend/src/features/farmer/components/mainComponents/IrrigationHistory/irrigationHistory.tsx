@@ -5,6 +5,9 @@ import warningIcon from "/warning-icon.png";
 import InProgressIcon from "/in-progress.png";
 import { useGlobalContext } from "../../../../context/GlobalAppContext";
 import useTotalWaterUsedDaily from "../../../hooks/totalWaterUsedDaily";
+import { useState, useEffect } from "react";
+import { DateTime } from "luxon";
+
 
 interface NavBarProps {
     sidebarOpen: boolean;
@@ -13,6 +16,7 @@ interface NavBarProps {
 export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { userData } = useGlobalContext();
     const userId = userData?.id;
+    const [showHelp, setShowHelp] = useState<"water" | "duration" | "efficiency" | null>(null);
     const irrigationdata = useIrrigationSessions(userId);
     const { totalWaterUsed } = useTotalWaterUsedDaily(userId);
     const totalLiters = totalWaterUsed[0]?.total_water_used || 0;
@@ -20,18 +24,32 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const totalSessions = irrigationdata.sessions.length;
     const completedSessions = irrigationdata.sessions.filter(s => s.status === "Completed").length;
 
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [liveDuration, setLiveDuration] = useState<number>(0);
+
+
+
+    const rowsPerPage = 5;
+
+    const totalPages = Math.ceil(irrigationdata.sessions.length / rowsPerPage);
+    const paginatedSessions = irrigationdata.sessions.slice(
+        (currentPage - 1) * rowsPerPage,
+        currentPage * rowsPerPage
+    );
 
     const efficiencyRate = totalSessions > 0
         ? ((completedSessions / totalSessions) * 100).toFixed(1)
         : "0";
     let efficiencyColorClass = "";
-    if (Number(efficiencyRate) > 0 && Number(efficiencyRate) <= 50) {
+    if (Number(efficiencyRate) > 0.0 && Number(efficiencyRate) <= 50.0) {
         efficiencyColorClass = "text-red";
-    } else if (Number(efficiencyRate) > 50 && Number(efficiencyRate) <= 75) {
+    } else if (Number(efficiencyRate) > 50.0 && Number(efficiencyRate) <= 75.0) {
         efficiencyColorClass = "text-yellow";
     } else {
         efficiencyColorClass = "text-green";
     }
+
 
     const getStatusIcon = (status: string) => {
         if (status === "Completed") {
@@ -42,7 +60,29 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
             return InProgressIcon;
         }
     }
+    useEffect(() => {
+        const inProgressSession = irrigationdata.sessions.find(s => s.status === "In Progress");
 
+        if (inProgressSession) {
+            const start = DateTime.fromFormat(
+                `${inProgressSession.date} ${inProgressSession.start_time}`,
+                "yyyy-MM-dd HH:mm:ss"
+            );
+
+            const updateDuration = () => {
+                const now = DateTime.now();
+                const diff = now.diff(start, "minutes").minutes;
+                setLiveDuration(parseFloat(diff.toFixed(2)));
+            };
+
+            updateDuration(); // initial run
+            const interval = setInterval(updateDuration, 1000); // update every second
+
+            return () => clearInterval(interval);
+        } else {
+            setLiveDuration(0);
+        }
+    }, [irrigationdata.sessions]);
 
 
     return (
@@ -74,17 +114,56 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
             <div className="irrigation-history-container">
                 <div className="irrigation-history-cards">
                     <div className="irrigation-history-card">
+
                         <h3>Total Water Used Today</h3>
+                        <img
+                            src="../../info.png"
+                            className="info-icon"
+                            onClick={() => setShowHelp(prev => (prev === "water" ? null : "water"))}
+                        />
+
                         <p className="irrigation-history-cardp">{totalLiters} <span>L</span></p>
+
+                        {showHelp === "water" && (
+                            <div className="popup-card">
+                                This shows the total water used in irrigation sessions recorded today. It’s based on real-time flow rate data.
+                            </div>
+                        )}
                     </div>
                     <div className="irrigation-history-card">
                         <h3>Avg Duration of Irrigation(per Day)</h3>
+                        <img
+                            src="../../info.png"
+                            className="info-icon"
+                            onClick={() => setShowHelp(prev => (prev === "duration" ? null : "duration"))}
+                        />
+
                         <p className="irrigation-history-cardp">{avgTimePerIrrigation} <span>mins</span></p>
+
+                        {showHelp === "duration" && (
+                            <div className="popup-card">
+                                This shows the total water used in irrigation sessions recorded today. It’s based on real-time flow rate data.
+                            </div>
+                        )}
+
                     </div>
 
                     <div className="irrigation-history-card">
                         <h3>Efficiency Trend</h3>
+                        <img
+                            src="../../info.png"
+                            className="info-icon"
+                            onClick={() => setShowHelp(prev => (prev === "efficiency" ? null : "efficiency"))}
+                        />
+
                         <p className={efficiencyColorClass}>{efficiencyRate} <span>%</span></p>
+
+                        {showHelp === "efficiency" && (
+                            <div className="popup-card">
+                                This shows the total water used in irrigation sessions recorded today. It’s based on real-time flow rate data.
+                            </div>
+                        )}
+
                     </div>
                 </div>
                 <div className="irrigation-history-wrapper">
@@ -101,12 +180,18 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                 </tr>
                             </thead>
                             <tbody>
-                                {irrigationdata.sessions.map((irrigation, index) => (
+                                {paginatedSessions.map((irrigation, index) => (
                                     <tr key={index}>
                                         <td>{irrigation.date}</td>
                                         <td>{irrigation.start_time}</td>
                                         <td>{irrigation.end_time}</td>
-                                        <td>{irrigation.duration}</td>
+                                        <td>{irrigation.status === "In Progress" ? (
+                                            <span style={{ color: "yellow", fontWeight: "bold" }}>
+                                                {liveDuration.toFixed(2)}
+                                            </span>
+                                        ) : (
+                                            irrigation.duration
+                                        )}</td>
                                         <td>{irrigation.total_liters}</td>
                                         <td className="status-cell">
                                             <img src={getStatusIcon(irrigation.status)} alt={irrigation.status} className="status-icon" />
@@ -118,6 +203,22 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         </table>
                     </div>
                 </div>
+                <div className="pagination-controls">
+                    <button
+                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                    >
+                        Prev
+                    </button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button
+                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+
             </div>
         </div>
 

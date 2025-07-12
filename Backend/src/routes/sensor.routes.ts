@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { fetchRecentMoisture, getWaterUsedLast1hr, fetchRecentWaterFlow, getPumpRuntimeHandler, getWaterUsageGraphData, getAllWaterFlowData } from "../controllers/sensor.controller";
+import { fetchRecentMoisture, getWaterUsedLast1hr, fetchRecentWaterFlow, getPumpRuntimeHandler, getFlowRateGraphData, getAllWaterFlowData, getWaterUsageTodayHandler } from "../controllers/sensor.controller";
 import { authenticateJWT } from "../middleware/auth.middleware";
 import { getLivePumpSession, getAllPumpSessions, getUserPumpSessions, getTotalWaterUsedDailybyUser } from "../controllers/pumpSessions.controller";
 
@@ -13,8 +13,9 @@ moistureRouter.get("/water-flow", fetchRecentWaterFlow);
 moistureRouter.get("/water-flow-data", fetchRecentWaterFlow, authenticateJWT); // Alias for /water-flow
 moistureRouter.get("/water-used-last-1hr", getWaterUsedLast1hr, authenticateJWT); // Get water used in last 1 hour in minutes
 moistureRouter.get("/pump-runtime", getPumpRuntimeHandler, authenticateJWT); // Get water used in last 1 hour
-moistureRouter.get("/water-usage-graph", getWaterUsageGraphData, authenticateJWT); // Get water usage graph data
+moistureRouter.get("/flow-rate-graph", getFlowRateGraphData, authenticateJWT); // Get water usage graph data
 moistureRouter.get("/all-water-flow-data", getAllWaterFlowData, authenticateJWT);
+moistureRouter.get("/water-usage-today/:userId", getWaterUsageTodayHandler);
 
 // Pump Session
 moistureRouter.get("/live-pump-session", getLivePumpSession, authenticateJWT);

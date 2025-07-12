@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { DateTime } from "luxon";
 import {
     RadialBarChart,
     RadialBar,
@@ -11,15 +10,14 @@ import {
 import { useGlobalContext } from "../../../../context/GlobalAppContext";
 import { useMemo } from "react";
 
-
-
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { userData } = useGlobalContext();
-    const { waterUsageBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
+
+    const { waterFlowRateBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
     const pumpStatus = waterFlow?.pumpStatus || "OFF";
     const pumpColor = pumpStatus === "ON" ? "green" : "red";
     const maxPumpRate = 30;
@@ -36,12 +34,11 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
 
     const usageChartData = useMemo(() =>
-        waterUsageBuckets.slice(0, 29).map(bucket => ({
-            time: DateTime
-                .fromISO(bucket.bucket_start, { zone: "utc" }).plus({ hours: 2 })
-                .setZone("Africa/Kigali").toFormat("HH:mm"),
-            liters: (bucket.liters_used || 0).toFixed(2),
-        })), [waterUsageBuckets]);
+        waterFlowRateBuckets.map(bucket => ({
+            time: bucket.time_label.slice(0, 5),
+            rate: (bucket.avg_flow_rate || 0).toFixed(2),
+        })), [waterFlowRateBuckets]);
+
 
 
 
@@ -96,17 +93,16 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                     </div>
                     <div className="dashboard-cards2">
-                        <div className="water-usage">
-                            <div className="water-usage-title"><h3>Flow Rate - Last 1hr</h3></div>
-                            <div className="water-usage-graph">
+                        <div className="flow-rate">
+                            <div className="flow-rate-title"><h3>Flow Rate - Last 1hr</h3></div>
+                            <div className="flow-rate-graph">
                                 <div style={{ width: "100%", height: "100%" }}>
-                                    <ResponsiveContainer width="100%" height={260}>
-                                        <BarChart data={usageChartData}>
+                                    <ResponsiveContainer width="100%" height={300} >
+                                        <LineChart data={usageChartData} margin={{ top: 10, right: 30, left: 20, bottom: 30 }}>
 
                                             <XAxis
                                                 dataKey="time"
                                                 interval={1}
-
                                                 tick={({ x, y, payload }) => (
                                                     <text
                                                         x={x}
@@ -115,19 +111,16 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                                         transform={`rotate(-45 ${x},${y})`}
                                                         fontSize={10}
                                                         fill="#ccc"
-
                                                     >
                                                         {payload.value}
                                                     </text>
                                                 )}
-                                                label={{ value: "Time", position: "insideBottom", dy: 20 }}
+                                                label={{ value: "Time", position: "insideBottom", dy: 20, fontSize: 15, fontWeight: "bold" }}
                                             />
-
-
-                                            <YAxis unit="L" label={{ value: "Liters", angle: "-90", position: "insideLeft", fill: "#ccc" }} fill="#ccc" />
-                                            <Tooltip formatter={(value: number) => `${value} L`} />
-                                            <Bar dataKey="liters" fill="green" />
-                                        </BarChart>
+                                            <YAxis label={{ value: "FlowRate(L/min)", angle: -90, position: "insideLeft" }} />
+                                            <Tooltip formatter={(value: number) => `${value} L/min`} />
+                                            <Line type="monotone" dataKey="rate" stroke="limegreen" strokeWidth={2} dot={{ r: 2 }} />
+                                        </LineChart>
                                     </ResponsiveContainer>
                                 </div>
                             </div>
@@ -135,7 +128,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <div className="pump-rate">
                             <div className="pump-rate-title"><h3>Pump Rate</h3></div>
                             <div className="pump-rate-graph">
-                                <div style={{ position: "relative", width: "160px", height: "250px", margin: "20px auto" }}>
+                                <div style={{ position: "relative", width: "160px", height: "260px", margin: "20px auto" }}>
                                     <ResponsiveContainer width="100%" height="100%">
                                         <RadialBarChart
                                             cx="50%"
@@ -195,10 +188,12 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <div className="water-usage">
                             <div className="water-usage-line-graph"><div style={{ width: "100%", height: 260 }}>
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart data={usageChartData}>
+                                    <BarChart data={usageChartData}>
+
                                         <XAxis
                                             dataKey="time"
                                             interval={1}
+
                                             tick={({ x, y, payload }) => (
                                                 <text
                                                     x={x}
@@ -207,16 +202,19 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                                     transform={`rotate(-45 ${x},${y})`}
                                                     fontSize={10}
                                                     fill="#ccc"
+
                                                 >
                                                     {payload.value}
                                                 </text>
                                             )}
                                             label={{ value: "Time", position: "insideBottom", dy: 20 }}
                                         />
-                                        <YAxis unit="L" label={{ value: "Liters", angle: -90, position: "insideLeft" }} />
-                                        <Tooltip formatter={(value: number, name: string) => `${value} L ${name}`} />
-                                        <Line type="monotone" dataKey="liters" stroke="limegreen" strokeWidth={2} dot={{ r: 2 }} />
-                                    </LineChart>
+
+
+                                        <YAxis unit="L/min" label={{ value: "Flow Rate", angle: "-90", position: "insideLeft", fill: "#ccc" }} fill="#ccc" />
+                                        <Tooltip formatter={(value: number) => `${value} L/min`} />
+                                        <Bar dataKey="rate" fill="green" />
+                                    </BarChart>
                                 </ResponsiveContainer>
                             </div>
                             </div>

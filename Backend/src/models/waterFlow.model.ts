@@ -23,7 +23,7 @@ export async function saveWaterFlowData(data: WaterFlowRecord): Promise<void> {
     data.date,
     data.time
   ];
-  console.log("Saving water flow data:", data);
+
 
   await (await db).query(query, values);
 }
@@ -90,7 +90,7 @@ export async function getPumpRuntime(startTime: Date, endTime: Date): Promise<nu
   return (rows[0]?.runtime_seconds || 0) / 60; // convert to minutes
 }
 
-export async function getWaterUsageBuckets(startTime: Date, endTime: Date, bucketMinutes: number = 10) {
+export async function getWaterUsageTodayBuckets(userId: number, intervalMinutes = 30) {
   const query = `
     SELECT
       date_trunc('minute', timestamp) + INTERVAL '1 minute' * FLOOR(EXTRACT(EPOCH FROM timestamp - $1) / 60 / $3) * $3 AS bucket_start,
@@ -99,23 +99,65 @@ export async function getWaterUsageBuckets(startTime: Date, endTime: Date, bucke
       SELECT
         timestamp,
         flowRate,
-        time AS time,
         LEAD(timestamp) OVER (ORDER BY timestamp) AS next_timestamp,
         LEAD(flowRate) OVER (ORDER BY timestamp) AS next_flow_rate,
-        LEAD(time) OVER (ORDER BY timestamp) AS next_time,
         EXTRACT(EPOCH FROM LEAD(timestamp) OVER (ORDER BY timestamp) - timestamp) AS timestamp_diff
       FROM water_flow_sensor_data
-      WHERE timestamp BETWEEN $1 AND $2
+      WHERE DATE(timestamp) = CURRENT_DATE AND user_id = $2
     ) AS subquery
     GROUP BY bucket_start
     ORDER BY bucket_start;
   `;
+
   const { rows } = await (await db).query(query, [
-    startTime.toISOString(),
-    endTime.toISOString(),
-    bucketMinutes,
+    new Date(new Date().setHours(0, 0, 0, 0)).toISOString(), // start of today
+    userId,
+    intervalMinutes,
   ]);
+
   return rows;
 }
 
 
+
+export async function getFlowRateBuckets(startTime: Date, endTime: Date, bucketMinutes: number = 5) {
+  const query = `
+  SELECT
+    date_trunc('minute', timestamp) + INTERVAL '1 minute' * FLOOR(EXTRACT(EPOCH FROM timestamp - $1) / 60 / $3) * $3 AS bucket_start,
+    MAX(time) AS time_label,  -- use the latest local time in each 5-minute bucket
+    AVG(flowRate) AS avg_flow_rate
+  FROM water_flow_sensor_data
+  WHERE timestamp BETWEEN $1 AND $2
+  GROUP BY bucket_start
+  ORDER BY bucket_start DESC
+  LIMIT 20;
+`;
+
+  const { rows } = await (await db).query(query, [
+    startTime.toISOString(),     // $1
+    endTime.toISOString(),       // $2
+    bucketMinutes,               // $3
+  ]);
+  // Return in ascending order (earliest to latest) for correct chart display
+  return rows.reverse();
+}
+
+
+export async function getFlowRateDataLastHour(startTime: Date, endTime: Date) {
+  const query = `
+    SELECT
+      timestamp,
+      flowRate,
+      time
+    FROM water_flow_sensor_data
+    WHERE timestamp BETWEEN $1 AND $2
+    ORDER BY timestamp ASC;
+  `;
+  console.log("Fetched Data", query);
+  const { rows } = await (await db).query(query, [
+    startTime.toISOString(),
+    endTime.toISOString()
+  ]);
+  console.log("Rows", rows);
+  return rows; // each row has: timestamp, flowRate, time
+}

@@ -21,9 +21,11 @@ export interface WaterFlowData {
     time: string;
 }
 
-export interface WaterUsageBucket {
+export interface WaterFlowRateBucket {
+    avg_flow_rate: number;
     bucket_start: string;
-    liters_used: number;
+    time_label: string;
+
 }
 export interface PumpSession {
     id: number;

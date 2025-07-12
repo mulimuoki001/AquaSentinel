@@ -6,4 +6,5 @@ aquasentinel-frontend/node_modules
 Backend/activeTokens
 Backend/.env
 /.env
+/app-run.sh
 

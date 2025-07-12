@@ -78,6 +78,7 @@
 .header-logout {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .profile-icon {
@@ -152,7 +153,7 @@
   font-weight: bold;
 }
 
-.water-usage {
+.flow-rate {
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
@@ -163,7 +164,7 @@
   border-radius: 10px;
 }
 
-.water-usage-title {
+.flow-rate-title {
   color: white;
   background-color: var(--card-bg);
   font-size: 14px;
@@ -179,17 +180,16 @@
   height: 50px;
 }
 
-.water-usage-graph {
-  margin-top: 5px;
+.flow-rate-graph {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
-
+  max-height: 600px;
   max-width: 600px;
-  padding: 10px 0;
+  padding: 5px 0;
   background-color: var(--card-bg);
   border-radius: 10px;
 }
@@ -354,15 +354,15 @@
     justify-content: space-around;
   }
 
-  .water-usage {
+  .flow-rate {
     max-width: 400px;
   }
 
-  .water-usage-title {
+  .flow-rate-title {
     width: 400px;
   }
 
-  .water-usage-graph {
+  .flow-rate-graph {
     max-width: 400px;
   }
 
@@ -387,11 +387,11 @@
 }
 
 @media (max-width: 1020px) {
-  .water-usage {
+  .flow-rate {
     max-width: 250px;
   }
 
-  .water-usage-title {
+  .flow-rate-title {
     width: 250px;
   }
 
@@ -399,7 +399,7 @@
     font-size: 15px;
   }
 
-  .water-usage-graph {
+  .flow-rate-graph {
     max-width: 250px;
   }
 
@@ -480,15 +480,15 @@
     padding: 0 40px;
   }
 
-  .water-usage {
+  .flow-rate {
     max-width: 250px;
   }
 
-  .water-usage-title {
+  .flow-rate-title {
     width: 250px;
   }
 
-  .water-usage-graph {
+  .flow-rate-graph {
     max-width: 250px;
   }
 
@@ -512,15 +512,15 @@
 /*Responsive Design Mobile*/
 
 @media (max-width: 740px) {
-  .water-usage {
+  .flow-rate {
     max-width: 250px;
   }
 
-  .water-usage-title {
+  .flow-rate-title {
     width: 250px;
   }
 
-  .water-usage-graph {
+  .flow-rate-graph {
     max-width: 250px;
   }
 
@@ -623,15 +623,15 @@
     width: 150px;
   }
 
-  .water-usage {
+  .flow-rate {
     max-width: 400px;
   }
 
-  .water-usage-title {
+  .flow-rate-title {
     width: 400px;
   }
 
-  .water-usage-graph {
+  .flow-rate-graph {
     max-width: 400px;
     padding: 90px 0;
   }
@@ -713,9 +713,9 @@
     width: 300px;
   }
 
-  .water-usage,
-  .water-usage-title,
-  .water-usage-graph,
+  .flow-rate,
+  .flow-rate-title,
+  .flow-rate-graph,
   .water-usage-line-graph,
   .pump-rate,
   .pump-rate-title {

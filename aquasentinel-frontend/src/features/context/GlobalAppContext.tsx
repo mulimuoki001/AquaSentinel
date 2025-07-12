@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import type { MoistureData, WaterFlowData, WaterUsageBucket, Notification, UserData } from "../types/types";
+import type { MoistureData, WaterFlowData, WaterFlowRateBucket, Notification, UserData } from "../types/types";
 
 interface GlobalContextType {
     moisture: MoistureData | null;
     waterFlow: WaterFlowData | null;
     waterUsed: number | null;
     pumpRuntime: number | null;
-    waterUsageBuckets: WaterUsageBucket[];
+    waterFlowRateBuckets: WaterFlowRateBucket[];
     notifications: Notification[];
     unreadNotifications: Notification[];
     unreadCount: number;
@@ -25,7 +25,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     const [waterFlow, setWaterFlow] = useState<WaterFlowData | null>(null);
     const [waterUsed, setWaterUsed] = useState<number | null>(null);
     const [pumpRuntime, setPumpRuntime] = useState<number | null>(null);
-    const [waterUsageBuckets, setWaterUsageBuckets] = useState<WaterUsageBucket[]>([]);
+    const [waterFlowRateBuckets, setWaterFlowRateBuckets] = useState<WaterFlowRateBucket[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -41,14 +41,15 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [moistureRes, flowRes, usedRes, runtimeRes, bucketsRes, sessionRes] =
+                const [moistureRes, flowRes, usedRes, runtimeRes, bucketsRes, sessionRes, waterUsageTodayRes] =
                     await Promise.all([
                         fetch("/api/sensors/moisture"),
                         fetch("/api/sensors/water-flow"),
                         fetch("/api/sensors/water-used-last-1hr"),
                         fetch("/api/sensors/pump-runtime"),
-                        fetch("/api/sensors/water-usage-graph"),
+                        fetch("/api/sensors/flow-rate-graph"),
                         fetch("/api/sensors/live-pump-session"),
+                        fetch("/api/sensors/water-usage-today"),
                     ]);
 
                 const token = localStorage.getItem("token");
@@ -77,8 +78,10 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                 setPumpRuntime(runtimeData?.runtimeMinutes || null);
 
                 const bucketsData = await bucketsRes.json();
-                setWaterUsageBuckets(bucketsData?.data || []);
-
+                setWaterFlowRateBuckets(bucketsData?.data || []);
+                console.log("Water usage buckets:", bucketsData?.data);
+                const waterUsageToday = await waterUsageTodayRes.json();
+                console.log("Water usage today:", waterUsageToday?.totalWaterUsed);
                 const sessionData = await sessionRes.json();
                 const session = sessionData?.session;
                 if (session) {
@@ -147,7 +150,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                 waterFlow,
                 waterUsed,
                 pumpRuntime,
-                waterUsageBuckets,
+                waterFlowRateBuckets,
                 notifications,
                 unreadNotifications,
                 unreadCount,

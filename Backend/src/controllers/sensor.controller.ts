@@ -1,17 +1,15 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { getRecentMoistureData, saveMoistureData } from "../models/moisture.model";
-import { getRecentWaterFlowData, saveWaterFlowData, getTotalWaterUsed, getPumpRuntime, getWaterUsageBuckets } from "../models/waterFlow.model";
+import { getRecentWaterFlowData, saveWaterFlowData, getTotalWaterUsed, getPumpRuntime, getFlowRateBuckets, getWaterUsageTodayBuckets } from "../models/waterFlow.model";
 import { sensorData } from "../config/mqttClient";
 import { db } from "../config/db";
 import { DateTime } from "luxon";
 
-let moistureDataLoop = false;
-let waterFlowDataLoop = false;
-
 
 //start the water flow data loop
-async function startWaterFlowLoop() {
+export async function startWaterFlowLoop() {
     let lastWaterFlow = 0;
+    console.log("Starting water flow data loop");
 
     setInterval(() => {
         const raw: any = getRecentWaterFlowData();
@@ -52,8 +50,9 @@ async function startWaterFlowLoop() {
     }, 5000); // every 5 seconds
 }
 // Start the moisture data loop
-async function startMoistureLoop() {
+export async function startMoistureLoop() {
     let lastMoisture = 0;
+    console.log("Starting moisture data loop");
 
     setInterval(() => {
         const raw: any = getRecentMoistureData();
@@ -87,12 +86,6 @@ async function startMoistureLoop() {
 // ✅ GET /api/moisture
 export const fetchRecentMoisture = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (!moistureDataLoop) {
-            console.log("🔄 Fetching moisture data from MQTT loop");
-            moistureDataLoop = true;
-            startMoistureLoop();
-
-        }
         if (sensorData) {
             const parsed = JSON.parse(sensorData);
             res.json({ success: true, source: "MQTT", data: [parsed] });
@@ -113,16 +106,9 @@ export const fetchRecentMoisture = async (req: Request, res: Response, next: Nex
 
 export const fetchRecentWaterFlow = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (!waterFlowDataLoop) {
-            console.log("🔄 Fetching water flow data from MQTT loop");
-            waterFlowDataLoop = true;
-            startWaterFlowLoop();
-
-
-        }
         if (sensorData) {
             const parsed = JSON.parse(sensorData);
-            console.log("📊 Fetched water flow data from MQTT:", parsed);
+
             res.json({ success: true, source: "MQTT", data: [parsed] });
         } else {
             const data = await getRecentWaterFlowData(20);
@@ -143,11 +129,7 @@ export const getWaterUsedLast1hr = async (req: Request, res: Response) => {
     try {
         const end = new Date();
         const start = new Date(end.getTime() - 60 * 60 * 1000); // 1 hour ago
-        console.log("Calculating total water used from", start.toISOString(), "to", end.toISOString());
-
         const total = await getTotalWaterUsed(start, end);
-        console.log("Total water used in last 1 hour:", total.toFixed(2), "liters");
-
         res.json({ success: true, totalWaterUsed: total.toFixed(2) });
     } catch (error) {
         console.error("❌ Error calculating total water used:", error);
@@ -170,11 +152,12 @@ export const getPumpRuntimeHandler = async (req: Request, res: Response) => {
     }
 };
 
-export const getWaterUsageGraphData = async (req: Request, res: Response) => {
+export const getFlowRateGraphData = async (req: Request, res: Response) => {
     try {
         const end = new Date();
         const start = new Date(end.getTime() - 60 * 60 * 1000); // 1 hour ago
-        const buckets = await getWaterUsageBuckets(start, end, 1); // 1 for 1 minute buckets
+        console.log("Time Range:", start.toISOString(), "to", end.toISOString());
+        const buckets = await getFlowRateBuckets(start, end, 1); // 1 minute buckets
         res.json({ success: true, data: buckets });
     } catch (error) {
         console.error("❌ Error fetching graph data:", error);
@@ -197,5 +180,17 @@ export const getAllWaterFlowData = async (req: Request, res: Response) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 };
+export const getWaterUsageTodayHandler = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userId = 1;
+        if (isNaN(userId)) {
+            res.status(400).json({ success: false, message: "Invalid userId" });
+        }
 
-
+        const buckets = await getWaterUsageTodayBuckets(userId);
+        res.json({ success: true, data: buckets });
+    } catch (error) {
+        console.error("❌ Error fetching today's water usage:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch water usage for today" });
+    }
+};

@@ -5,12 +5,8 @@ import { ensureDatabaseAndTables } from "./config/init";
 import { getLastPumpStatus, logPumpSession } from "./models/pumpSessions.model";
 import { setLatestPumpSession } from "./config/pumpSession.getter";
 import { getPhoneNumberByUserId } from "./models/user.model";
+import { startMoistureLoop, startWaterFlowLoop } from "./controllers/sensor.controller";
 import { sendSMS } from "./config/smsSender";
-import path from "path";
-import { fileURLToPath } from "url";
-import express from "express";
-import fs from "fs";
-
 
 import { mqttClient } from "./config/mqttClient";
 if (process.env.NODE_ENV !== "production") {
@@ -44,6 +40,9 @@ async function startServer() {
     await testDbConnection();
     await ensureDatabaseAndTables();
 
+    await startMoistureLoop();
+    await startWaterFlowLoop();
+
     let lastStatus: "ON" | "OFF" | null = null;
     (async () => {
       lastStatus = await getLastPumpStatus();
@@ -70,6 +69,7 @@ async function startServer() {
 
             }
             setLatestPumpSession(session);
+
             lastStatus = currentStatus;
           }
         } catch (error) {
