@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import type { MoistureData, WaterFlowData, WaterFlowRateBucket, Notification, UserData } from "../types/types";
+import type { MoistureData, WaterFlowData, WaterFlowRateBucket, Notification, UserData, WaterUsageTodayBuckets } from "../types/types";
 
 interface GlobalContextType {
     moisture: MoistureData | null;
@@ -8,6 +8,7 @@ interface GlobalContextType {
     waterUsed: number | null;
     pumpRuntime: number | null;
     waterFlowRateBuckets: WaterFlowRateBucket[];
+    waterUsageToday: WaterUsageTodayBuckets[];
     notifications: Notification[];
     unreadNotifications: Notification[];
     unreadCount: number;
@@ -31,6 +32,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [userData, setUserData] = useState<UserData | null>(null);
+    const [waterUsageToday, setWaterUsageToday] = useState<WaterUsageTodayBuckets[]>([]);
 
     // Initial localStorage load
     useEffect(() => {
@@ -60,6 +62,11 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                         });
                         const userJson = await userRes.json();
                         setUserData(userJson);
+
+                        //fetch water usage today for this user 
+                        const waterUsageTodayRes = await fetch(`/api/sensors/water-usage-today/${userJson.id}`);
+                        const waterUsageTodayJson = await waterUsageTodayRes.json();
+                        setWaterUsageToday(waterUsageTodayJson);
                     } catch (err) {
                         console.error("User data fetch failed", err);
                     }
@@ -157,6 +164,8 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                 isLoading,
                 error,
                 userData,
+                waterUsageToday,
+
                 setUserData,
                 setNotifications,
             }}

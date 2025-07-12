@@ -69,7 +69,6 @@ export const ensureDatabaseAndTables = async () => {
       );
       
     `);
-    await (await db).query(`DELETE FROM water_flow_sensor_data;`);
     console.log("✅ Users table is ready");
   } catch (err) {
     console.error("❌ Error setting up database or tables:", err);

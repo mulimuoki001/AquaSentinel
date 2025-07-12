@@ -96,16 +96,19 @@ export async function getWaterUsageTodayBuckets(userId: number, intervalMinutes 
   const query = `
     SELECT
       date_trunc('minute', timestamp) + INTERVAL '1 minute' * FLOOR(EXTRACT(EPOCH FROM timestamp - $1) / 60 / $3) * $3 AS bucket_start,
-      SUM((timestamp_diff / 60.0) * ((flowRate + next_flow_rate) / 2)) AS liters_used
+      SUM((timestamp_diff / 60.0) * ((flowRate + next_flow_rate) / 2)) AS liters_used,
+       MAX(time) AS time_label
     FROM (
       SELECT
         timestamp,
         flowRate,
+        time,
         LEAD(timestamp) OVER (ORDER BY timestamp) AS next_timestamp,
         LEAD(flowRate) OVER (ORDER BY timestamp) AS next_flow_rate,
+        LEAD(time) OVER (ORDER BY timestamp) AS next_time,
         EXTRACT(EPOCH FROM LEAD(timestamp) OVER (ORDER BY timestamp) - timestamp) AS timestamp_diff
       FROM water_flow_sensor_data
-      WHERE DATE(timestamp) = CURRENT_DATE AND user_id = $2
+      WHERE DATE(timestamp) = CURRENT_DATE AND userid = $2
     ) AS subquery
     GROUP BY bucket_start
     ORDER BY bucket_start;
@@ -162,4 +165,17 @@ export async function getFlowRateDataLastHour(startTime: Date, endTime: Date) {
   ]);
   console.log("Rows", rows);
   return rows; // each row has: timestamp, flowRate, time
+}
+
+
+// ✅ Get all water flow data for a user
+export async function getAllWaterFlowDataPerUser(userId: number) {
+  const query = `
+    SELECT id, userid, flowRate, flowUnit, pumpStatus, timestamp, TO_CHAR(date, 'YYYY-MM-DD') AS date, time
+    FROM water_flow_sensor_data
+    WHERE userid = $1
+    ORDER BY timestamp ASC
+  `;
+  const { rows } = await (await db).query(query, [userId]);
+  return rows;
 }

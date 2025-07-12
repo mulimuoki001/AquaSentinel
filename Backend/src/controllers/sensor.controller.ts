@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { getRecentMoistureData, saveMoistureData } from "../models/moisture.model";
-import { getRecentWaterFlowData, saveWaterFlowData, getTotalWaterUsed, getPumpRuntime, getFlowRateBuckets, getWaterUsageTodayBuckets } from "../models/waterFlow.model";
+import { getRecentWaterFlowData, saveWaterFlowData, getTotalWaterUsed, getPumpRuntime, getFlowRateBuckets, getWaterUsageTodayBuckets, getAllWaterFlowDataPerUser } from "../models/waterFlow.model";
 import { sensorData } from "../config/mqttClient";
 import { db } from "../config/db";
 import { DateTime } from "luxon";
@@ -168,6 +168,20 @@ export const getFlowRateGraphData = async (req: Request, res: Response) => {
 };
 
 
+export async function fetchAllWaterFlowDataPerUser(req: Request, res: Response,): Promise<void> {
+    try {
+
+        const userId = Number(req.params.userId);
+        const data = await getAllWaterFlowDataPerUser(userId);
+        console.log("Water flow data for user", userId, ":", data);
+        res.json({ success: true, data });
+
+    } catch (error) {
+        console.error("❌ Error fetching water flow data:", error);
+        throw error;
+    }
+}
+
 export const getAllWaterFlowData = async (req: Request, res: Response) => {
     try {
         const result = await (await db).query(`
@@ -182,9 +196,10 @@ export const getAllWaterFlowData = async (req: Request, res: Response) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 };
+
 export const getWaterUsageTodayHandler = async (req: Request, res: Response): Promise<void> => {
     try {
-        const userId = 1;
+        const userId = Number(req.params.userId);
         if (isNaN(userId)) {
             res.status(400).json({ success: false, message: "Invalid userId" });
         }

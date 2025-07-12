@@ -9,7 +9,7 @@ export async function logPumpSession(status: "ON" | "OFF", userId?: number) {
     minute: "2-digit",
     second: "2-digit",
   });
-
+  console.log("Time Now:", timeNow);
   if (status === "ON") {
     const check = await (await db).query(`
       SELECT id FROM pump_sessions

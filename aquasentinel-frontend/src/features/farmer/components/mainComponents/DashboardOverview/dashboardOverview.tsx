@@ -15,7 +15,8 @@ interface NavBarProps {
     handleLogout: () => void
 }
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { userData } = useGlobalContext();
+    const { userData, waterUsageToday } = useGlobalContext();
+    console.log("water Usage Today", waterUsageToday);
 
     const { waterFlowRateBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
     const pumpStatus = waterFlow?.pumpStatus || "OFF";
