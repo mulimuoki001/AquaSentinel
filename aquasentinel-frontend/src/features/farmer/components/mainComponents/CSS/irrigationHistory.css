@@ -40,6 +40,25 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  transition: height 0.3s ease;
+  height: 60px;
+  /* default collapsed height */
+  overflow: hidden;
+}
+
+.irrigation-history-card.expanded {
+  height: 200px;
+}
+
+.irrigation-history-card.expanded .popup-card {
+  opacity: 1;
+  max-height: 150px;
+  margin-top: 10px;
+}
+
+.irrigation-history-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px var(--border-color);
 }
 
 .irrigation-history-card h3 {
@@ -55,14 +74,17 @@
 
 .popup-card {
   margin-top: 5px;
-  background-color: #1a1a1a;
+  background-color: #0e2c38;
   color: #eee;
   padding: 10px;
   font-size: 12px;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(7, 107, 173, 0.76);
   z-index: 10;
   animation: fadeIn 0.3s ease-in-out;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
 }
 
 @keyframes fadeIn {

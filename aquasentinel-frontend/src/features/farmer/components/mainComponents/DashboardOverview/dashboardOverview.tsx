@@ -9,6 +9,7 @@ import {
 
 import { useGlobalContext } from "../../../../context/GlobalAppContext";
 import { useMemo } from "react";
+import { useState } from "react";
 
 interface NavBarProps {
     sidebarOpen: boolean;
@@ -16,8 +17,7 @@ interface NavBarProps {
 }
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { userData, waterUsageToday } = useGlobalContext();
-    console.log("water Usage Today", waterUsageToday);
-
+    const [showHelp, setShowHelp] = useState<"water" | "moisture" | "pump" | null>(null);
     const { waterFlowRateBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
     const pumpStatus = waterFlow?.pumpStatus || "OFF";
     const pumpColor = pumpStatus === "ON" ? "green" : "red";
@@ -41,7 +41,11 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
         })), [waterFlowRateBuckets]);
 
 
-
+    const usageChartData2 = useMemo(() =>
+        waterUsageToday.map(bucket => ({
+            time: bucket.time_label.slice(0, 5),
+            liters: (bucket.liters_used || 0).toFixed(2),
+        })), [waterUsageToday]);
 
 
 
@@ -73,17 +77,45 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
             <div className="dashboard-overview-container">
 
                 <div className="dashboard-cards">
-                    <div className="card">
+                    <div className={`card ${showHelp === "water" ? "expanded" : ""}`}>
                         <h3>Total Water Used(1hr)</h3>
+                        <img
+                            src="../../info.png"
+                            className="info-icon"
+                            onClick={() => setShowHelp(prev => (prev === "water" ? null : "water"))}
+                        />
                         <p>{waterUsed}<span>L</span></p>
+                        {showHelp === "water" && (
+                            <div className="popup-card">
+                                <ul>
+                                    <li> This shows the total water used in the last hour. It’s based on real-time flow rate data.</li>
+                                    <li> If the pump is off, the water used will be 0 and flowrate will be 0</li>
+                                </ul>
+                            </div>
+                        )}
                     </div>
-                    <div className="card">
+                    <div className={`card ${showHelp === "moisture" ? "expanded" : ""}`}>
                         <h3>Current Soil Moisture</h3>
+                        <img
+                            src="../../info.png"
+                            className="info-icon"
+                            onClick={() => setShowHelp(prev => (prev === "moisture" ? null : "moisture"))}
+                        />
                         <p>{moisture?.moisture}<span>{moisture?.moistureUnit}</span></p>
+                        {showHelp === "moisture" && (
+                            <div className="popup-card">
+                                This shows the current soil moisture level. It’s based on real-time moisture sensor data.
+                            </div>
+                        )}
                     </div>
 
-                    <div className="card">
+                    <div className={`card ${showHelp === "pump" ? "expanded" : ""}`}>
                         <h3>Pump Runtime</h3>
+                        <img
+                            src="../../info.png"
+                            className="info-icon"
+                            onClick={() => setShowHelp(prev => (prev === "pump" ? null : "pump"))}
+                        />
                         <p>
                             {typeof pumpRuntime === "number"
                                 ? pumpRuntime >= 60
@@ -91,6 +123,11 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                     : `${pumpRuntime.toFixed(0)} mins`
                                 : "--"}
                         </p>
+                        {showHelp === "pump" && (
+                            <div className="popup-card">
+                                This shows the total pump runtime in the last 24 hours. It's based on real-time relay inputs.
+                            </div>
+                        )}
 
                     </div>
                     <div className="dashboard-cards2">
@@ -189,7 +226,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <div className="water-usage">
                             <div className="water-usage-line-graph"><div style={{ width: "100%", height: 260 }}>
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={usageChartData}>
+                                    <BarChart data={usageChartData2} margin={{ top: 10, right: 30, left: 20, bottom: 30 }}>
 
                                         <XAxis
                                             dataKey="time"
@@ -212,9 +249,9 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                         />
 
 
-                                        <YAxis unit="L/min" label={{ value: "Flow Rate", angle: "-90", position: "insideLeft", fill: "#ccc" }} fill="#ccc" />
-                                        <Tooltip formatter={(value: number) => `${value} L/min`} />
-                                        <Bar dataKey="rate" fill="green" />
+                                        <YAxis unit="L" label={{ value: "Water Usage", angle: "-90", position: "insideLeft", fill: "#ccc" }} fill="#ccc" />
+                                        <Tooltip formatter={(value: number) => `${value} L`} />
+                                        <Bar dataKey="liters" fill="green" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>

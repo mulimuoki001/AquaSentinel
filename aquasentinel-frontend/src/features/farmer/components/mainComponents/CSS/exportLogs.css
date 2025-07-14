@@ -15,6 +15,36 @@
   box-sizing: border-box;
 }
 
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 230px;
+  background-color: #0e2c38;
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  position: absolute;
+  z-index: 999;
+  bottom: 10%;
+  /* position above the button */
+  left: 120%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  cursor: pointer;
+}
+
 .export-title {
   background-color: var(--export-bg);
   padding: 20px;
@@ -35,6 +65,14 @@
   width: 100%;
   max-width: 1000px;
   padding: 0 16px;
+}
+
+.export-explanation-button {
+  background-color: var(--export-bg);
+  border: none;
+  font-size: 15px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .export-btn {
@@ -71,11 +109,60 @@
   border-left: 6px solid #e60000;
 }
 
-/* Responsive layout on larger screens */
+/* Responsive layout on smaller screens */
+@media (max-width: 1000px) {
+
+  .tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 872px) {
+
+  .tooltip-text {
+    /* position above the button */
+    left: 100%;
+
+  }
+
+  .tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+}
+
+@media (max-width: 685px) {
+
+  .tooltip-text {
+    /* position above the button */
+    left: 80%;
+
+  }
+
+}
+
 @media (max-width: 500px) {
   .export-buttons {
     flex-direction: column;
   }
+
+  .tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .tooltip-text {
+    /* position above the button */
+    left: 70%;
+    bottom: 15%;
+
+  }
+
 
   .export-btn {
     width: 350px;

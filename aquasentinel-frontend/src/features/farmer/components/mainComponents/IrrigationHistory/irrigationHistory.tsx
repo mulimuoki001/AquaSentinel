@@ -113,7 +113,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
             </div>
             <div className="irrigation-history-container">
                 <div className="irrigation-history-cards">
-                    <div className="irrigation-history-card">
+                    <div className={`irrigation-history-card ${showHelp === "water" ? "expanded" : ""}`}>
 
                         <h3>Total Water Used Today</h3>
                         <img
@@ -130,7 +130,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                             </div>
                         )}
                     </div>
-                    <div className="irrigation-history-card">
+                    <div className={`irrigation-history-card ${showHelp === "duration" ? "expanded" : ""}`}>
                         <h3>Avg Duration of Irrigation(per Day)</h3>
                         <img
                             src="../../info.png"
@@ -142,13 +142,13 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                         {showHelp === "duration" && (
                             <div className="popup-card">
-                                This shows the total water used in irrigation sessions recorded today. It’s based on real-time flow rate data.
+                                This shows the average duration of irrigation sessions recorded today. It’s based on real-time flow rate data.
                             </div>
                         )}
 
                     </div>
 
-                    <div className="irrigation-history-card">
+                    <div className={`irrigation-history-card ${showHelp === "efficiency" ? "expanded" : ""}`}>
                         <h3>Efficiency Trend</h3>
                         <img
                             src="../../info.png"
@@ -160,7 +160,13 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                         {showHelp === "efficiency" && (
                             <div className="popup-card">
-                                This shows the total water used in irrigation sessions recorded today. It’s based on real-time flow rate data.
+                                <p>This shows the average efficiency of irrigation sessions recorded today.</p>
+                                <span>
+                                    <strong>Efficiency Guide:</strong><br />
+                                    🟢 <strong>75-100%</strong>: High Efficiency – Optimal water usage.<br />
+                                    🟡 <strong>50–74%</strong>: Medium Efficiency – Monitor closely.<br />
+                                    🔴 <strong>Below 50%</strong>: Low Efficiency – Possible over-irrigation, underflow, or system faults.
+                                </span>
                             </div>
                         )}
 
@@ -220,7 +226,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 </div>
 
             </div>
-        </div>
+        </div >
 
     );
 }

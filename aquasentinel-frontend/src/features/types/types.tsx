@@ -23,7 +23,7 @@ export interface WaterFlowData {
 export interface WaterUsageTodayBuckets {
     bucket_start: string;
     time_label: string;
-    total_liters: number
+    liters_used: number
 }
 
 export interface WaterFlowRateBucket {

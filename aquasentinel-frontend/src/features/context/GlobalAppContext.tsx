@@ -66,7 +66,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                         //fetch water usage today for this user 
                         const waterUsageTodayRes = await fetch(`/api/sensors/water-usage-today/${userJson.id}`);
                         const waterUsageTodayJson = await waterUsageTodayRes.json();
-                        setWaterUsageToday(waterUsageTodayJson);
+                        setWaterUsageToday(waterUsageTodayJson?.data || []);
                     } catch (err) {
                         console.error("User data fetch failed", err);
                     }
