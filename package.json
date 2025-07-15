@@ -9,11 +9,20 @@
     "path": "^0.12.7"
   },
   "type": "commonjs",
+  "scripts": {
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "jest",
+    "test:backend": "mocha"
+  },
   "devDependencies": {
+    "@types/chai": "^5.2.2",
+    "@types/chai-http": "^4.2.4",
     "@types/luxon": "^3.6.2",
     "@types/multer": "^2.0.0",
     "@types/papaparse": "^5.3.16",
     "@types/twilio": "^3.19.3",
+    "chai": "^5.2.1",
+    "chai-http": "^5.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

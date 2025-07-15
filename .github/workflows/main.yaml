@@ -1,0 +1,55 @@
+name: AquaSentinel CI - Run Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: GoRKiEFYzaKMRZShrKqvXAggUNHWmfOe
+          POSTGRES_DB: railway
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:GoRKiEFYzaKMRZShrKqvXAggUNHWmfOe@trolley.proxy.rlwy.net:54012/railway
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install backend dependencies
+        working-directory: ./Backend
+        run: npm install
+
+      - name: Install frontend dependencies
+        working-directory: ./aquasentinel-frontend
+        run: npm install
+
+      - name: Run backend tests (Jest)
+        working-directory: ./Backend
+        run: npm run test
+
+      - name: Run frontend tests (Vitest)
+        working-directory: ./aquasentinel-frontend
+        run: npm run test

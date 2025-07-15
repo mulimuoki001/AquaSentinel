@@ -19,24 +19,23 @@ export const register: RequestHandler = async (req, res) => {
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
       res.status(409).json({ message: "User already exists" });
-    }
-    if (role === "farmer") {
-      if (!farmname || !farmlocation || !farmphone) {
-        res.status(400).json({ message: "Farm information is required" });
+    } else {
+      if (role === "farmer") {
+        if (!farmname || !farmlocation || !farmphone) {
+          res.status(400).json({ message: "Farm information is required" });
+        }
       }
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await (await db).query(
+        `INSERT INTO users (name, email, password, role, farmname, farmlocation, farmphone) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [name, email, hashedPassword, role, farmname, farmlocation, farmphone]
+      );
+      res.status(200).json({ message: `User registered successfully ${user}` });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await (await db).query(
-      `INSERT INTO users (name, email, password, role, farmname, farmlocation, farmphone) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [name, email, hashedPassword, role, farmname, farmlocation, farmphone]
-    );
-    res.status(201).json({ message: `User registered successfully ${user}` });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Error registering user" });
   }
 };
-// Return 409 Conflict if the user already exists
 
 export const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
@@ -113,7 +112,7 @@ export const logout: RequestHandler = async (req, res) => {
       //Add token to blacklist
       tokenBlacklist.add(token!);
       //Save token blacklist to file
-      fs.writeFile(
+      await fs.writeFile(
         "tokenBlacklist.json",
         JSON.stringify([...tokenBlacklist]),
         (err: NodeJS.ErrnoException | null) => {
@@ -144,10 +143,6 @@ export const logoutAll: RequestHandler = async (req, res) => {
     fs.writeFile(
       "tokenBlacklist.json",
       JSON.stringify([...tokenBlacklist]),
-      (err: NodeJS.ErrnoException | null) => {
-        if (err) console.error("❌ Error saving token blacklist:", err.message);
-        else console.log("✅ Token blacklist saved to file");
-      }
     );
     //Remove all active tokens from the json file
     await removeActiveTokens();
@@ -165,10 +160,6 @@ const logoutUser = async (token: string) => {
     fs.writeFile(
       "tokenBlacklist.json",
       JSON.stringify([...tokenBlacklist]),
-      (err: NodeJS.ErrnoException | null) => {
-        if (err) console.error("Error saving token blacklist:", err.message);
-        else console.log("Token added to blacklist and saved to file");
-      }
     );
     // Delete token from database
     await removeActiveToken(token);
@@ -176,7 +167,7 @@ const logoutUser = async (token: string) => {
   } catch (error) {
     console.error(error);
   }
-};
+}
 //Token validation
 export const validateToken: RequestHandler = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];

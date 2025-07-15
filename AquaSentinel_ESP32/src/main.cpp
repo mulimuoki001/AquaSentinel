@@ -6,7 +6,8 @@
 #define RELAY_PIN 26 // GPIO pin for the relay
 volatile int pulseCount = 0;
 unsigned long lastMillis = 0;
-
+const char *ssid1 = "CANALBOX-E75E-2G";
+const char *password1 = "qT4ySPJPrHfj";
 const char *ssid = "AliSabir-2G";
 const char *password = "Ali@Kur_alu2022?";
 const char *mqtt_server = "aquasentinel-cluster-ece0948e.a03.euc1.aws.hivemq.cloud"; // from HiveMQ

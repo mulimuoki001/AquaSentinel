@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_controller_1 = require("../controllers/user.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const role_middleware_1 = require("../middleware/role.middleware");
+const upload_1 = require("../middleware/upload");
+const userRouter = (0, express_1.Router)();
+userRouter.get("/all", auth_middleware_1.authenticateJWT, (0, role_middleware_1.authorizeRoles)("provider", "RAB"), user_controller_1.getUsers);
+userRouter.get("/data", auth_middleware_1.authenticateJWT, user_controller_1.getUserData);
+userRouter.put("/update", auth_middleware_1.authenticateJWT, upload_1.upload.single("profileImage"), user_controller_1.updateProfile);
+exports.default = userRouter;
