@@ -48,7 +48,7 @@ jobs:
 
       - name: Run backend tests (Jest)
         working-directory: ./Backend
-        run: npm run test
+        run: npm run test:Backend
 
       - name: Run frontend tests (Vitest)
         working-directory: ./aquasentinel-frontend
