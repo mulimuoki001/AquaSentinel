@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import { useGlobalContext } from "../../../../context/GlobalAppContext";
+import useGlobalContext from "../../../../context/useGlobalContext";
 import api from "../../../../../utils/axiosInstance";
 interface Notification {
     id: string;
@@ -14,6 +14,16 @@ interface Notification {
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
+}
+interface PumpSession {
+    id: number;
+    user_id: number;
+    date: string;
+    start_time: string;
+    end_time: string | null;
+    duration: number;
+    total_liters: number;
+    status: string;
 }
 
 export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
@@ -29,7 +39,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
         const interval = setInterval(async () => {
             try {
                 const res = await api.get("/api/sensors/live-pump-session");
-                const data: any = await res.data;
+                const data = await res.data as { session: PumpSession | null };
 
                 if (data.session) {
                     const session = data.session;
@@ -66,7 +76,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [lastStatus]);
+    }, [lastStatus, setNotifications]);
 
     // Update relative time every minute
     useEffect(() => {
@@ -99,7 +109,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
         }, 1000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [setNotifications]);
 
     // Optional: reload when tab is refocused
     useEffect(() => {

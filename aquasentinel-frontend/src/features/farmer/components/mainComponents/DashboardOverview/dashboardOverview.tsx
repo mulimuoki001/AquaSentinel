@@ -7,7 +7,7 @@ import {
     BarChart, Bar, XAxis, YAxis, LineChart, Line, Tooltip
 } from "recharts";
 
-import { useGlobalContext } from "../../../../context/GlobalAppContext";
+import useGlobalContext from "../../../../context/useGlobalContext";
 import { useMemo } from "react";
 import { useState } from "react";
 

@@ -18,7 +18,7 @@ export default function useTotalWaterUsedDaily(userId: number | undefined) {
         const fetchDailyWaterUsage = async () => {
             try {
                 const res = await api.get(`/api/sensors/total-water-used-daily-by-user/${userId}`);
-                const data: any = await res.data;
+                const data = await res.data as { totalWaterUsed: waterUsedDaily[] };
 
                 setTotalWaterUsed(data.totalWaterUsed || []);
                 setError(null); // clear previous error if successful

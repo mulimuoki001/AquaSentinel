@@ -1,6 +1,7 @@
 import Papa from "papaparse";
+import type { WaterFlowData } from "../../hooks/waterFlowData";
 
-export function exportToCSV(data: any[], filename: string = "export.csv") {
+export function exportToCSV(data: WaterFlowData[], filename: string = "export.csv") {
     const csv = Papa.unparse(data);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 

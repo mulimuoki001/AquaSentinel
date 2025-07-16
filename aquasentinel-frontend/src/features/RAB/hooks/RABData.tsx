@@ -21,8 +21,8 @@ const useRABData = () => {
                 if (Array.isArray(responseData)) {
                     setData(responseData);
                 }
-            } catch (error: any) {
-                setError(error);
+            } catch (error: unknown) {
+                setError(error as Error);
             }
         };
         fetchData();

@@ -4,10 +4,10 @@ import RABProfile from '../components/RABProfile';
 const RABDashboard = () => {
   return (
     <div>
-          <RABProfile />
-          <LogoutPage />
+      <RABProfile />
+      <LogoutPage />
     </div>
   );
 };
-
-export default withTokenValidation(RABDashboard);
+const RABDashboardWrapped = withTokenValidation(RABDashboard);
+export default RABDashboardWrapped;

@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+
 import { screen, fireEvent, waitFor, render } from '@testing-library/react';
 import { vi, describe, it, expect } from 'vitest';
 import * as registerService from '../features/authentication/authServices/Register';

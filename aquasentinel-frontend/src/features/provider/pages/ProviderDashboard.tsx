@@ -5,10 +5,10 @@ import ProviderProfile from '../components/providerProfile';
 const ProviderDashboard = () => {
   return (
     <div>
-          <ProviderProfile />
-          <LogoutPage />
+      <ProviderProfile />
+      <LogoutPage />
     </div>
   );
 };
-
-export default withTokenValidation(ProviderDashboard);
+const ProviderDashboardWrapped = withTokenValidation(ProviderDashboard);
+export default ProviderDashboardWrapped;

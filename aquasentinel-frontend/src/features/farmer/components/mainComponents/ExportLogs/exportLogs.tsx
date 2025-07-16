@@ -5,7 +5,7 @@ import { exportToCSV } from "../../utils/exportCSV";
 import { exportToPDF } from "../../utils/exportToPDF";
 import useWaterFlowData from "../../../hooks/waterFlowData";
 import Modal from "react-modal";
-import { useGlobalContext } from "../../../../context/GlobalAppContext";
+import useGlobalContext from "../../../../context/useGlobalContext";
 import { useState } from "react";
 Modal.setAppElement("#root");
 interface NavBarProps {

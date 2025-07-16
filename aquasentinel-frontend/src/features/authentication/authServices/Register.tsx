@@ -9,21 +9,19 @@ export const registerUser = async (
     farmlocation: string,
     farmphone: string
 ) => {
-    try {
-        const response = await axios.post('/auth/register', {
-            name,
-            email,
-            password,
-            role,
-            farmname,
-            farmlocation,
-            farmphone
-        });
+    const response = await axios.post('/auth/register', {
+        name,
+        email,
+        password,
+        role,
+        farmname,
+        farmlocation,
+        farmphone
+    });
 
-        console.log("Registration successful:", response.data);
+    if (response.status === 200) {
         return response.data;
-    } catch (error: any) {
-        console.error("Registration failed:", error?.response?.data || error.message);
-        throw error;
+    } else {
+        throw new Error('Registration failed');
     }
 };

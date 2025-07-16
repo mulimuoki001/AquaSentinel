@@ -26,7 +26,11 @@ export const validateToken = async (): Promise<{
         }
       } else {
         try {
-          const data: any = await response.data;
+          const data = await response.data as {
+            valid: boolean;
+            role?: string;
+            error?: string;
+          };
           console.log("Token validation response:", data);
           return {
             valid: data.valid,

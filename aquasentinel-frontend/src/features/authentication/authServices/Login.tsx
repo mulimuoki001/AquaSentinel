@@ -6,6 +6,6 @@ export const loginUser = async (email: string, password: string): Promise<{ newT
 		{ email, password },
 		{ headers: { 'Content-Type': 'application/json' } }
 	);
-	const data: any = await response.data;
-	return data;
+	const data: unknown = await response.data;
+	return data as { newToken: string, role: string, userId: number };
 };

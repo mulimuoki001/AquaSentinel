@@ -23,20 +23,20 @@ const useWaterFlowData = () => {
                 if (res.status !== 200) {
                     throw new Error(`Water flow data fetch failed: ${res.status}`);
                 }
-                const json: any = await res.data;
+                const json = await res.data as { data: WaterFlowData[] };
                 console.log("📊 Fetched water flow data from API:", json);
                 setWaterFlowData(json?.data || []);
                 setError(null);
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error("Error fetching water flow data:", err);
-                setError(err.message || "Error");
+                setError(err instanceof Error ? err.message : "Error");
             }
         };
 
         fetchWaterFlowData();
         const interval = setInterval(fetchWaterFlowData, 5000);
         return () => clearInterval(interval);
-    }, []);
+    }, [setWaterFlowData]);
 
     return { waterFlowDataList, error };
 };

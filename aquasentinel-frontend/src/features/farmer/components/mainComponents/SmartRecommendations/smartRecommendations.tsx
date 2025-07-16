@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useWeatherRecommendations } from "../../../hooks/useWeatherRecommendations";
-import { useGlobalContext } from "../../../../context/GlobalAppContext";
+import useGlobalContext from "../../../../context/useGlobalContext";
 
 interface NavBarProps {
     sidebarOpen: boolean;

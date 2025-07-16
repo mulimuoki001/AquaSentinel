@@ -25,7 +25,7 @@ const Login = () => {
 		}
 
 		checkToken();
-	}, []);
+	}, [navigate]);
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!email || !password) {
@@ -47,8 +47,8 @@ const Login = () => {
 			} else if (role === 'RAB') {
 				navigate('/dashboard/RAB');
 			}
-		} catch (err: any) {
-			setError(err.message || 'Login failed');
+		} catch (err: unknown) {
+			setError(err instanceof Error ? err.message : 'Login failed');
 		}
 	};
 

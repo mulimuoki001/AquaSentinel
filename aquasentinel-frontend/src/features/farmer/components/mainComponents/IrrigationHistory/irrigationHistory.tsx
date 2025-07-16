@@ -3,7 +3,7 @@ import useIrrigationSessions from "./irrigationData";
 import completeIcon from "/complete-icon.png";
 import warningIcon from "/warning-icon.png";
 import InProgressIcon from "/in-progress.png";
-import { useGlobalContext } from "../../../../context/GlobalAppContext";
+import useGlobalContext from "../../../../context/useGlobalContext";
 import useTotalWaterUsedDaily from "../../../hooks/totalWaterUsedDaily";
 import { useState, useEffect } from "react";
 import { DateTime } from "luxon";

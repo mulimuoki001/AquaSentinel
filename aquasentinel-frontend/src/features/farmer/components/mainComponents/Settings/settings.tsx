@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useGlobalContext } from '../../../../context/GlobalAppContext';
+import useGlobalContext from '../../../../context/useGlobalContext';
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void

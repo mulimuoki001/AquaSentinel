@@ -45,11 +45,11 @@ jobs:
       - name: Install frontend dependencies
         working-directory: ./aquasentinel-frontend
         run: npm install
-
+  
       - name: Run backend tests (Jest)
         working-directory: ./Backend
         run: npm run test:backend
 
       - name: Run frontend tests (Vitest)
         working-directory: ./aquasentinel-frontend
-        run: npm run test
+        run: npm run test:frontend

@@ -1020,7 +1020,7 @@ FNDA:0,removeActiveTokens
 FNDA:2,getActiveToken
 FNDA:2,setActiveToken
 FNDA:2,removeActiveToken
-FNDA:10,(anonymous_7)
+FNDA:12,(anonymous_7)
 DA:1,2
 DA:3,2
 DA:5,2
@@ -1040,7 +1040,7 @@ DA:32,2
 DA:33,2
 DA:35,2
 DA:36,2
-DA:37,10
+DA:37,12
 DA:38,2
 DA:39,2
 DA:40,2

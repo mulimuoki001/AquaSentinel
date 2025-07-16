@@ -9,7 +9,7 @@ import QMSupport2 from "/question-mark2.png";
 import SettingsIcon from "/Settings.png";
 import Video from "/video-player.png";
 import VideoPlayer from "/video2.png";
-import { useGlobalContext } from "../../../../context/GlobalAppContext";
+import useGlobalContext from "../../../../context/useGlobalContext";
 
 interface NavBarProps {
     sidebarOpen: boolean;

@@ -4,6 +4,18 @@ import api from "../../../utils/axiosInstance";
 interface Recommendation {
     message: string;
 }
+interface WeatherData {
+    forecast: {
+        forecastday: {
+            day: {
+                daily_chance_of_rain: number;
+                avghumidity: number;
+                maxwind_kph: number;
+                avgtemp_c: number;
+            };
+        }[];
+    };
+}
 
 export function useWeatherRecommendations(pollingIntervalMs: number = 5 * 60 * 1000) {
     const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
@@ -16,7 +28,7 @@ export function useWeatherRecommendations(pollingIntervalMs: number = 5 * 60 * 1
                 return;
             }
 
-            const data: any = await res.data;
+            const data = await res.data as WeatherData;
             const forecastDays = data.forecast?.forecastday;
             const today = forecastDays?.[0]?.day;
             const tomorrow = forecastDays?.[1]?.day;

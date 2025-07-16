@@ -1,27 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import type { MoistureData, WaterFlowData, WaterFlowRateBucket, Notification, UserData, WaterUsageTodayBuckets } from "../types/types";
+import GlobalContext from "./GlobalContext";
 
-interface GlobalContextType {
-    moisture: MoistureData | null;
-    waterFlow: WaterFlowData | null;
-    waterUsed: number | null;
-    pumpRuntime: number | null;
-    waterFlowRateBuckets: WaterFlowRateBucket[];
-    waterUsageToday: WaterUsageTodayBuckets[];
-    notifications: Notification[];
-    unreadNotifications: Notification[];
-    unreadCount: number;
-    isLoading: boolean;
-    userData: UserData | null;
-    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
-    error: string | null;
-    setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
-}
 
-const GlobalContext = createContext<GlobalContextType | null>(null);
-
-export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
+const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     const [moisture, setMoisture] = useState<MoistureData | null>(null);
     const [waterFlow, setWaterFlow] = useState<WaterFlowData | null>(null);
     const [waterUsed, setWaterUsed] = useState<number | null>(null);
@@ -118,8 +101,8 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                 setError(null);
 
 
-            } catch (err: any) {
-                setError(err.message || "Unknown error");
+            } catch (err: unknown) {
+                setError(err instanceof Error ? err.message : "Unknown error");
             } finally {
                 setIsLoading(false);
             }
@@ -175,8 +158,4 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export const useGlobalContext = () => {
-    const ctx = useContext(GlobalContext);
-    if (!ctx) throw new Error("useGlobalContext must be used within GlobalProvider");
-    return ctx;
-};
+export default GlobalProvider;
