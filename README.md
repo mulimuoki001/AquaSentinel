@@ -19,15 +19,18 @@
 - React + Vite + TypeScript
 - React Router DOM
 - Axios
+- i18n
 
 ### 🛠 Backend
 - Node.js + Express + TypeScript
 - PostgreSQL (via `pg` package)
 - JWT-based Authentication
+- Twilio
 
 ### ☁️ Deployment
-- **Heroku** (Backend + PostgreSQL)
-- Frontend bundled and served via Express static hosting
+- **Railway** (Backend + PostgreSQL)
+- The Railway is connected to the repo and is always listening to any changes made in the repo.
+- There is a Dockerfile  at the root of the project, which is used by Railway to create an image  and run the app in a container.
 
 ---
 
@@ -56,11 +59,17 @@
    ```bash
    git clone https://github.com/yourusername/aquasentinel.git
    cd aquasentinel/Backend
-2. **Install Dependencies**
+2. **Run the app-run.sh file at the root of the project**
+   This file installs all dependencies, both frontend and backend, builds the frontend, copies the static frontend to the backend, and runs the backend
    ```bash
-   npm install
+   ./app-run.sh
 
-3. **Build frontend**
+The app should be running on:
+      
+      http://localhost:3000/
+
+   Or follow this process to run the app step by step
+1. **Build frontend**
    ```bash
     cd ../aquasentinel-frontend
     npm install
@@ -68,28 +77,26 @@
     cp -r dist ../Backend/public
 
 
-4. **Set up PostgrSQL**
+2. **Set up PostgreSQL**
+   Make sure you have a PostgreSQL DB set up already, then use these steps to connect it to the backend API
    ```bash
    DATABASE_URL=postgres://your_user:your_pass@localhost:5432/aquasentineldb
     JWT_SECRET=your_secret
     PORT=3000
 
-5. **Build Backend**
+3. **Run the app**
+   Note//: There is no need to build the backend.
+      
    ```bash
-    npm run build
-
-6. **Run the app**
-   ```bash
-   node dist/server.js
-
-
+     npm run start
 
 ---
 
-## 🌍 Live Demo
+## Live Demo and Deployed App Access
+Visit Google for more information, including the testing and analysis write-up.
 
-🔗 [**Visit the Live App on Railway**](https://aquasentinel-dashboard.up.railway.app/)
-🔗 [**Here is the demo video**](https://www.youtube.com/watch?v=QaGcHhv9uPI)
+🔗 [**Final Product Demo and Deployed App Details**](https://docs.google.com/document/d/1Ume-R8rSJPZJruNv_J3eBipydOcets3vu34gub3ZptM/edit?usp=sharing)
+
 
 Use the app to:
 - Monitor water usage by plot
@@ -100,7 +107,7 @@ Use the app to:
 
 ---
 
-## 🧑‍💻 User Roles and Dashboards
+## User Roles and Dashboards
 
 | Role             | Access Path                     | Features |
 |------------------|----------------------------------|----------|
@@ -151,8 +158,7 @@ Key design considerations:
 
 ---
 
-## 📦 Deployment Plan
-Railway (Full-stack deployment with Dockerized services)
+## The End.
 
 
 
