@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import type { MoistureData, WaterFlowData, WaterFlowRateBucket, Notification, UserData, WaterUsageTodayBuckets } from "../types/types";
 import GlobalContext from "./GlobalContext";
-
+import i18n from "../../../i18n/i18n";
 
 const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     const [moisture, setMoisture] = useState<MoistureData | null>(null);
@@ -16,6 +16,35 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     const [error, setError] = useState<string | null>(null);
     const [userData, setUserData] = useState<UserData | null>(null);
     const [waterUsageToday, setWaterUsageToday] = useState<WaterUsageTodayBuckets[]>([]);
+    const [currentLang, setLang] = useState("en");
+
+    const setLanguage = (lang: string) => {
+        i18n.changeLanguage(lang); // change the language = lang;
+        setLang(lang);
+        localStorage.setItem("lang", lang);
+    };
+    useEffect(() => {
+        const savedLang = localStorage.getItem("lang") || "en";
+        i18n.changeLanguage(savedLang); // change the language = savedLang;
+        setLang(savedLang);
+    }, []);
+
+    useEffect(() => {
+        const handleStorageChange = (event: StorageEvent) => {
+            if (event.key === "lang") {
+                const newLang = event.newValue || "en";
+                i18n.changeLanguage(newLang);
+                setLang(newLang);
+            }
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
+    }, []);
+
+
 
     // Initial localStorage load
     useEffect(() => {
@@ -148,7 +177,9 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
                 error,
                 userData,
                 waterUsageToday,
-
+                i18n,
+                currentLang,
+                setLang: setLanguage,
                 setUserData,
                 setNotifications,
             }}

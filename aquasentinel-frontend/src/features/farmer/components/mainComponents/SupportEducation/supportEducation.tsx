@@ -10,14 +10,14 @@ import SettingsIcon from "/Settings.png";
 import Video from "/video-player.png";
 import VideoPlayer from "/video2.png";
 import useGlobalContext from "../../../../context/useGlobalContext";
-
+import { useTranslation } from "react-i18next";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { userData } = useGlobalContext();
-    const data = userData;
+    const { currentLang, setLang } = useGlobalContext();
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState("videos");
     const supportQuestions = [
         "How do I know when to irrigate?",
@@ -30,24 +30,42 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
                     <Link to="/dashboard/farmer/notifications"><img src="../../fast-backward.png" className="back-icon" alt="back" /></Link>
-                    <h1>Support & Education</h1>
-                    <Link to="/dashboard/farmer/farmer-profile"><img src="../../fast-forward.png" alt="forward" /></Link>
+                    <div className="page-title-text1"> <h1>{t('support.title')}</h1></div>
                 </div>
                 <div className="header-nav">
-                    <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img src={data?.profile_pic ? `/uploads/${encodeURIComponent(data.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-
-                        </Link>
-                        <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
+                    <div className="header-language">
+                        <label htmlFor="lang-select" className="profile-link" style={{ marginRight: "8px" }}>
+                            🌐
+                        </label>
+                        <select
+                            id="lang-select"
+                            value={currentLang}
+                            onChange={(e) => setLang(e.target.value)}
+                            className="profile-link"
+                            style={{
+                                background: " #0e2c38",
+                                border: "1px solid #ccc",
+                                padding: "4px 6px",
+                                borderRadius: "4px",
+                                fontSize: "16px",
+                                color: "#fff",
+                                cursor: "pointer",
+                                borderBlockColor: " #1568bb",
+                                borderColor: " #1568bb"
+                            }}
+                        >
+                            <option value="en">English</option>
+                            <option value="rw">Kinyarwanda</option>
+                        </select>
                     </div>
                     <div className="header-settings">
                         <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
                         </Link>
-                        <a className="settings-link" href="/dashboard/farmer/settings">Settings</a>
+                        <a className="settings-link" href="/dashboard/farmer/settings">{t("dashboard.settings")}</a>
                     </div>
                     <div className="header-logout">
                         <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
-                        <a className="logout-link" onClick={handleLogout}>Logout</a>
+                        <a className="logout-link" onClick={handleLogout}>{t("dashboard.logout")}</a>
                     </div>
                 </div>
             </div>

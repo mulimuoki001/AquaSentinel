@@ -143,6 +143,11 @@ export const logoutAll: RequestHandler = async (req, res) => {
     fs.writeFile(
       "tokenBlacklist.json",
       JSON.stringify([...tokenBlacklist]),
+      (err: NodeJS.ErrnoException | null) => {
+        if (err)
+          console.error("❌ Error saving token blacklist:", err.message);
+        else console.log("✅ Token added to blacklist and saved to file");
+      }
     );
     //Remove all active tokens from the json file
     await removeActiveTokens();
@@ -160,6 +165,11 @@ const logoutUser = async (token: string) => {
     fs.writeFile(
       "tokenBlacklist.json",
       JSON.stringify([...tokenBlacklist]),
+      (err: NodeJS.ErrnoException | null) => {
+        if (err)
+          console.error("❌ Error saving token blacklist:", err.message);
+        else console.log("✅ Token added to blacklist and saved to file");
+      }
     );
     // Delete token from database
     await removeActiveToken(token);

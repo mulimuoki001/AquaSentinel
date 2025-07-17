@@ -1,12 +1,9 @@
 import withTokenValidation from '../../authentication/hooks/tokenValidationWrapper';
-import LogoutPage from '../../authentication/pages/Logout';
-import ProviderProfile from '../components/providerProfile';
-
+import DashboardOverviewLayout from '../components/mainComponents/DashboardOverview/dashboardOverviewLayout';
 const ProviderDashboard = () => {
   return (
     <div>
-      <ProviderProfile />
-      <LogoutPage />
+      <DashboardOverviewLayout />
     </div>
   );
 };

@@ -1,23 +1,22 @@
 import { Link } from "react-router-dom";
-import { useWeatherRecommendations } from "../../../hooks/useWeatherRecommendations";
+
+
 import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
+
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
-
-export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const recommendations = useWeatherRecommendations();
-    const { currentLang, setLang } = useGlobalContext();
+export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { t } = useTranslation();
+    const { currentLang, setLang } = useGlobalContext();
     return (
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <Link to="/dashboard/farmer/irrigation-history"><img src="../../fast-backward.png" className="back-icon" alt="back" /></Link>
-                    <div className="page-title-text"> <h1>{t('recommendations.title')}</h1></div>
-                    <Link to="/dashboard/farmer/export-logs"><img src="../../fast-forward.png" alt="forward" /></Link>
+                    <div className="page-title-text"> <h1>{t('provider.dashboard')}</h1></div>
+                    <Link to="/dashboard/provider/irrigation-sessions"><img src="../fast-forward.png" alt="forward" /></Link>
                 </div>
                 <div className="header-nav">
                     <div className="header-language">
@@ -34,8 +33,8 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                                 border: "1px solid #ccc",
                                 padding: "4px 6px",
                                 borderRadius: "4px",
-                                color: "#fff",
                                 fontSize: "16px",
+                                color: "#fff",
                                 cursor: "pointer",
                                 borderBlockColor: " #1568bb",
                                 borderColor: " #1568bb"
@@ -46,29 +45,21 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                         </select>
                     </div>
                     <div className="header-settings">
-                        <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
+                        <Link to="/dashboard/provider/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
                         </Link>
-                        <a className="settings-link" href="/dashboard/farmer/settings">{t("dashboard.settings")}</a>
+                        <a className="settings-link" href="/dashboard/provider/settings">{t('dashboard.settings')}</a>
                     </div>
                     <div className="header-logout">
-                        <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
-                        <a className="logout-link" onClick={handleLogout}>{t("dashboard.logout")}</a>
+                        <img className="logout-icon" src="../logout.png" alt="Logout" onClick={handleLogout} />
+                        <a className="logout-link" onClick={handleLogout}>{t('dashboard.logout')}</a>
                     </div>
                 </div>
             </div>
-            <div className="smart-recommendations-container">
-                <div className="smart-recommendations">
-                    {recommendations.length === 0 ? (
-                        <p style={{ textAlign: "center", color: "#ccc" }}>{t("recommendations.none")}</p>
-                    ) : (
-                        recommendations.map((rec) => (
-                            <div className="recommendation" key={rec.message}>
-                                <p>{rec.message}</p>
-                            </div>
-                        ))
-                    )}
-                </div>
+            <div className="dashboard-overview-container" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+
+                <p>{t('providerDashboard.title')}</p>
             </div>
-        </div>
+        </div >
     );
-};
+}
+

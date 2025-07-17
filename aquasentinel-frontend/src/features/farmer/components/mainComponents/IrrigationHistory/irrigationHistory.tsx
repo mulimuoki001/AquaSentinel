@@ -7,15 +7,17 @@ import useGlobalContext from "../../../../context/useGlobalContext";
 import useTotalWaterUsedDaily from "../../../hooks/totalWaterUsedDaily";
 import { useState, useEffect } from "react";
 import { DateTime } from "luxon";
-
+import { useTranslation } from "react-i18next";
 
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { userData } = useGlobalContext();
+    const { userData, currentLang, setLang } = useGlobalContext();
+    const { t } = useTranslation();
     const userId = userData?.id;
+
     const [showHelp, setShowHelp] = useState<"water" | "duration" | "efficiency" | null>(null);
     const irrigationdata = useIrrigationSessions(userId);
     const { totalWaterUsed } = useTotalWaterUsedDaily(userId);
@@ -90,24 +92,43 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
                     <Link to="/dashboard/farmer"><img src="../../fast-backward.png" className="back-icon" alt="back" /></Link>
-                    <h1>Irrigation History</h1>
+                    <div className="page-title-text-irrigation">  <h1>{t("irrigation.title")}</h1></div>
                     <Link to="/dashboard/farmer/smart-recommendations"><img src="../../fast-forward.png" alt="forward" /></Link>
                 </div>
                 <div className="header-nav">
-                    <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-
-                        </Link>
-                        <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
+                    <div className="header-language">
+                        <label htmlFor="lang-select" className="profile-link" style={{ marginRight: "8px" }}>
+                            🌐
+                        </label>
+                        <select
+                            id="lang-select"
+                            value={currentLang}
+                            onChange={(e) => setLang(e.target.value)}
+                            className="profile-link"
+                            style={{
+                                background: " #0e2c38",
+                                border: "1px solid #ccc",
+                                padding: "4px 6px",
+                                borderRadius: "4px",
+                                color: "#fff",
+                                fontSize: "16px",
+                                cursor: "pointer",
+                                borderBlockColor: " #1568bb",
+                                borderColor: " #1568bb"
+                            }}
+                        >
+                            <option value="en">English</option>
+                            <option value="rw">Kinyarwanda</option>
+                        </select>
                     </div>
                     <div className="header-settings">
                         <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
                         </Link>
-                        <a className="settings-link" href="/dashboard/farmer/settings">Settings</a>
+                        <a className="settings-link" href="/dashboard/farmer/settings">{t("dashboard.settings")}</a>
                     </div>
                     <div className="header-logout">
                         <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
-                        <a className="logout-link" onClick={handleLogout}>Logout</a>
+                        <a className="logout-link" onClick={handleLogout}>{t("dashboard.logout")}</a>
                     </div>
                 </div>
             </div>
@@ -115,7 +136,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 <div className="irrigation-history-cards">
                     <div className={`irrigation-history-card ${showHelp === "water" ? "expanded" : ""}`}>
 
-                        <h3>Total Water Used Today</h3>
+                        <h3>T{t("irrigation.totalWaterUsed")}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
@@ -126,12 +147,12 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                         {showHelp === "water" && (
                             <div className="popup-card">
-                                This shows the total water used in irrigation sessions recorded today. It’s based on real-time flow rate data.
+                                {t("irrigation.help.water")}
                             </div>
                         )}
                     </div>
                     <div className={`irrigation-history-card ${showHelp === "duration" ? "expanded" : ""}`}>
-                        <h3>Avg Duration of Irrigation(per Day)</h3>
+                        <h3>T{t("irrigation.avgDuration")}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
@@ -142,14 +163,14 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                         {showHelp === "duration" && (
                             <div className="popup-card">
-                                This shows the average duration of irrigation sessions recorded today. It’s based on real-time flow rate data.
+                                {t("irrigation.help.duration")}
                             </div>
                         )}
 
                     </div>
 
                     <div className={`irrigation-history-card ${showHelp === "efficiency" ? "expanded" : ""}`}>
-                        <h3>Efficiency Trend</h3>
+                        <h3>{t("irrigation.efficiency")}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
@@ -160,12 +181,12 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                         {showHelp === "efficiency" && (
                             <div className="popup-card">
-                                <p>This shows the average efficiency of irrigation sessions recorded today.</p>
+                                <p>{t("irrigation.help.efficiency.desc")}</p>
                                 <span>
-                                    <strong>Efficiency Guide:</strong><br />
-                                    🟢 <strong>75-100%</strong>: High Efficiency – Optimal water usage.<br />
-                                    🟡 <strong>50–74%</strong>: Medium Efficiency – Monitor closely.<br />
-                                    🔴 <strong>Below 50%</strong>: Low Efficiency – Possible over-irrigation, underflow, or system faults.
+                                    <strong>{t("irrigation.help.efficiency.guideTitle")}</strong><br />
+                                    🟢 <strong>{t('irrigation.help.efficiency.high')}</strong>: {t('irrigation.help.efficiency.highDesc')}<br />
+                                    🟡 <strong>{t('irrigation.help.efficiency.medium')}</strong>:  {t('irrigation.help.efficiency.mediumDesc')}<br />
+                                    🔴 <strong>{t('irrigation.help.efficiency.low')}</strong>:  {t('irrigation.help.efficiency.lowDesc')}
                                 </span>
                             </div>
                         )}
@@ -177,12 +198,12 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <table className="irrigation-history-table">
                             <thead>
                                 <tr>
-                                    <th className="date-header">Date</th>
-                                    <th className="start-time-header">Start Time</th>
-                                    <th className="end-time-header">End Time</th>
-                                    <th className="duration-header">Duration(mins)</th>
-                                    <th className="water-used-header">Water Used(L)</th>
-                                    <th className="status-header">Status</th>
+                                    <th className="date-header">{t("irrigation.table.date")}</th>
+                                    <th className="start-time-header">{t("irrigation.table.startTime")}</th>
+                                    <th className="end-time-header">{t("irrigation.table.endTime")}</th>
+                                    <th className="duration-header">{t("irrigation.table.duration")}</th>
+                                    <th className="water-used-header">{t("irrigation.table.waterUsed")}</th>
+                                    <th className="status-header">{t("irrigation.table.status")}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -214,14 +235,14 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
                     >
-                        Prev
+                        {t("pagination.prev")}
                     </button>
-                    <span>Page {currentPage} of {totalPages}</span>
+                    <span>{t("pagination.page")} {currentPage} {t("pagination.of")} {totalPages}</span>
                     <button
                         onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                         disabled={currentPage === totalPages}
                     >
-                        Next
+                        {t("pagination.next")}
                     </button>
                 </div>
 

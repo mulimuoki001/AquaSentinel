@@ -84,7 +84,7 @@
   animation: fadeIn 0.3s ease-in-out;
   opacity: 0;
   max-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 @keyframes fadeIn {

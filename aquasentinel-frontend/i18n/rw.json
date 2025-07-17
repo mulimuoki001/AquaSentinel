@@ -1,0 +1,178 @@
+{
+    "dashboard": {
+        "language": "Ulanga",
+        "overview": "Isura y’Itangiriro",
+        "totalWaterUsed": "Amazi Yakoreshejwe Yose (Isaha 1)",
+        "currentSoilMoisture": "Ubushuhe bw’Ubutaka ubu",
+        "pumpRuntime": "Igihe Pompe Imara Ikora",
+        "flowRate": "Umuvuduko w’Amazi - Isaha 1 iheruka",
+        "pumpRate": "Umuvuduko wa Pompe",
+        "pumpStatus": "Imiterere ya Pompe",
+        "waterUsage": "Uko Amazi Akoreshwa",
+        "alerts": "Amatangazo",
+        "settings": "Amafaranga",
+        "logout": "Igihangano",
+        "noNewAlerts": "Nta matangazo mashya"
+    },
+    "popUpCard": {
+        "waterUsedl1": "Ikiyagezwa ku ruhu rwa saa imbere, kuri uruziga rwa maji. Ni ibisobanuro bya vitesse ya maji ya saa imbere.",
+        "waterUsedl2": "Ikiyemezwa, uruziga rwa maji rutagwa kuri 0 na vitesse ya maji rutagwa kuri 0",
+        "pumpRuntimel1": "Ikiyagezwa ku ruhu rwa saa imbere, kuri uruziga rwa maji. Ni ibisobanuro bya vitesse ya maji ya saa imbere",
+        "soilMoisturel1": "Ikiyagezwa ku ruhu rwa saa imbere, kuri uruziga rwa maji. Ni ibisobanuro bya vitesse ya maji ya saa imbere.",
+        "pumpStatus": "Imiterere ya Pompe",
+        "pumpRate": "Umuvuduko wa Pompe",
+        "flowRate": "Umuvuduko w’Amazi",
+        "soilMoisture": "Ubushuhe bw’Ubutaka ubu"
+    },
+    "irrigation": {
+        "title": "Amateka y'Uko Amajyi Akoreshwa",
+        "totalWaterUsed": "Amazi Yakoreshejwe Uyu Munsi",
+        "avgDuration": "Igihe Cy'Impuzandengo cyo Kuhira (ku munsi)",
+        "efficiency": "Imikorere y'Ikoreshwa ry'Amazi",
+        "help": {
+            "water": "Ibi byerekana amazi yakoreshejwe mu bihe byo kuhira uyu munsi.",
+            "duration": "Ibi byerekana impuzandengo y’igihe cyo kuhira uyu munsi.",
+            "efficiency": {
+                "desc": "Ibi byerekana uko imikorere yo kuhira ihagaze uyu munsi.",
+                "guideTitle": "Inyunganirizo y’Imikorere:",
+                "high": "75–100%",
+                "highDesc": "Imikorere Myiza – Gukoresha amazi neza.",
+                "medium": "50–74%",
+                "mediumDesc": "Imikorere Iciriritse – Kwirinda ibibazo.",
+                "low": "Munsi ya 50%",
+                "lowDesc": "Imikorere Mibi – Gukoresha amazi nabi cyangwa ibibazo bya sisitemu."
+            }
+        },
+        "table": {
+            "date": "Itariki",
+            "startTime": "Igihe cyo Gutangira",
+            "endTime": "Igihe Kirangiye",
+            "duration": "Igihe (min)",
+            "waterUsed": "Amazi Yakoreshejwe (L)",
+            "status": "Imiterere"
+        }
+    },
+    "pagination": {
+        "prev": "Subira inyuma",
+        "next": "Komeza imbere",
+        "page": "Urupapuro",
+        "of": "mu"
+    },
+    "recommendations": {
+        "title": "Inama z'Ubwenge",
+        "none": "Nta nama nshya zabonetse uyu munsi"
+    },
+    "exportLogs": {
+        "title": "Ohereza Amakuru",
+        "modalTitle": "Gusobanukirwa n'Icyoherezwa",
+        "modalDesc1": "Uyu rupapuro rukwemerera kohereza amakuru y'amatara yawe mu buryo bwa CSV cyangwa PDF. Amakuru arimo:",
+        "fields": {
+            "dateTime": "Itariki n'igihe cy’amajyi",
+            "flowRate": "Umuvuduko w’amazi (L/hr)",
+            "flowUnit": "Igipimo cy’umuvuduko w’amazi (L/min cyangwa GPM)",
+            "pumpStatus": "Imiterere ya pompe (ON/OFF)"
+        },
+        "modalDesc2": "Gutanga aya makuru bifasha kubika inyandiko hanze ya murandasi no gusesengura uburyo ukoresha amazi. Ni ingenzi mu igenamigambi, ku makuru y'ubuyobozi, cyangwa gusangira n'abajyanama.",
+        "gotIt": "Nabyumvise!",
+        "exportButtonTitle": "Ohereza Amakuru",
+        "exportCSV": "Ohereza CSV",
+        "exportPDF": "Ohereza PDF",
+        "csvTitle": "Ubwoko bwa CSV:",
+        "csvPoint1": "Bufungurwa muri Excel cyangwa Google Sheets",
+        "csvPoint2": "Burimo igihe cy’ikorwa, umuvuduko w’amazi, n’imiterere ya pompe",
+        "csvPoint3": "Bukwiriye gusesengura amakuru no gukora amashushanyo",
+        "csvDesc": "Koresha ubu buryo mu gusesengura byimbitse, gukora imibare, cyangwa gusangiza abajyanama b'ikoranabuhanga.",
+        "pdfTitle": "Ubwoko bwa PDF:",
+        "pdfPoint1": "Raporo ibereye gucapwa",
+        "pdfPoint2": "Irimo incamake y’ibikorwa byo kuhira",
+        "pdfPoint3": "Yifashishwa gusangiza abandi cyangwa kubika inyandiko zemewe",
+        "pdfDesc": "Koresha ubu buryo gucapura, gusangiza abajyanama mu buhinzi, cyangwa kubika inyandiko zemewe hanze ya murandasi."
+    },
+    "notifications": {
+        "title": "Amatangazo",
+        "current": "Amatangazo inyuma",
+        "clearAll": "Siba Byose",
+        "markAsRead": "Soma",
+        "read": "Birasomwe",
+        "alert": {
+            "on": "Pompe yashyizweho",
+            "off": "Pompe yakuweho"
+        }
+    },
+    "support": {
+        "title": "Ubufasha n’Amahugurwa",
+        "tabs": {
+            "videos": "Amasomo mu Mashusho",
+            "guide": "Inyandiko y'Umukoresha",
+            "faqs": "Ibibazo Bikunze Kubazwa",
+            "chat": "Ubufasha mu Kiganiro"
+        },
+        "description": {
+            "video": "Reba amashusho akwigisha gukoresha AquaSentinel"
+        },
+        "buttons": {
+            "gettingStarted": "Uko utangirana na Sisitimu",
+            "settings": "Igenamiterere",
+            "faqs": "Ibibazo Bikunze Kubazwa"
+        },
+        "questions": {
+            "whenToIrrigate": "Namenya nte igihe cyo kuhira?",
+            "moistureLevel": "Ubushuhe bw’ubutaka bivuze iki?",
+            "pumpStatusMeaning": "Pompe iri kuri ON cyangwa OFF bivuze iki?",
+            "irrigationDurationAdvice": "Kuhira bikwiye kumara igihe kingana iki?"
+        }
+    },
+    "profile": {
+        "title": "Umwirondoro wanjye",
+        "name": "Izina",
+        "email": "Imeyili",
+        "role": "Inshingano",
+        "farmDetails": "Amakuru y’Igishanga",
+        "farmName": "Izina ry’Igishanga",
+        "farmLocation": "Aho giherereye",
+        "farmPhone": "Telefoni y’Igishanga",
+        "edit": "Hindura",
+        "save": "Bika",
+        "cancel": "Hagarika"
+    },
+    "nav": {
+        "dashboard": "Isura y'Itangiriro",
+        "irrigationHistory": "Amateka y’Uko Amahindure Yakozwe",
+        "smartFarm": "Inama Zishingiye ku Mihindagurikire",
+        "exportLogs": "Ohereza Ibyegeranyo (CSV/PDF)",
+        "alerts": "Amatangazo & Impuruza",
+        "support": "Ubufasha & Amasomo",
+        "profile": "Umwirondoro",
+        "settings": "Igenamiterere",
+        "logout": "Sohoka",
+        "district": "Akarere"
+    },
+    "provider": {
+        "dashboard": "Isura y'Itangiriro",
+        "farmMonitoring": "Kurwanya Ubuhinzi",
+        "IrrigationSessions": "Seansi za Kurwanya",
+        "alerts": "Amatangazo & Impuruza",
+        "recommendations": "Ibimenyetso",
+        "maintenance": "Ibikenewe byo Kwigisha",
+        "export": "Ikigo cyo Kwegurura",
+        "profile": "Umwirondoro",
+        "settings": "Igenamiterere",
+        "logout": "Sohoka",
+        "district": "Akarere"
+    },
+    "providerDashboard": {
+        "title": "Isura y'Itangiriro"
+    },
+    "rab": {
+        "nationalOverview": "Incamake y’Igihugu",
+        "districtMonitoring": "Igenzura ry’Uturere n’Imirenge",
+        "liveAlerts": "Impuruza n’Ibibazo Bikomeye",
+        "complianceReports": "Raporo z’Imikoreshereze Neza",
+        "policyInsights": "Inama z’Igenamigambi",
+        "exportReports": "Kohereza Raporo",
+        "adminSettings": "Imicungire y’Abayobozi"
+    },
+    "rabDashboard": {
+        "title": "Incamake y’Igihugu"
+    }
+}

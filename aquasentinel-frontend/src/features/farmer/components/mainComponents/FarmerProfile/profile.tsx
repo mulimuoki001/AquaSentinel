@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import api from "../../../../../utils/axiosInstance";
 import useGlobalContext from "../../../../context/useGlobalContext";
+import { useTranslation } from "react-i18next";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
@@ -9,7 +10,7 @@ interface NavBarProps {
 export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const [personalEditMode, setPersonalEditMode] = useState(false);
     const [farmEditMode, setFarmEditMode] = useState(false);
-    const { userData } = useGlobalContext();
+    const { userData, currentLang, setLang } = useGlobalContext();
     const [updatedData, setUpdatedData] = useState({
         name: userData?.name,
         email: userData?.email,
@@ -18,6 +19,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
         farmlocation: userData?.farmlocation,
         farmphone: userData?.farmphone,
     });
+    const { t } = useTranslation();
     const [profileImage, setProfileImage] = useState<File | null>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,25 +95,44 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <Link to="/dashboard/farmer/support-education"><img src="../../fast-backward.png" className="back-icon" alt="back" /></Link>
-                    <h1>Profile</h1>
-                    <Link to="/dashboard/farmer/settings"><img src="../../fast-forward.png" alt="forward" /></Link>
+
+                    <div className="page-title-text">  <h1>{t("profile.title")}</h1></div>
+
                 </div>
                 <div className="header-nav">
-                    <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-
-                        </Link>
-                        <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
+                    <div className="header-language">
+                        <label htmlFor="lang-select" className="profile-link" style={{ marginRight: "8px" }}>
+                            🌐
+                        </label>
+                        <select
+                            id="lang-select"
+                            value={currentLang}
+                            onChange={(e) => setLang(e.target.value)}
+                            className="profile-link"
+                            style={{
+                                background: " #0e2c38",
+                                border: "1px solid #ccc",
+                                padding: "4px 6px",
+                                borderRadius: "4px",
+                                color: "#fff",
+                                fontSize: "16px",
+                                cursor: "pointer",
+                                borderBlockColor: " #1568bb",
+                                borderColor: " #1568bb"
+                            }}
+                        >
+                            <option value="en">English</option>
+                            <option value="rw">Kinyarwanda</option>
+                        </select>
                     </div>
                     <div className="header-settings">
-                        <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="Logout" />
+                        <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
                         </Link>
-                        <a className="settings-link" href="/dashboard/farmer/settings">Settings</a>
+                        <a className="settings-link" href="/dashboard/farmer/settings">{t("dashboard.settings")}</a>
                     </div>
                     <div className="header-logout">
                         <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
-                        <a className="logout-link" onClick={handleLogout}>Logout</a>
+                        <a className="logout-link" onClick={handleLogout}>{t("dashboard.logout")}</a>
                     </div>
                 </div>
             </div>
@@ -124,27 +145,27 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                         <div className="profile-info">
                             {personalEditMode ? (
                                 <>
-                                    <input className="edit-input" placeholder="Name" type="text" name="name" value={updatedData.name} onChange={handleInputChange} />
-                                    <input className="edit-input" placeholder="Email" type="email" name="email" value={updatedData.email} onChange={handleInputChange} />
-                                    <p><strong>Role:</strong> {userData?.role}</p>
+                                    <input className="edit-input" placeholder={t("profile.name")} type="text" name="name" value={updatedData.name} onChange={handleInputChange} />
+                                    <input className="edit-input" placeholder={t("profile.email")} type="email" name="email" value={updatedData.email} onChange={handleInputChange} />
+                                    <p><strong>{t("profile.role")}:</strong> {userData?.role}</p>
                                 </>
                             ) : (
                                 <>
-                                    <p><strong>Name:</strong> {userData?.name}</p>
-                                    <p><strong>Email:</strong> {userData?.email}</p>
-                                    <p><strong>Role:</strong> {userData?.role}</p>
+                                    <p><strong>{t("profile.name")}:</strong> {userData?.name}</p>
+                                    <p><strong>{t("profile.email")}:</strong> {userData?.email}</p>
+                                    <p><strong>{t("profile.role")}:</strong> {userData?.role}</p>
                                 </>
                             )}
                         </div>
                     </div>
                     <div className="button-group">
                         <button className="edit-button" onClick={() => personalEditMode ? handleSubmit() : setPersonalEditMode(true)}>
-                            {personalEditMode ? "Save" : "Edit"}
+                            {personalEditMode ? t("profile.save") : t("profile.edit")}
                         </button>
 
                         {personalEditMode && (
                             <button className="cancel-button" onClick={resetChanges}>
-                                Cancel
+                                {t("profile.cancel")}
                             </button>
                         )}
                     </div>
@@ -154,7 +175,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 {/* Farm Details */}
                 <div className="profile-card">
                     <div className="profile-info">
-                        <h3>Farm Details</h3>
+                        <h3>{t("profile.farmdetails")}</h3>
                         {farmEditMode ? (
                             <>
                                 <input placeholder="Farm Name" className="edit-input" type="text" name="farmname" value={updatedData.farmname} onChange={handleInputChange} />
@@ -163,20 +184,20 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                             </>
                         ) : (
                             <>
-                                <p><strong>Farm Name:</strong> {userData?.farmname}</p>
-                                <p><strong>Farm Location:</strong> {userData?.farmlocation}</p>
-                                <p><strong>Farm Phone:</strong> {userData?.farmphone}</p>
+                                <p><strong>{t("profile.farmName")}:</strong> {userData?.farmname}</p>
+                                <p><strong>{t("profile.farmLocation")}:</strong> {userData?.farmlocation}</p>
+                                <p><strong>{t("profile.farmPhone")}:</strong> {userData?.farmphone}</p>
                             </>
                         )}
                     </div>
                     <div className="button-group">
                         <button className="edit-button" onClick={() => farmEditMode ? handleSubmit() : setFarmEditMode(true)}>
-                            {farmEditMode ? "Save" : "Edit"}
+                            {farmEditMode ? t("profile.save") : t("profile.edit")}
                         </button>
 
                         {farmEditMode && (
                             <button className="cancel-button" onClick={resetChanges}>
-                                Cancel
+                                {t("profile.cancel")}
                             </button>
                         )}
                     </div>

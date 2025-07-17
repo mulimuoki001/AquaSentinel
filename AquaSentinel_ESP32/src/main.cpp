@@ -212,6 +212,7 @@ void loop()
     else if (flowRate > 200.0)
     {
       Serial.println("⚠️ WARNING: Flow exceeds sensor's safe range!");
+      flowRate = 21.0;
     }
 
     pulseCount = 0;

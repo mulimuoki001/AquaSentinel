@@ -26,7 +26,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
     <div>
       <div className="topBar">
         <div className="topBar-icons">
-          <Link to="/dashboard/farmer" className={`topBar-logo ${location.pathname === "/dashboard/farmer" ? "active" : ""}`}>
+          <Link to="/dashboard/provider" className={`topBar-logo ${location.pathname === "/dashboard/provider" ? "active" : ""}`}>
             <img className="topBar-logo" src="../../AquaSentinel-logo.png" alt="Aquasentinel" />
           </Link>
           {/*Toggle Icons*/}
@@ -45,12 +45,9 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           )}
         </div>
         <div className="topBar-info">
-          <div className="location">
-            <img src="../../Location.png" alt="Location" />
-            <p>Kayonza {t('nav.district')}</p>
-          </div>
+
           <div className="notifications-topBar">
-            <Link to="/dashboard/farmer/notifications" className={`notification-link ${location.pathname === "/dashboard/farmer/notifications" ? "active" : ""}`}>
+            <Link to="/dashboard/provider/notifications" className={`notification-link ${location.pathname === "/dashboard/provider/notifications" ? "active" : ""}`}>
               <img src="../../alerts.png" alt="Location" />
               {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
             </Link>
@@ -60,7 +57,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
             <p>{formattedDate}</p>
           </div>
           <div className="topBar-profile">
-            <Link to="/dashboard/farmer/farmer-profile" className={`profile-link ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
+            <Link to="/dashboard/provider/provider-profile" className={`profile-link ${location.pathname === "/dashboard/provider/farmer-profile" ? "active" : ""}`}>
               <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
             </Link>
             <p>{userData?.name}</p>
@@ -68,39 +65,40 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
         </div>
       </div>
       <div className={`sidebar ${sidebarOpen ? "open" : "hidden"}`}>
-        <Link to="/dashboard/farmer" className={`sidebar-item ${location.pathname === "/dashboard/farmer" ? "active" : ""}`}>
-          <p>{t('nav.dashboard')}</p>
+        <Link to="/dashboard/provider" className={`sidebar-item ${location.pathname === "/dashboard/provider" ? "active" : ""}`}>
+          <p>{t('provider.dashboard')}</p>
         </Link>
-        <Link to="/dashboard/farmer/irrigation-history" className={`sidebar-item ${location.pathname === "/dashboard/farmer/irrigation-history" ? "active" : ""}`}>
-          <p>{t('nav.irrigationHistory')}</p>
+        <Link to="/dashboard/provider/farm-monitoring" className={`sidebar-item ${location.pathname === "/dashboard/provider/farm-monitoring" ? "active" : ""}`}>
+          <p>{t('provider.farmMonitoring')}</p>
         </Link>
-        <Link to="/dashboard/farmer/smart-recommendations" className={`sidebar-item ${location.pathname === "/dashboard/farmer/smart-recommendations" ? "active" : ""}`}>
-          <p>{t('nav.smartFarm')}</p>
+        <Link to="/dashboard/provider/irrigation-sessions" className={`sidebar-item ${location.pathname === "/dashboard/provider/irrigation-sessions" ? "active" : ""}`}>
+          <p>{t('provider.irrigationSessions')}</p>
         </Link>
-        <Link to="/dashboard/farmer/export-logs" className={`sidebar-item ${location.pathname === "/dashboard/farmer/export-logs" ? "active" : ""}`}>
-          <p>{t('nav.exportLogs')}</p>
+        <Link to="/dashboard/provider/recommendations" className={`sidebar-item ${location.pathname === "/dashboard/provider/recommendations" ? "active" : ""}`}>
+          <p>{t('provider.recommendations')}</p>
         </Link>
-        <Link to="/dashboard/farmer/notifications" className={`sidebar-item ${location.pathname === "/dashboard/farmer/notifications" ? "active" : ""}`}>
-          <p>{t('nav.alerts')}</p>
+        <Link to="/dashboard/provider/export-center" className={`sidebar-item ${location.pathname === "/dashboard/provider/export-center" ? "active" : ""}`}>
+          <p>{t('provider.export')}</p>
         </Link>
-        <Link to="/dashboard/farmer/support-education" className={`sidebar-item ${location.pathname === "/dashboard/farmer/support-education" ? "active" : ""}`}>
-          <p>{t('nav.support')}</p>
+        <Link to="/dashboard/provider/notifications" className={`sidebar-item ${location.pathname === "/dashboard/provider/notifications" ? "active" : ""}`}>
+          <p>{t('provider.alerts')}</p>
         </Link>
+
 
         <div><br></br>
           <hr></hr>
           <br></br></div>
-        <Link to="/dashboard/farmer/farmer-profile" className={`sidebar-item ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
+        <Link to="/dashboard/provider/provider-profile" className={`sidebar-item ${location.pathname === "/dashboard/provider/provider-profile" ? "active" : ""}`}>
           <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData?.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-          <p>{t('nav.profile')}</p>
+          <p>{t('provider.profile')}</p>
         </Link>
-        <Link to="/dashboard/farmer/settings" className={`sidebar-item ${location.pathname === "/dashboard/farmer/settings" ? "active" : ""}`}>
+        <Link to="/dashboard/provider/settings" className={`sidebar-item ${location.pathname === "/dashboard/provider/settings" ? "active" : ""}`}>
           <img src="../../Settings.png" alt="Settings" className="settings-icon" />
-          <p>{t('nav.settings')}</p>
+          <p>{t('provider.settings')}</p>
         </Link>
         <Link to="/login" className={`sidebar-item ${location.pathname === "/" ? "active" : ""}`} onClick={handleLogout}>
           <img src="../../logout.png" alt="Logout" className="logout-icon" />
-          <p>{t('nav.logout')}</p>
+          <p>{t('provider.logout')}</p>
         </Link>
       </div>
 

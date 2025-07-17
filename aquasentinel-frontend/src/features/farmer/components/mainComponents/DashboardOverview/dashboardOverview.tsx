@@ -10,13 +10,16 @@ import {
 import useGlobalContext from "../../../../context/useGlobalContext";
 import { useMemo } from "react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void
 }
 export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
-    const { userData, waterUsageToday } = useGlobalContext();
+    const { t } = useTranslation();
+    const { currentLang, setLang } = useGlobalContext();
+    const { waterUsageToday } = useGlobalContext();
     const [showHelp, setShowHelp] = useState<"water" | "moisture" | "pump" | null>(null);
     const { waterFlowRateBuckets, waterFlow, moisture, waterUsed, pumpRuntime } = useGlobalContext();
     const pumpStatus = waterFlow?.pumpStatus || "OFF";
@@ -53,24 +56,43 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <h1>Dashboard Overview</h1>
+                    <div className="page-title-text"> <h1>{t('dashboard.overview')}</h1></div>
                     <Link to="/dashboard/farmer/irrigation-history"><img src="../fast-forward.png" alt="forward" /></Link>
                 </div>
                 <div className="header-nav">
-                    <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile"><img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-
-                        </Link>
-                        <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
+                    <div className="header-language">
+                        <label htmlFor="lang-select" className="profile-link" style={{ marginRight: "8px" }}>
+                            🌐
+                        </label>
+                        <select
+                            id="lang-select"
+                            value={currentLang}
+                            onChange={(e) => setLang(e.target.value)}
+                            className="profile-link"
+                            style={{
+                                background: " #0e2c38",
+                                border: "1px solid #ccc",
+                                padding: "4px 6px",
+                                borderRadius: "4px",
+                                fontSize: "16px",
+                                color: "#fff",
+                                cursor: "pointer",
+                                borderBlockColor: " #1568bb",
+                                borderColor: " #1568bb"
+                            }}
+                        >
+                            <option value="en">English</option>
+                            <option value="rw">Kinyarwanda</option>
+                        </select>
                     </div>
                     <div className="header-settings">
                         <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
                         </Link>
-                        <a className="settings-link" href="/dashboard/farmer/settings">Settings</a>
+                        <a className="settings-link" href="/dashboard/farmer/settings">{t('dashboard.settings')}</a>
                     </div>
                     <div className="header-logout">
                         <img className="logout-icon" src="../logout.png" alt="Logout" onClick={handleLogout} />
-                        <a className="logout-link" onClick={handleLogout}>Logout</a>
+                        <a className="logout-link" onClick={handleLogout}>{t('dashboard.logout')}</a>
                     </div>
                 </div>
             </div>
@@ -78,7 +100,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                 <div className="dashboard-cards">
                     <div className={`card ${showHelp === "water" ? "expanded" : ""}`}>
-                        <h3>Total Water Used(1hr)</h3>
+                        <h3>{t('dashboard.totalWaterUsed')}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
@@ -88,14 +110,14 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         {showHelp === "water" && (
                             <div className="popup-card">
                                 <ul>
-                                    <li> This shows the total water used in the last hour. It’s based on real-time flow rate data.</li>
-                                    <li> If the pump is off, the water used will be 0 and flowrate will be 0</li>
+                                    <li>{t('popUpCard.waterUsedl1')}</li>
+                                    <li> {t('popUpCard.waterUsedl2')}</li>
                                 </ul>
                             </div>
                         )}
                     </div>
                     <div className={`card ${showHelp === "moisture" ? "expanded" : ""}`}>
-                        <h3>Current Soil Moisture</h3>
+                        <h3>{t('dashboard.currentSoilMoisture')}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
@@ -104,13 +126,13 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <p>{moisture?.moisture}<span>{moisture?.moistureUnit}</span></p>
                         {showHelp === "moisture" && (
                             <div className="popup-card">
-                                This shows the current soil moisture level. It’s based on real-time moisture sensor data.
+                                {t('popUpCard.soilMoisturel1')}
                             </div>
                         )}
                     </div>
 
                     <div className={`card ${showHelp === "pump" ? "expanded" : ""}`}>
-                        <h3>Pump Runtime</h3>
+                        <h3>{t('dashboard.pumpRuntime')}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
@@ -125,14 +147,14 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         </p>
                         {showHelp === "pump" && (
                             <div className="popup-card">
-                                This shows the total pump runtime in the last 24 hours. It's based on real-time relay inputs.
+                                {t('popUpCard.pumpRuntimel1')}
                             </div>
                         )}
 
                     </div>
                     <div className="dashboard-cards2">
                         <div className="flow-rate">
-                            <div className="flow-rate-title"><h3>Flow Rate - Last 1hr</h3></div>
+                            <div className="flow-rate-title"><h3>{t('dashboard.flowRate')}</h3></div>
                             <div className="flow-rate-graph">
                                 <div style={{ width: "100%", height: "100%" }}>
                                     <ResponsiveContainer width="100%" height={300} >
@@ -164,7 +186,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                             </div>
                         </div>
                         <div className="pump-rate">
-                            <div className="pump-rate-title"><h3>Pump Rate</h3></div>
+                            <div className="pump-rate-title"><h3>{t('dashboard.pumpRate')}</h3></div>
                             <div className="pump-rate-graph">
                                 <div style={{ position: "relative", width: "160px", height: "260px", margin: "20px auto" }}>
                                     <ResponsiveContainer width="100%" height="100%">
@@ -218,7 +240,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         </div>
 
                         <div className="pump-status">
-                            <h3 className="pump-status-title">Pump Status</h3>
+                            <h3 className="pump-status-title">{t('dashboard.pumpStatus')}</h3>
                             <div className="pump-status-current"><div className="pump-status-now" style={{ backgroundColor: pumpColor }}><h1>{waterFlow?.pumpStatus}</h1></div></div>
                         </div>
                     </div>
@@ -230,7 +252,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
                                         <XAxis
                                             dataKey="time"
-                                            interval={1}
+                                            interval={30}
 
                                             tick={({ x, y, payload }) => (
                                                 <text
@@ -258,10 +280,10 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                             </div>
                         </div>
                         <div className="dashboard-alerts">
-                            <div className="alerts-title"><h3>Alerts</h3></div>
+                            <div className="alerts-title"><h3>{t('dashboard.alerts')}</h3></div>
                             <div className="alerts">
                                 {unreadNotifications.length === 0 ? (
-                                    <p className="no-alerts">No new alerts</p>
+                                    <p className="no-alerts">{t('dashboard.noNewAlerts')}</p>
                                 ) : (
                                     unreadNotifications.map((alert, index) => (
                                         <div key={index} className="alert-item">

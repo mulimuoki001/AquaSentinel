@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import useGlobalContext from "../../../../context/useGlobalContext";
 import api from "../../../../../utils/axiosInstance";
+import { useTranslation } from "react-i18next";
 interface Notification {
     id: string;
     title: string;
@@ -29,9 +30,9 @@ interface PumpSession {
 export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { notifications, setNotifications } = useGlobalContext();
     const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
-    const { userData } = useGlobalContext();
+    const { currentLang, setLang } = useGlobalContext();
 
-
+    const { t } = useTranslation();
 
     // Polling for latest session
 
@@ -47,7 +48,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                     const uniqueId = `${session.id}-${session.end_time ?? "live"}`;
 
                     if (currentStatus !== lastStatus) {
-                        const alert = currentStatus === "OFF" ? "Pump turned OFF" : "Pump turned ON";
+                        const alert = currentStatus === "OFF" ? t("notifications.alert.off") : t("notifications.alert.on");
                         const createdAt = DateTime.now().toISO();
 
                         setNotifications((prev) => {
@@ -144,34 +145,52 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                     <Link to="/dashboard/farmer/export-logs">
                         <img src="../../fast-backward.png" alt="back" className="back-icon" />
                     </Link>
-                    <h1>Notifications</h1>
+                    <div className="page-title-text"> <h1>{t("notifications.title")}</h1></div>
                     <Link to="/dashboard/farmer/support-education">
                         <img src="../../fast-forward.png" alt="forward" />
                     </Link>
                 </div>
                 <div className="header-nav">
-                    <div className="header-profile">
-                        <Link to="/dashboard/farmer/farmer-profile">
-                            <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-                        </Link>
-                        <a className="profile-link" href="/dashboard/farmer/farmer-profile">Profile</a>
+                    <div className="header-language">
+                        <label htmlFor="lang-select" className="profile-link" style={{ marginRight: "8px" }}>
+                            🌐
+                        </label>
+                        <select
+                            id="lang-select"
+                            value={currentLang}
+                            onChange={(e) => setLang(e.target.value)}
+                            className="profile-link"
+                            style={{
+                                background: " #0e2c38",
+                                border: "1px solid #ccc",
+                                padding: "4px 6px",
+                                borderRadius: "4px",
+                                color: "#fff",
+                                cursor: "pointer",
+                                fontSize: "16px",
+                                borderBlockColor: " #1568bb",
+                                borderColor: " #1568bb"
+                            }}
+                        >
+                            <option value="en">English</option>
+                            <option value="rw">Kinyarwanda</option>
+                        </select>
                     </div>
                     <div className="header-settings">
-                        <Link to="/dashboard/farmer/settings">
-                            <img className="settings-icon" src="../../Settings.png" alt="" />
+                        <Link to="/dashboard/farmer/settings"><img className="settings-icon" src="../../Settings.png" alt="" />
                         </Link>
-                        <a className="settings-link" href="/dashboard/farmer/settings">Settings</a>
+                        <a className="settings-link" href="/dashboard/farmer/settings">{t("dashboard.settings")}</a>
                     </div>
                     <div className="header-logout">
                         <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
-                        <a className="logout-link" onClick={handleLogout}>Logout</a>
+                        <a className="logout-link" onClick={handleLogout}>{t("dashboard.logout")}</a>
                     </div>
                 </div>
             </div>
             <div className="notifications-container">
                 <div className="notifications-header">
-                    <h1>Notifications</h1>
-                    <button className="clear-all" onClick={clearAllNotifications}>Clear All</button>
+                    <h1>{t("notifications.current")}</h1>
+                    <button className="clear-all" onClick={clearAllNotifications}>{t("notifications.clearAll")}</button>
                 </div>
                 <div className="notifications-list">
                     {notifications.map((notification) => (
@@ -185,7 +204,7 @@ export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                                 onClick={() => markAsRead(notification.id)}
                                 disabled={notification.read}
                             >
-                                {notification.read ? "Read" : "Mark as read"}
+                                {notification.read ? t("notifications.read") : t("notifications.markAsRead")}
                             </button>
                         </div>
                     ))}

@@ -187,7 +187,8 @@ export const getAllWaterFlowData = async (req: Request, res: Response) => {
         const result = await (await db).query(`
       SELECT 
       id, flowRate, flowUnit, pumpStatus, timestamp, TO_CHAR(date, 'YYYY-MM-DD') AS date, time FROM water_flow_sensor_data
-      ORDER BY timestamp ASC
+      ORDER BY timestamp DESC
+      LIMIT 1000;
     `
         );
         res.json({ success: true, data: result.rows });

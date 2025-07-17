@@ -1,3 +1,7 @@
+:root {
+    --secondary-blue: #062f58;
+}
+
 .success-page {
     display: flex;
     flex-direction: column;
@@ -13,7 +17,7 @@
 .success-page h1 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #2e7d32;
+    color: #05ce0f;
 }
 
 .success-page p {
@@ -25,7 +29,7 @@
 
 .login-button,
 .register-another-button {
-    background-color: #1a1919;
+    background-color: var(--secondary-blue);
     color: #ffffff;
     padding: 12px 24px;
     font-size: 1rem;
@@ -38,7 +42,7 @@
 
 .login-button:hover,
 .register-another-button:hover {
-    background-color: #333333;
+    background-color: #046697;
 }
 
 /* Responsive Design */

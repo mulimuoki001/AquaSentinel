@@ -1,0 +1,175 @@
+{
+    "dashboard": {
+        "language": "Language",
+        "overview": "Dashboard Overview",
+        "totalWaterUsed": "Total Water Used(1hr)",
+        "currentSoilMoisture": "Current Soil Moisture",
+        "pumpRuntime": "Pump Runtime",
+        "flowRate": "Flow Rate - Last 1hr",
+        "pumpRate": "Pump Rate",
+        "pumpStatus": "Pump Status",
+        "waterUsage": "Water Usage",
+        "alerts": "Alerts",
+        "noNewAlerts": "No new alerts",
+        "settings": "Settings",
+        "logout": "Logout"
+    },
+    "popUpCard": {
+        "waterUsedl1": "This shows the total water used in the last hour. It’s based on real-time flow rate data.",
+        "waterUsedl2": "If the pump is off, the water used will be 0 and flowrate will be 0",
+        "pumpRuntimel1": "This shows the total runtime of the pump in the last hour. It’s based on real-time flow rate data.",
+        "pumpRate": "Pump Rate",
+        "flowRate": "Flow Rate",
+        "soilMoisturel1": "This shows the current soil moisture. It’s based on real-time soil moisture data."
+    },
+    "irrigation": {
+        "title": "Irrigation History",
+        "totalWaterUsed": "Total Water Used Today",
+        "avgDuration": "Avg Duration of Irrigation (per Day)",
+        "efficiency": "Efficiency Trend",
+        "help": {
+            "water": "This shows the total water used in irrigation sessions recorded today.",
+            "duration": "This shows the average duration of irrigation sessions recorded today.",
+            "efficiency": {
+                "desc": "This shows the average efficiency of irrigation sessions recorded today.",
+                "guideTitle": "Efficiency Guide:",
+                "high": "75–100%",
+                "highDesc": "High Efficiency – Optimal water usage.",
+                "medium": "50–74%",
+                "mediumDesc": "Medium Efficiency – Monitor closely.",
+                "low": "Below 50%",
+                "lowDesc": "Low Efficiency – Possible over-irrigation, underflow, or system faults."
+            }
+        },
+        "table": {
+            "date": "Date",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "duration": "Duration (mins)",
+            "waterUsed": "Water Used (L)",
+            "status": "Status"
+        }
+    },
+    "pagination": {
+        "prev": "Prev",
+        "next": "Next",
+        "page": "Page",
+        "of": "of"
+    },
+    "recommendations": {
+        "title": "Smart Recommendations",
+        "none": "No new recommendations today"
+    },
+    "exportLogs": {
+        "title": "Export Logs",
+        "modalTitle": "Export Logs Explained",
+        "modalDesc1": "This page allows you to export your irrigation logs in either CSV or PDF format. These logs include data such as:",
+        "fields": {
+            "dateTime": "Date and time of irrigation",
+            "flowRate": "Water flow rate (L/hr)",
+            "flowUnit": "Water flow unit (L/min or GPM)",
+            "pumpStatus": "Pump status (ON/OFF)"
+        },
+        "modalDesc2": "Exporting helps you keep offline records and analyze your irrigation practices. Ideal for compliance, planning, or sharing with advisors.",
+        "gotIt": "Got it!",
+        "exportButtonTitle": "Export Logs",
+        "exportCSV": "Export CSV",
+        "exportPDF": "Export PDF",
+        "csvTitle": "CSV Format:",
+        "csvPoint1": "Open in Excel or Google Sheets",
+        "csvPoint2": "Includes timestamp, flow rate, pump status",
+        "csvPoint3": "Useful for data analysis and graphs",
+        "csvDesc": "Use this format for deeper analysis, charts, or sharing with technical advisors.",
+        "pdfTitle": "PDF Format:",
+        "pdfPoint1": "Print-friendly report",
+        "pdfPoint2": "Contains summary of irrigation activity",
+        "pdfPoint3": "Ideal for sharing and offline use",
+        "pdfDesc": "Use this format to print, share with agronomists, or keep official offline records."
+    },
+    "notifications": {
+        "title": "Notifications",
+        "clearAll": "Clear All",
+        "current": "Recent Notifications",
+        "markAsRead": "Mark as read",
+        "read": "Read",
+        "alert": {
+            "on": "Pump turned ON",
+            "off": "Pump turned OFF"
+        }
+    },
+    "support": {
+        "title": "Support & Education",
+        "tabs": {
+            "videos": "Video Tutorials",
+            "guide": "User Guide",
+            "faqs": "FAQs",
+            "chat": "Chat Support"
+        },
+        "description": {
+            "video": "Watch our video tutorials to learn how to use AquaSentinel"
+        },
+        "buttons": {
+            "gettingStarted": "Getting Started",
+            "settings": "Settings",
+            "faqs": "FAQs"
+        },
+        "questions": {
+            "whenToIrrigate": "How do I know when to irrigate?",
+            "moistureLevel": "What does the soil moisture percentage mean?",
+            "pumpStatusMeaning": "What does pump status ON/OFF mean?",
+            "irrigationDurationAdvice": "How long should irrigation last?"
+        }
+    },
+    "profile": {
+        "title": "My Profile",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "farmDetails": "Farm Details",
+        "farmName": "Farm Name",
+        "farmLocation": "Farm Location",
+        "farmPhone": "Farm Phone",
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
+    "nav": {
+        "dashboard": "Dashboard Overview",
+        "irrigationHistory": "Irrigation History",
+        "smartFarm": "Smart Farm Recommendations",
+        "exportLogs": "Export Logs (CSV/PDF)",
+        "alerts": "Alerts & Notifications",
+        "support": "Support & Education",
+        "profile": "Profile",
+        "settings": "Settings",
+        "logout": "Logout",
+        "district": "District"
+    },
+    "provider": {
+        "dashboard": "Dashboard Overview",
+        "farmMonitoring": "Farm Monitoring",
+        "IrrigationSessions": "Irrigation Sessions",
+        "alerts": "Alerts & Notifications",
+        "recommendations": "Recommendations",
+        "maintenance": "Maintenance Requests",
+        "export": "Export Center",
+        "settings": "Settings",
+        "logout": "Logout",
+        "district": "District"
+    },
+    "providerDashboard": {
+        "title": "This is Provider Dashboard National Overview"
+    },
+    "rab": {
+        "nationalOverview": "National Overview",
+        "districtMonitoring": "District & Zone Monitoring",
+        "liveAlerts": "Live Alerts & Incidents",
+        "complianceReports": "Compliance & Efficiency Reports",
+        "policyInsights": "Recommendations & Policy Insights",
+        "exportReports": "Export & Reports",
+        "adminSettings": "Admin Settings"
+    },
+    "rabDashboard": {
+        "title": "This is RAB Dashboard National Overview"
+    }
+}

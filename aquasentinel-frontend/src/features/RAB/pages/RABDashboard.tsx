@@ -1,11 +1,9 @@
 import withTokenValidation from '../../authentication/hooks/tokenValidationWrapper';
-import LogoutPage from '../../authentication/pages/Logout';
-import RABProfile from '../components/RABProfile';
+import DashboardOverviewLayout from '../components/mainComponents/DashboardOverview/dashboardOverviewLayout';
 const RABDashboard = () => {
   return (
     <div>
-      <RABProfile />
-      <LogoutPage />
+      <DashboardOverviewLayout />
     </div>
   );
 };

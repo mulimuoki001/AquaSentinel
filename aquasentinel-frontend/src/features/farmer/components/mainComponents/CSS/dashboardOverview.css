@@ -37,9 +37,8 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: space-around;
-  gap: 20px;
-  margin-left: auto;
+  justify-content: space-between;
+  gap: 50px;
   margin-right: 20px;
 }
 
@@ -50,6 +49,13 @@
   display: flex;
   align-items: center;
   flex-direction: row;
+}
+
+.page-title-text {
+  color: #537adf;
+  font-size: 14px;
+  font-weight: bold;
+
 }
 
 .page-title img {
@@ -73,12 +79,19 @@
   color: #537adf;
 }
 
-.header-profile,
+.header-language,
 .header-settings,
 .header-logout {
   display: flex;
   align-items: center;
   cursor: pointer;
+  align-items: center;
+  gap: -5px;
+  margin-right: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease
 }
 
 .profile-icon {
@@ -127,7 +140,7 @@
   display: flex;
   flex-direction: column;
   height: 80px;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   overflow: hidden;
 }
@@ -188,7 +201,7 @@
   border-radius: 5px;
   box-shadow: 0 2px 10px var(--border-color);
   transition: transform 0.2s ease;
-  width: 600px;
+  width: 500px;
   height: 50px;
 }
 
@@ -200,7 +213,7 @@
   justify-content: center;
   gap: 20px;
   max-height: 600px;
-  max-width: 600px;
+  max-width: 500px;
   padding: 5px 0;
   background-color: var(--card-bg);
   border-radius: 10px;
@@ -393,8 +406,14 @@
 
 @media (max-width: 1250px) {
   .card {
-    padding: 0 50px;
+    padding: 10 50px;
     width: 300px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .card h3 {
+    font-size: 12px;
   }
 }
 
@@ -403,11 +422,17 @@
     max-width: 250px;
   }
 
-  .flow-rate-title {
-    width: 250px;
+  card h3 {
+    font-size: 10px;
+
   }
 
-  .card h3 {
+  .flow-rate-title {
+    width: 250px;
+    font-size: 10px;
+  }
+
+  .pump-rate-title .card h3 {
     font-size: 15px;
   }
 
@@ -417,6 +442,7 @@
 
   .pump-rate-title {
     width: 250px;
+    font-size: 10px;
   }
 
   .pump-status {
@@ -430,18 +456,28 @@
   .water-usage-line-graph {
     width: 300px;
   }
+
+  .dashboard-header.open {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 950px) {
   .card {
-    padding: 0 50px;
+    padding: 10 50px;
     width: 250px;
   }
+
+
 }
 
 @media (max-width: 870px) {
+
+
   .card {
-    padding: 0 50px;
+    padding: 10 50px;
   }
 
   .pump-status {
@@ -462,13 +498,15 @@
   .alert {
     width: 300px;
   }
+
+
 }
 
 
 
 @media (max-width: 800px) {
   .card {
-    padding: 0 40px;
+    padding: 10 40px;
     width: 200px;
   }
 
@@ -479,9 +517,6 @@
 
 /*Responsive Design Tablet*/
 @media (max-width: 768px) {
-  .page-title {
-    font-size: 10px;
-  }
 
   .page-title img {
     width: 20px;
@@ -489,7 +524,7 @@
   }
 
   .card {
-    padding: 0 40px;
+    padding: 10 40px;
   }
 
   .flow-rate {
@@ -570,14 +605,7 @@
 }
 
 @media (max-width: 695px) {
-  .page-title {
-    font-size: 10px;
-  }
 
-  .page-title img {
-    width: 20px;
-    height: 20px;
-  }
 
   .header-nav {
     gap: 10px;
@@ -585,31 +613,17 @@
   }
 
   .card {
-    padding: 0 30px;
+    padding: 10 30px;
   }
 
-  .card h3 {
-    font-size: 16px;
-  }
-
-  .card p {
-    font-size: 20px;
-  }
 }
 
 @media (max-width: 670px) {
   .card {
-    padding: 0 20px;
+    padding: 10 20px;
     width: 400px;
   }
 
-  .card h3 {
-    font-size: 26px;
-  }
-
-  .card p {
-    font-size: 20px;
-  }
 
   .pump-status {
     padding: 0 10px;
@@ -666,11 +680,16 @@
 @media (max-width: 600px) {
   .header-nav {
     gap: 20px;
+
   }
 
-  .page-title {
-    font-size: 10px;
+  .header-settings,
+  .header-logout,
+  .header-language {
+    margin-right: 0px;
   }
+
+
 
   .page-title img {
     width: 20px;
@@ -681,8 +700,9 @@
     margin-right: 10px;
   }
 
-  .header-nav a {
-    font-size: 12px;
+
+  .profile-link {
+    font-size: 20px;
   }
 
   .header-nav img {
@@ -693,32 +713,28 @@
 
 @media (max-width: 564px) {
   .card {
-    padding: 0 10px;
+    padding: 10 10px;
   }
 
-  .card h3 {
-    font-size: 16px;
-  }
 
-  .card p {
-    font-size: 20px;
-  }
 }
 
-@media (max-width: 543px) {
+@media (max-width: 555px) {
   .page-title {
-    font-size: 6px;
+    font-size: 10px;
   }
 
-  .page-title img {
-    width: 10px;
-    height: 10px;
-  }
+
 }
 
 @media (max-width: 500px) {
-  .header-nav img {
-    display: none;
+
+  .header-nav a {
+    font-size: 12px;
+  }
+
+  .profile-link {
+    font-size: 14px;
   }
 
   .card {
@@ -753,5 +769,50 @@
 
   .alert p {
     font-size: 10px;
+  }
+}
+
+@media (max-width: 425px) {
+  .page-title {
+    font-size: 8px;
+  }
+
+  .header-nav {
+    gap: 10px
+  }
+
+  .header-nav a {
+    font-size: 12px;
+  }
+
+  .profile-link {
+    font-size: 14px;
+  }
+
+  .header-nav img {
+    display: none;
+  }
+
+  .profile-link {
+    font-size: 0px;
+  }
+
+}
+
+@media (max-width: 375px) {
+  .header-nav {
+    gap: 4px
+  }
+
+
+}
+
+@media (max-width: 360px) {
+  .page-title {
+    font-size: 6px;
+  }
+
+  .header-nav {
+    gap: 6px
   }
 }
