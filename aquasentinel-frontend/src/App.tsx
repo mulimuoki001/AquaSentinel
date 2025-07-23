@@ -13,6 +13,10 @@ import "../src/features/farmer/components/mainComponents/CSS/smartRecommendation
 import "../src/features/farmer/components/mainComponents/CSS/supportEducation.css";
 import "../src/features/authentication/pages/css/RegistrationSuccess.css";
 import "../src/features/authentication/pages/css/WelcomePage.css";
+import "../src/features/provider/components/mainComponents/CSS/providerDashboard.css";
+import "../src/features/provider/components/mainComponents/CSS/farmMonitoring.css";
+import "../src/features/provider/components/mainComponents/CSS/exportCenter.css";
+import "../src/features/provider/components/mainComponents/CSS/providerAlerts.css";
 import AppRoutes from './routes/AppRouter';
 const App: React.FC = () => {
   return (

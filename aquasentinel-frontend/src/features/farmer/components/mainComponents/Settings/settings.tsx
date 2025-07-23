@@ -12,10 +12,7 @@ export const Settings: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <Link to="/dashboard/farmer"><img src="../../fast-backward.png" className="back-icon" alt="back" /></Link>
-                    <div className="page-title-text"> <h1>{t('settings.title')}</h1></div>
-                    <Link to="/dashboard/farmer/smart-recommendations"><img src="../../fast-forward.png" alt="forward" /></Link>
-                </div>
+                    <div className="page-title-text"> <h1>{t('dashboard.settings')}</h1></div>                </div>
                 <div className="header-nav">
                     <div className="header-language">
                         <label htmlFor="lang-select" className="profile-link" style={{ marginRight: "8px" }}>

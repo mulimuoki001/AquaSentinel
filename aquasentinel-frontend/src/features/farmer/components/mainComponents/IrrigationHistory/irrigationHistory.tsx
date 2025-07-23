@@ -15,9 +15,10 @@ interface NavBarProps {
 }
 export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { userData, currentLang, setLang } = useGlobalContext();
+    const [avgFlowRate, setAvgFlowRate] = useState<number>(0);
+    const [realTimeLiters, setRealTimeLiters] = useState<number>(0);
     const { t } = useTranslation();
     const userId = userData?.id;
-
     const [showHelp, setShowHelp] = useState<"water" | "duration" | "efficiency" | null>(null);
     const irrigationdata = useIrrigationSessions(userId);
     const { totalWaterUsed } = useTotalWaterUsedDaily(userId);
@@ -71,20 +72,45 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 "yyyy-MM-dd HH:mm:ss"
             );
 
-            const updateDuration = () => {
-                const now = DateTime.now();
-                const diff = now.diff(start, "minutes").minutes;
-                setLiveDuration(parseFloat(diff.toFixed(2)));
+            const fetchAvgFlow = async () => {
+                try {
+                    const res = await fetch(`/api/sensors/water-flow-data?userId=${userId}`);
+                    const data = await res.json();
+                    const flowRates = data?.filter((r: any) =>
+                        r.date === inProgressSession.date &&
+                        r.time >= inProgressSession.start_time
+                    ).map((r: any) => parseFloat(r.flowrate)).filter((n: number) => !isNaN(n));
+
+                    const average = flowRates.length
+                        ? flowRates.reduce((sum: number, f: number) => sum + f, 0) / flowRates.length
+                        : 0;
+
+                    setAvgFlowRate(average);
+                } catch (error) {
+                    console.error("Error fetching average flow rate:", error);
+                    setAvgFlowRate(0);
+                }
             };
 
-            updateDuration(); // initial run
-            const interval = setInterval(updateDuration, 1000); // update every second
+            fetchAvgFlow();
+
+            const update = () => {
+                const now = DateTime.now();
+                const diff = now.diff(start, "minutes").minutes;
+                const roundedDuration = parseFloat(diff.toFixed(2));
+                setLiveDuration(roundedDuration);
+                setRealTimeLiters(parseFloat((avgFlowRate * roundedDuration).toFixed(2)));
+            };
+
+            update(); // initial run
+            const interval = setInterval(update, 1000); // update every second
 
             return () => clearInterval(interval);
         } else {
             setLiveDuration(0);
+            setRealTimeLiters(0);
         }
-    }, [irrigationdata.sessions]);
+    }, [irrigationdata.sessions, userId, avgFlowRate]);
 
 
     return (
@@ -136,14 +162,14 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 <div className="irrigation-history-cards">
                     <div className={`irrigation-history-card ${showHelp === "water" ? "expanded" : ""}`}>
 
-                        <h3>T{t("irrigation.totalWaterUsed")}</h3>
+                        <h3>{t("irrigation.totalWaterUsed")}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
                             onClick={() => setShowHelp(prev => (prev === "water" ? null : "water"))}
                         />
 
-                        <p className="irrigation-history-cardp">{totalLiters} <span>L</span></p>
+                        <p className="irrigation-history-cardp">{totalLiters.toFixed(2)} <span>L</span></p>
 
                         {showHelp === "water" && (
                             <div className="popup-card">
@@ -152,7 +178,7 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         )}
                     </div>
                     <div className={`irrigation-history-card ${showHelp === "duration" ? "expanded" : ""}`}>
-                        <h3>T{t("irrigation.avgDuration")}</h3>
+                        <h3>{t("irrigation.avgDuration")}</h3>
                         <img
                             src="../../info.png"
                             className="info-icon"
@@ -219,7 +245,15 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                         ) : (
                                             irrigation.duration
                                         )}</td>
-                                        <td>{irrigation.total_liters}</td>
+                                        <td>
+                                            {irrigation.status === "In Progress" ? (
+                                                <span style={{ color: "yellow", fontWeight: "bold" }}>
+                                                    {realTimeLiters.toFixed(2)}
+                                                </span>
+                                            ) : (
+                                                irrigation.total_liters
+                                            )}
+                                        </td>
                                         <td className="status-cell">
                                             <img src={getStatusIcon(irrigation.status)} alt={irrigation.status} className="status-icon" />
                                             <span>{irrigation.status}</span>

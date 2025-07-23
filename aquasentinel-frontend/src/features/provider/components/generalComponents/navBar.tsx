@@ -72,7 +72,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           <p>{t('provider.farmMonitoring')}</p>
         </Link>
         <Link to="/dashboard/provider/irrigation-sessions" className={`sidebar-item ${location.pathname === "/dashboard/provider/irrigation-sessions" ? "active" : ""}`}>
-          <p>{t('provider.irrigationSessions')}</p>
+          <p>{t('provider.IrrigationSessions')}</p>
         </Link>
         <Link to="/dashboard/provider/recommendations" className={`sidebar-item ${location.pathname === "/dashboard/provider/recommendations" ? "active" : ""}`}>
           <p>{t('provider.recommendations')}</p>

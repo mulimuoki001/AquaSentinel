@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.04% </span>
+                <span class="strong">52.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>60/109</span>
+                <span class='fraction'>60/115</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.51% </span>
+                <span class="strong">42.55% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/43</span>
+                <span class='fraction'>20/47</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">45.45% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>5/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.88% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>55/104</span>
+                <span class='fraction'>55/110</span>
             </div>
         
             
@@ -290,7 +290,17 @@
 <a name='L225'></a><a href='#L225'>225</a>
 <a name='L226'></a><a href='#L226'>226</a>
 <a name='L227'></a><a href='#L227'>227</a>
-<a name='L228'></a><a href='#L228'>228</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -436,6 +446,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -451,6 +466,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -662,6 +682,11 @@ export const logoutAll: RequestHandler = <span class="fstat-no" title="function 
 <span class="cstat-no" title="statement not covered" >    fs.writeFile(</span>
       "tokenBlacklist.json",
       JSON.stringify([...tokenBlacklist]),
+<span class="fstat-no" title="function not covered" >      (e</span>rr: NodeJS.ErrnoException | null) =&gt; {
+<span class="cstat-no" title="statement not covered" >        if (err)</span>
+<span class="cstat-no" title="statement not covered" >          console.error("❌ Error saving token blacklist:", err.message);</span>
+        else <span class="cstat-no" title="statement not covered" >console.log("✅ Token added to blacklist and saved to file");</span>
+      }
     );
     //Remove all active tokens from the json file
 <span class="cstat-no" title="statement not covered" >    await removeActiveTokens();</span>
@@ -679,6 +704,11 @@ const logoutUser = <span class="fstat-no" title="function not covered" >async </
 <span class="cstat-no" title="statement not covered" >    fs.writeFile(</span>
       "tokenBlacklist.json",
       JSON.stringify([...tokenBlacklist]),
+<span class="fstat-no" title="function not covered" >      (e</span>rr: NodeJS.ErrnoException | null) =&gt; {
+<span class="cstat-no" title="statement not covered" >        if (err)</span>
+<span class="cstat-no" title="statement not covered" >          console.error("❌ Error saving token blacklist:", err.message);</span>
+        else <span class="cstat-no" title="statement not covered" >console.log("✅ Token added to blacklist and saved to file");</span>
+      }
     );
     // Delete token from database
 <span class="cstat-no" title="statement not covered" >    await removeActiveToken(token);</span>
@@ -751,7 +781,7 @@ export const validateToken: RequestHandler = <span class="fstat-no" title="funct
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-16T01:31:33.679Z
+                at 2025-07-17T03:56:43.731Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

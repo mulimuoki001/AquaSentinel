@@ -2,6 +2,7 @@ import { db } from "../config/db";
 
 export interface MoistureRecord {
   id?: number;
+  userId: number;
   moisture: number;
   moistureUnit?: string; // default = '%'
   moistureChange?: number;
@@ -11,10 +12,10 @@ export interface MoistureRecord {
 // ✅ Insert new moisture record
 export async function saveMoistureData(data: MoistureRecord): Promise<void> {
   const query = `
-    INSERT INTO moisture_data1 (moisture, moisture_unit, moisture_change)
-    VALUES ($1, $2, $3)
+    INSERT INTO moisture_data1 (user_id, moisture, moisture_unit, moisture_change)
+    VALUES ($1, $2, $3, $4)
   `;
-  const values = [data.moisture, data.moistureUnit || '%', data.moistureChange || 0];
+  const values = [data.userId, data.moisture, data.moistureUnit || '%', data.moistureChange || 0];
   await (await db).query(query, values);
 }
 

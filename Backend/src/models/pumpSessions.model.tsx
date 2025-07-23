@@ -19,11 +19,29 @@ export async function logPumpSession(status: "ON" | "OFF", userId?: number) {
     `);
 
     if (check.rows.length === 0) {
+      const userInfo = await (await db).query(`
+  SELECT name AS farmowner, farmname, farmlocation, farmphone
+  FROM users
+  WHERE id = $1
+`, [userId]);
+
+      const { farmowner, farmname, farmlocation, farmphone } = userInfo.rows[0] || {};
+
       await (await db).query(`
-        INSERT INTO pump_sessions (start_time, date, status, user_id)
-        VALUES ($1, CURRENT_DATE, 'In Progress', $2)
-      `, [timeNow, userId ?? null]);
-      console.log("Pump session started");
+      INSERT INTO pump_sessions (
+        start_time, date, status, user_id,
+        farmowner, farmname, farmlocation, farmphone
+      ) VALUES ($1, CURRENT_DATE, 'In Progress', $2, $3, $4, $5, $6)
+    `, [
+        timeNow,
+        userId ?? null,
+        farmowner,
+        farmname,
+        farmlocation,
+        farmphone
+      ]);
+
+      console.log("Pump session started with farm metadata");
     }
   }
 

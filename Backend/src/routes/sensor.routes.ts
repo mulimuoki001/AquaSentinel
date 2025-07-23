@@ -2,6 +2,9 @@ import { Router } from "express";
 import { fetchRecentMoisture, getWaterUsedLast1hr, fetchRecentWaterFlow, getPumpRuntimeHandler, getFlowRateGraphData, getAllWaterFlowData, getWaterUsageTodayHandler, fetchAllWaterFlowDataPerUser } from "../controllers/sensor.controller";
 import { authenticateJWT } from "../middleware/auth.middleware";
 import { getLivePumpSession, getAllPumpSessions, getUserPumpSessions, getTotalWaterUsedDailybyUser } from "../controllers/pumpSessions.controller";
+import { authorizeRoles } from "../middleware/role.middleware";
+import { getProviderRecommendations } from "../controllers/providerAi.controller";
+import { get } from "http";
 
 const moistureRouter = Router();
 
@@ -21,11 +24,11 @@ moistureRouter.get("/all-water-flow-data-per-user/:userId", fetchAllWaterFlowDat
 
 // Pump Session
 moistureRouter.get("/live-pump-session", getLivePumpSession, authenticateJWT);
-moistureRouter.get("/all-pump-sessions", getAllPumpSessions, authenticateJWT);
+moistureRouter.get("/all-pump-sessions", getAllPumpSessions, authenticateJWT, authorizeRoles("provider"));
 moistureRouter.get("/user-pump-sessions/:userId", getUserPumpSessions, authenticateJWT);
 moistureRouter.get("/total-water-used-daily-by-user/:userId", getTotalWaterUsedDailybyUser, authenticateJWT);
 
-
-// Delete all water flow data (for testing purposes)
+// Get provider recommendations
+moistureRouter.get("/provider-recommendations", getProviderRecommendations);
 // moistureRouter.delete("/delete-all-water-flow-data", async (req, res) => await getAllWaterFlowData(req, res));
 export default moistureRouter;

@@ -118,7 +118,7 @@ void loop()
   client.loop();
 
   int moistureValue = analogRead(MOISTURE_SENSOR_PIN);
-  int moisturePercentage = map(moistureValue, 4095, 500, 0, 100);
+  int moisturePercentage = map(moistureValue, 4095, 1000, 0, 100);
   moisturePercentage = constrain(moisturePercentage, 0, 100);
   if (moisturePercentage < 45)
   {

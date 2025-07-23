@@ -66,9 +66,15 @@ export async function startMoistureLoop() {
             try {
                 const current = latestMoistureRecord.moisture || 0;
                 const change = latestMoistureRecord.moistureChange || 0;
+                const userId = latestMoistureRecord.userId;
+                if (!userId) {
+                    console.error("UserId is null or undefined");
+                    return;
+                }
                 lastMoisture = current;
 
                 const data = {
+                    userId,
                     moisture: current,
                     moistureChange: change,
                     moistureUnit: latestMoistureRecord.moistureUnit || "%",
@@ -81,7 +87,7 @@ export async function startMoistureLoop() {
             }
         }
 
-    }, 5000); // every 1 second
+    }, 5000); // every 5 seconds
 }
 
 

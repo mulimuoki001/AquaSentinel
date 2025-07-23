@@ -155,10 +155,18 @@
         "export": "Export Center",
         "settings": "Settings",
         "logout": "Logout",
+        "profile": "Profile",
         "district": "District"
     },
-    "providerDashboard": {
-        "title": "This is Provider Dashboard National Overview"
+    "providerFarmMonitoring": {
+        "farmMonitoring": "Farm Monitoring",
+        "farmOverviewTitle": "Farm Overview",
+        "farmOverviewDescription": "Monitor all registered farms including their location, active devices, and current status of irrigation systems.",
+        "farmName": "Farm Name",
+        "owner": "Owner",
+        "location": "Location",
+        "moisture": "Moisture (%)",
+        "pumpStatus": "Pump Status"
     },
     "rab": {
         "nationalOverview": "National Overview",
@@ -171,5 +179,41 @@
     },
     "rabDashboard": {
         "title": "This is RAB Dashboard National Overview"
+    },
+    "providerRecommendations": {
+        "title": " Recommendations",
+        "subtitle": "Overview of Smart AI Recommendations",
+        "description": "Review suggestions for irrigation efficiency and farm support",
+        "table": {
+            "farmName": "Farm Name",
+            "farmOwner": "Farm Owner",
+            "moisture": "Moisture (%)",
+            "flowRate": "Avg Flow (L/min)",
+            "recommendation": "AI Recommendation"
+        }
+    },
+    "providerExportCenter": {
+        "title": "Export Center",
+        "subtitle": "Download Farm Reports",
+        "description": "Export irrigation sessions or summaries for offline use.",
+        "exportCSV": "Export All Sessions (CSV)",
+        "exportPDF": "Export Summary Stats (PDF)"
+    },
+    "providerAlerts": {
+        "title": "Alerts & Notifications",
+        "subtitle": "Real-time system alerts",
+        "description": "These alerts notify you of unusual irrigation patterns or potential issues with the farm system.",
+        "columns": {
+            "farm": "Farm",
+            "type": "Type",
+            "message": "Alert Message",
+            "severity": "Severity",
+            "timestamp": "Timestamp"
+        },
+        "severityLevels": {
+            "high": "High",
+            "medium": "Medium",
+            "low": "Low"
+        }
     }
 }

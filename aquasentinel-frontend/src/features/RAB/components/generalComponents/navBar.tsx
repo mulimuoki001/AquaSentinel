@@ -88,10 +88,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
         <div><br></br>
           <hr></hr>
           <br></br></div>
-        {/* <Link to="/dashboard/RAB/provider-profile" className={`sidebar-item ${location.pathname === "/dashboard/RAB/provider-profile" ? "active" : ""}`}>
-          <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData?.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-          <p>{t('provider.profile')}</p>
-        </Link> */}
+
         <Link to="/dashboard/RAB/admin-settings" className={`sidebar-item ${location.pathname === "/dashboard/RAB/admin-settings" ? "active" : ""}`}>
           <img src="../../Settings.png" alt="Settings" className="settings-icon" />
           <p>{t('rab.adminSettings')}</p>

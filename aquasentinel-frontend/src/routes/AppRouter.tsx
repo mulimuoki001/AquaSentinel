@@ -13,8 +13,12 @@ import ProviderDashboard from '../features/provider/pages/ProviderDashboard';
 import RegistrationSuccess from '../features/authentication/pages/RegistrationSuccessPage';
 import RABDashboard from '../features/RAB/pages/RABDashboard';
 import LandingPage from '../features/authentication/pages/WelcomePage';
+import FarmMonitoringLayout from '../features/provider/components/mainComponents/FarmMonitoring.ts/farmMonitoringLayout';
 import PrivateRoute from './privateRoute';
-
+import ProviderIrrigationSessionsLayout from '../features/provider/components/mainComponents/IrrigationSessions/irrigationSessionsLayout';
+import ProviderRecommendationsLayout from '../features/provider/components/mainComponents/ProviderRecommendations/recommendationsLayout';
+import ProviderAlertsLayout from '../features/provider/components/mainComponents/Alerts/providerAlertsLayout';
+import ProviderExportCenterLayout from '../features/provider/components/mainComponents/ExportCenter/providerExportCenterLayout';
 const AppRoutes = () => {
     return (
         <Routes>
@@ -34,6 +38,11 @@ const AppRoutes = () => {
             <Route path="/dashboard/farmer" element={<PrivateRoute><FarmerDashboard /></PrivateRoute>} />
             // Provider  Dashboard Routes
             <Route path="/dashboard/provider" element={<ProviderDashboard />} />
+            <Route path="/dashboard/provider/farm-monitoring" element={<PrivateRoute><FarmMonitoringLayout /></PrivateRoute>} />
+            <Route path="/dashboard/provider/irrigation-sessions" element={<PrivateRoute><ProviderIrrigationSessionsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/provider/recommendations" element={<PrivateRoute><ProviderRecommendationsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/provider/alerts" element={<PrivateRoute><ProviderAlertsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/provider/export-center" element={<PrivateRoute><ProviderExportCenterLayout /></PrivateRoute>} />
             // RAB Dashboard Routes
             <Route path="/dashboard/RAB" element={<RABDashboard />} />
         </Routes>

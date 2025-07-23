@@ -36,6 +36,7 @@ export const ensureDatabaseAndTables = async () => {
     await (await db).query(`
       CREATE TABLE IF NOT EXISTS moisture_data1 (
         id SERIAL PRIMARY KEY,
+        user_id INT,
         moisture INT NOT NULL,
         moisture_unit TEXT DEFAULT '%',
         moisture_change INT,
@@ -57,18 +58,24 @@ export const ensureDatabaseAndTables = async () => {
     `);
 
     await (await db).query(`
-      CREATE TABLE IF NOT EXISTS pump_sessions (
-        id SERIAL PRIMARY KEY,
-        user_id INT,
-        date DATE DEFAULT CURRENT_DATE,
-        start_time TEXT NOT NULL,
-        end_time TEXT,
-        duration FLOAT,        
-        total_liters FLOAT,
-        status VARCHAR(50)
-      );
-      
-    `);
+  CREATE TABLE IF NOT EXISTS pump_sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE SET NULL,
+    date DATE DEFAULT CURRENT_DATE,
+    start_time TEXT NOT NULL,
+    end_time TEXT,
+    duration FLOAT,        
+    total_liters FLOAT,
+    status VARCHAR(50)
+  );
+`);
+    await (await db).query(`
+  ALTER TABLE pump_sessions
+  ADD COLUMN IF NOT EXISTS farmowner TEXT,
+  ADD COLUMN IF NOT EXISTS farmname TEXT,
+  ADD COLUMN IF NOT EXISTS farmlocation TEXT,
+  ADD COLUMN IF NOT EXISTS farmphone TEXT;
+`);
     console.log("✅ Users table is ready");
   } catch (err) {
     console.error("❌ Error setting up database or tables:", err);

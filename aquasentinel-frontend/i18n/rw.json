@@ -160,8 +160,15 @@
         "logout": "Sohoka",
         "district": "Akarere"
     },
-    "providerDashboard": {
-        "title": "Isura y'Itangiriro"
+    "providerFarmMonitoring": {
+        "farmMonitoring": "Kugenzura Imirima",
+        "farmOverviewTitle": "Isura Rusange y’Imirima",
+        "farmOverviewDescription": "Kurikira imirima yose yanditswe harimo aho iherereye, ibikoresho bikora, n’imikorere y’uburyo bwo kuhira.",
+        "farmName": "Izina ry'Umurima",
+        "owner": "Nyir'Umurima",
+        "location": "Aho uherereye",
+        "moisture": "Ubushuhe (%)",
+        "pumpStatus": "Imikorere ya Pomp"
     },
     "rab": {
         "nationalOverview": "Incamake y’Igihugu",
@@ -174,5 +181,41 @@
     },
     "rabDashboard": {
         "title": "Incamake y’Igihugu"
+    },
+    "providerRecommendations": {
+        "title": "Inama zitangwa na AI",
+        "subtitle": "Incamake y'Inama z’Ubwenge bw’Imashini",
+        "description": "Reba ibyifuzo bigamije kunoza kuhira no gufasha ubuhinzi",
+        "table": {
+            "farmName": "Izina ry'Igishanga",
+            "farmOwner": "Nyiri Igishanga",
+            "moisture": "Ubushuhe (%)",
+            "flowRate": "Urusobe rw'amazi (L/min)",
+            "recommendation": "Inama za AI"
+        }
+    },
+    "providerExportCenter": {
+        "title": "Aho Usohorera Amakuru",
+        "subtitle": "Kuramo Raporo z’Igikorwa",
+        "description": "Sohora ibigendanye no kuhira cyangwa isesengura rusange ukoresheje CSV cyangwa PDF.",
+        "exportCSV": "Sohora Imyirondoro yose (CSV)",
+        "exportPDF": "Sohora Isesengura rusange (PDF)"
+    },
+    "providerAlerts": {
+        "title": "Amakuru n’Ibitangazo",
+        "subtitle": "Amatangazo ahita ajya ku gihe",
+        "description": "Aya ni amatangazo akumenyesha ibintu bidasanzwe cyangwa ibibazo bishobora kuba biri kuri system yo kuhira.",
+        "columns": {
+            "farm": "Umurima",
+            "type": "Ubwoko",
+            "message": "Ubutumwa",
+            "severity": "Ubukana",
+            "timestamp": "Igihe cyatanzwe"
+        },
+        "severityLevels": {
+            "high": "Cyane",
+            "medium": "Hagati",
+            "low": "Gito"
+        }
     }
 }
