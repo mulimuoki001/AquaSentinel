@@ -17,6 +17,8 @@ import "../src/features/provider/components/mainComponents/CSS/providerDashboard
 import "../src/features/provider/components/mainComponents/CSS/farmMonitoring.css";
 import "../src/features/provider/components/mainComponents/CSS/exportCenter.css";
 import "../src/features/provider/components/mainComponents/CSS/providerAlerts.css";
+import "../src/features/RAB/components/mainComponents/CSS/nationalOverview.css";
+import "../src/features/RAB/components/mainComponents/CSS/zoneMonitoring.css";
 import AppRoutes from './routes/AppRouter';
 const App: React.FC = () => {
   return (

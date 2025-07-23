@@ -177,8 +177,28 @@
         "exportReports": "Export & Reports",
         "adminSettings": "Admin Settings"
     },
+    "rabData": {
+        "zoneMonitoringTitle": "District & Zone Monitoring",
+        "zoneMonitoringDescription": "Track irrigation system status and performance by district and region.",
+        "filterAllDistricts": "All Districts",
+        "filterAllSeasons": "All Seasons",
+        "seasonA": "Season A",
+        "seasonB": "Season B",
+        "seasonC": "Season C",
+        "onlineFarms": "Online Farms",
+        "offlineFarms": "Offline Farms",
+        "avgEfficiency": "Avg. Efficiency",
+        "zoneMapPlaceholder": "Interactive district performance map will be displayed here.",
+        "adminSettings": "Admin Settings"
+    },
     "rabDashboard": {
-        "title": "This is RAB Dashboard National Overview"
+        "title": "Welcome to the Ministry Dashboard – Track national SSIT performance, district coverage, and water usage in real-time.",
+        "totalUsers": "Total SSIT Users",
+        "irrigatedLand": "Total Irrigated Land",
+        "districtsCovered": "Districts Covered",
+        "avgEfficiency": "Avg. Water Efficiency",
+        "subsidyImpact": "Subsidy Impact",
+        "subsidyNote": "Adoption increased by 34% after subsidy rollouts."
     },
     "providerRecommendations": {
         "title": " Recommendations",

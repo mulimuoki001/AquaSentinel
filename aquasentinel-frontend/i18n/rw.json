@@ -179,8 +179,28 @@
         "exportReports": "Kohereza Raporo",
         "adminSettings": "Imicungire y’Abayobozi"
     },
+    "rabData": {
+        "zoneMonitoringTitle": "Igenzura ry’Uturere n’Ibice",
+        "zoneMonitoringDescription": "Kurikirana uko uburyo bwo kuhira bukora mu turere n’udusozi.",
+        "filterAllDistricts": "Uturere twose",
+        "filterAllSeasons": "Igihembwe cyose",
+        "seasonA": "Igihembwe A",
+        "seasonB": "Igihembwe B",
+        "seasonC": "Igihembwe C",
+        "onlineFarms": "Imirima ikora",
+        "offlineFarms": "Imirima idakora",
+        "avgEfficiency": "Impuzandengo y’imikorere",
+        "zoneMapPlaceholder": "Ikarita igaragaza imikorere y’uturere izerekanwa hano.",
+        "adminSettings": "Igenamiterere ry’Ubuyobozi"
+    },
     "rabDashboard": {
-        "title": "Incamake y’Igihugu"
+        "title": "Murakaza neza kuri Dashboard y'Ikigo – Komeza ukurikirana uko SSIT ikoreshwa mu gihugu, ibipimo by'amazi, n’imikorere y’uturere.",
+        "totalUsers": "Abakoresha SSIT bose",
+        "irrigatedLand": "Ubuso bwuhirwa",
+        "districtsCovered": "Utugari dukorerwamo",
+        "avgEfficiency": "Impuzandengo y'imikoreshereze y'amazi",
+        "subsidyImpact": "Ingaruka z'Inkunga",
+        "subsidyNote": "Imikoreshereze yikubye inshuro 34% nyuma y'inkunga."
     },
     "providerRecommendations": {
         "title": "Inama zitangwa na AI",

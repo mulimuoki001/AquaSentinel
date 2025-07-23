@@ -19,6 +19,7 @@ import ProviderIrrigationSessionsLayout from '../features/provider/components/ma
 import ProviderRecommendationsLayout from '../features/provider/components/mainComponents/ProviderRecommendations/recommendationsLayout';
 import ProviderAlertsLayout from '../features/provider/components/mainComponents/Alerts/providerAlertsLayout';
 import ProviderExportCenterLayout from '../features/provider/components/mainComponents/ExportCenter/providerExportCenterLayout';
+import DistrictZoneMonitoringLayout from '../features/RAB/components/mainComponents/DistrictZoneMonitoring/zoneMonitoringLayout';
 const AppRoutes = () => {
     return (
         <Routes>
@@ -43,8 +44,10 @@ const AppRoutes = () => {
             <Route path="/dashboard/provider/recommendations" element={<PrivateRoute><ProviderRecommendationsLayout /></PrivateRoute>} />
             <Route path="/dashboard/provider/alerts" element={<PrivateRoute><ProviderAlertsLayout /></PrivateRoute>} />
             <Route path="/dashboard/provider/export-center" element={<PrivateRoute><ProviderExportCenterLayout /></PrivateRoute>} />
+
             // RAB Dashboard Routes
             <Route path="/dashboard/RAB" element={<RABDashboard />} />
+            <Route path="/dashboard/RAB/district-zone-monitoring" element={<PrivateRoute><DistrictZoneMonitoringLayout /></PrivateRoute>} />
         </Routes>
     )
 };

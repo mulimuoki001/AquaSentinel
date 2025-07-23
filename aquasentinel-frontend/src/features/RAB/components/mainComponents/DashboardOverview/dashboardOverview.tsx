@@ -16,7 +16,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
                     <div className="page-title-text"> <h1>{t('rab.nationalOverview')}</h1></div>
-                    <Link to="/dashboard/RAB/irrigation-sessions"><img src="../fast-forward.png" alt="forward" /></Link>
+                    <Link to="/dashboard/RAB/district-zone-monitoring"><img src="../../fast-forward.png" alt="forward" /></Link>
                 </div>
                 <div className="header-nav">
                     <div className="header-language">
@@ -50,15 +50,36 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                         <a className="settings-link" href="/dashboard/RAB/admin-settings">{t('rab.adminSettings')}</a>
                     </div>
                     <div className="header-logout">
-                        <img className="logout-icon" src="../logout.png" alt="Logout" onClick={handleLogout} />
+                        <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
                         <a className="logout-link" onClick={handleLogout}>{t('dashboard.logout')}</a>
                     </div>
                 </div>
             </div>
-            <div className="dashboard-overview-container" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-
-                <p>{t('rabDashboard.title')}</p>
+            <div className="dashboard-overview-container">
+                <div className="overview-grid">
+                    <div className="overview-card">
+                        <h3>{t('rabDashboard.totalUsers')}</h3>
+                        <p>1,250</p>
+                    </div>
+                    <div className="overview-card">
+                        <h3>{t('rabDashboard.irrigatedLand')}</h3>
+                        <p>7,400 ha</p>
+                    </div>
+                    <div className="overview-card">
+                        <h3>{t('rabDashboard.districtsCovered')}</h3>
+                        <p>23 districts</p>
+                    </div>
+                    <div className="overview-card">
+                        <h3>{t('rabDashboard.avgEfficiency')}</h3>
+                        <p>73%</p>
+                    </div>
+                    <div className="overview-card">
+                        <h3>{t('rabDashboard.subsidyImpact')}</h3>
+                        <p>{t('rabDashboard.subsidyNote')}</p>
+                    </div>
+                </div>
             </div>
+
         </div >
     );
 }

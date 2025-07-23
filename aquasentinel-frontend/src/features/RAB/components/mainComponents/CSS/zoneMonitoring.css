@@ -1,0 +1,81 @@
+.zone-monitoring-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.zone-desc {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #cccccc;
+    opacity: 0.85;
+}
+
+.zone-monitoring-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.zone-monitoring-controls select {
+    background-color: #0e2c38;
+    color: #fff;
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.zone-monitoring-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.zone-card {
+    background: linear-gradient(to bottom right, #061921, #0e2c38);
+    padding: 20px;
+    border-radius: 14px;
+    border-left: 4px solid var(--border-color);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease-in-out;
+}
+
+.zone-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(21, 104, 187, 0.3);
+}
+
+.zone-card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #16b1ff;
+    font-weight: 600;
+}
+
+.zone-card p {
+    font-size: 15px;
+    margin: 6px 0;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.zone-map {
+    text-align: center;
+    color: #ccc;
+}
+
+.map-placeholder {
+    height: 220px;
+    background-color: #0e2c38;
+    border: 1px dashed var(--border-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #16b1ff;
+    font-size: 18px;
+    margin-top: 10px;
+}
