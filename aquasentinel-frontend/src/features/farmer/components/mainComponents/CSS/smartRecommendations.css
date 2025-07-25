@@ -25,6 +25,7 @@
   margin: 0 auto;
   padding: 50px;
   border-radius: 20px;
+  margin-top: 180px;
 }
 
 .recommendation {
@@ -47,6 +48,12 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .smart-recommendations {
+    margin-top: 200px;
+  }
+}
+
 @media (max-width: 768px) {
   .smart-recommendations-container {
     padding: 10px;

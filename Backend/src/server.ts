@@ -59,12 +59,30 @@ async function startServer() {
           if ((currentStatus === "ON" || currentStatus === "OFF") && currentStatus !== lastStatus) {
             console.log(`⚙️ Pump status changed: ${lastStatus} → ${currentStatus}`);
             const session = await logPumpSession(currentStatus, userId);
-            const message = `Pump turmed: ${currentStatus}`;
+            let notificationMessage: { en: string; rw: string };
+            if (currentStatus === "ON") {
+              notificationMessage = {
+                en: `Pump turned on. `,
+                rw: `Kinywani kizamye. `,
+              };
+            } else if (currentStatus === "OFF") {
+              notificationMessage = {
+                en: `Pump turned off.`,
+                rw: `Kinywani kizimye.`,
+              };
+            }
+            else {
+              notificationMessage = {
+                en: `Pump status changed to ${currentStatus}`,
+                rw: `Kinywani kizamye. `,
+              };
+            }
+
             if (userId) {
               const { farmphone: phoneNumber } = await getPhoneNumberByUserId(userId);
 
-              if (phoneNumber) {
-                sendSMS(phoneNumber, message);
+              if (phoneNumber && message) {
+                sendSMS(phoneNumber, (notificationMessage.en + notificationMessage.rw));
               }
 
             }

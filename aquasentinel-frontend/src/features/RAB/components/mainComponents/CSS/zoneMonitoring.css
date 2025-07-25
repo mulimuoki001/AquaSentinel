@@ -2,6 +2,7 @@
     padding: 40px 20px;
     max-width: 1200px;
     margin: auto;
+    margin-top: 160px;
 }
 
 .zone-desc {
@@ -78,4 +79,11 @@
     color: #16b1ff;
     font-size: 18px;
     margin-top: 10px;
+}
+
+@media (max-width: 1020px) {
+    .zone-monitoring-container {
+        margin-top: 200px;
+
+    }
 }

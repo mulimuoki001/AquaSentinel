@@ -67,15 +67,17 @@ const ProviderAlerts: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 </div>
             </div>
 
-            <div className="alerts-container" style={{ padding: "2rem" }}>
-                <h2>{t("providerAlerts.subtitle") || "Recent Farm Alerts"}</h2>
-                <ul className="alerts-list">
-                    {dummyAlerts.map((alert, idx) => (
-                        <li key={idx} className={`alert-${alert.severity}`}>
-                            <strong>{alert.timestamp}</strong> - {alert.message}
-                        </li>
-                    ))}
-                </ul>
+            <div className="provider-alerts-container" style={{ padding: "2rem" }}>
+                <div className="alerts-container">
+                    <h2>{t("providerAlerts.subtitle") || "Recent Farm Alerts"}</h2>
+                    <ul className="alerts-list">
+                        {dummyAlerts.map((alert, idx) => (
+                            <li key={idx} className={`alert-${alert.severity}`}>
+                                <strong>{alert.timestamp}</strong> - {alert.message}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );

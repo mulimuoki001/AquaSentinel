@@ -1,6 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import useGlobalContext from "../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
+import Provider from "/provider.png";
+import Farmer from "/farmer.png"
+import government from "/government.png";
+
 interface NavBarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
@@ -20,7 +24,33 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
     year: 'numeric',
   });
 
+  let roleIcon: string | { src: string; alt: string };
 
+  switch (userData?.role?.toLowerCase()) {
+    case "farmer":
+      roleIcon = {
+        src: Farmer,
+        alt: "Farmer",
+      };
+      break;
+    case "provider":
+    case "irrigation service provider":
+      roleIcon = {
+        src: Provider,
+        alt: "Provider",
+      };
+      break;
+    case "rab":
+    case "government":
+    case "ministry":
+      roleIcon = {
+        src: government,
+        alt: "Government",
+      };
+      break;
+    default:
+      roleIcon = "👤";
+  }
 
   return (
     <div>
@@ -45,7 +75,14 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           )}
         </div>
         <div className="topBar-info">
-
+          <p className="user-role">
+            {typeof roleIcon === 'object' && roleIcon.src ? (
+              <img className="role-icon" src={roleIcon.src} alt={roleIcon.alt} />
+            ) : (
+              <span></span>
+            )}
+            {(userData?.role ?? "").charAt(0).toUpperCase() + userData?.role?.slice(1)}
+          </p>
           <div className="notifications-topBar">
             <Link to="/dashboard/provider/notifications" className={`notification-link ${location.pathname === "/dashboard/provider/notifications" ? "active" : ""}`}>
               <img src="../../alerts.png" alt="Location" />

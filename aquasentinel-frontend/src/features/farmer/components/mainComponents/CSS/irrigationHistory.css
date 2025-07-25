@@ -24,6 +24,7 @@
   flex-wrap: wrap;
   gap: 16px;
   justify-content: space-around;
+  margin-top: 160px;
 }
 
 .irrigation-history-card {
@@ -209,6 +210,12 @@
 
 /* === Responsive Adjustments === */
 /* === Optional: To make scrollbars obvious below 700px */
+
+@media (max-width: 1020px) {
+  .irrigation-history-cards {
+    margin-top: 200px;
+  }
+}
 
 @media (max-width: 768px) {
   .irrigation-history-cards {

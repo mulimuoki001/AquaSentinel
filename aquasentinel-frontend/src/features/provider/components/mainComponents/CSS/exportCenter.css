@@ -8,6 +8,7 @@
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
+    margin-top: 160px;
 }
 
 .export-container h2 {
@@ -47,4 +48,10 @@
 
 .btn-export:active {
     transform: scale(0.97);
+}
+
+@media (max-width: 1020px) {
+    .export-container {
+        margin-top: 200px;
+    }
 }

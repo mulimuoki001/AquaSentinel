@@ -62,13 +62,15 @@ const ProviderExportCenter: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                 </div>
             </div>
 
-            <div className="export-container" style={{ padding: "2rem" }}>
-                <h2>{t("providerExportCenter.subtitle") || "Download Farm Reports"}</h2>
-                <p>{t("providerExportCenter.description") || "Export irrigation sessions or summaries for offline use."}</p>
+            <div className="dashboard-content-container" style={{ padding: "2rem" }}>
+                <div className="export-container" style={{ padding: "2rem" }}>
+                    <h2>{t("providerExportCenter.subtitle") || "Download Farm Reports"}</h2>
+                    <p>{t("providerExportCenter.description") || "Export irrigation sessions or summaries for offline use."}</p>
 
-                <div className="export-options">
-                    <button className="btn-export">📄 Export All Sessions (CSV)</button>
-                    <button className="btn-export">📊 Export Summary Stats (PDF)</button>
+                    <div className="export-options">
+                        <button className="btn-export">📄 Export All Sessions (CSV)</button>
+                        <button className="btn-export">📊 Export Summary Stats (PDF)</button>
+                    </div>
                 </div>
             </div>
         </div>

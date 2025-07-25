@@ -19,6 +19,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
+  margin-top: 165px;
 }
 
 .settings-box {
@@ -131,6 +132,12 @@ input:checked+.slider:before {
 }
 
 /* Responsive Adjustments */
+@media (max-width: 1020px) {
+  .settings-grid {
+    margin-top: 200px;
+  }
+}
+
 @media (max-width: 600px) {
   .settings-grid {
     flex-direction: column;

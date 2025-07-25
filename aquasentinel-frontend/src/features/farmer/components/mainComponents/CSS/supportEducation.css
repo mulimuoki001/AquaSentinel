@@ -19,6 +19,7 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 16px;
+  margin-top: 180px;
 }
 
 .support-tabs button {
@@ -138,6 +139,13 @@
 
 .question-icon {
   font-size: 1.5rem;
+}
+
+
+@media (max-width: 1000px) {
+  .support-tabs {
+    margin-top: 200px;
+  }
 }
 
 /* Mobile */

@@ -2,6 +2,9 @@ body {
     background: linear-gradient(145deg, #030b0f, #4488aa);
 }
 
+.overview-grid {
+    margin-top: 160px;
+}
 
 .overview-card {
     background: linear-gradient(to bottom right, #061921, #0e2c38);
@@ -36,4 +39,10 @@ body {
     font-weight: 700;
     margin: 0;
     color: #ffffff;
+}
+
+@media (max-width: 1020px) {
+    .overview-grid {
+        margin-top: 200px;
+    }
 }

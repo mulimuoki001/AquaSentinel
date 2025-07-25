@@ -173,7 +173,7 @@ export const Profile: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) =>
                 </div>
 
                 {/* Farm Details */}
-                <div className="profile-card">
+                <div className="farm-details-card">
                     <div className="profile-info">
                         <h3>{t("profile.farmdetails")}</h3>
                         {farmEditMode ? (

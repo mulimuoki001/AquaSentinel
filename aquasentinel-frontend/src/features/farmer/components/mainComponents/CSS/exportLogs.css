@@ -13,6 +13,7 @@
   padding: 24px 16px;
   width: 100%;
   box-sizing: border-box;
+
 }
 
 .tooltip-container {
@@ -54,6 +55,7 @@
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-top: 180px;
 }
 
 .export-buttons {
@@ -116,6 +118,10 @@
     visibility: visible;
     opacity: 1;
     cursor: pointer;
+  }
+
+  .export-title {
+    margin-top: 200px;
   }
 }
 

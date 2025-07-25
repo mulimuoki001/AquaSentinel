@@ -23,56 +23,48 @@ const ProviderRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
     const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     const fetchRecommendations = async () => {
-    //         try {
-    //             const res = await fetch("/api/sensors/provider-recommendations");
-    //             const data = await res.json();
-    //             setRecommendations(data);
-    //         } catch (error) {
-    //             console.error("Failed to fetch recommendations:", error);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchRecommendations();
-    //     const interval = setInterval(fetchRecommendations, 1000);
-
-    //     return () => clearInterval(interval);
-    // }, []);
     useEffect(() => {
-        const loadDummyData = () => {
-            const dummy: Recommendation[] = [
-                {
-                    farmname: "Green Valley",
-                    farmowner: "Alice N.",
-                    moisture: 43,
-                    avgFlow: "1.8",
-                    recommendation: "No irrigation needed today. Moisture is sufficient."
-                },
-                {
-                    farmname: "Sunrise Farm",
-                    farmowner: "Emmanuel M.",
-                    moisture: 28,
-                    avgFlow: "0.7",
-                    recommendation: "Recommend irrigation tomorrow morning. Low moisture detected."
-                },
-                {
-                    farmname: "Hope Farm",
-                    farmowner: "Diane K.",
-                    moisture: 15,
-                    avgFlow: "0.4",
-                    recommendation: "Urgent: Moisture very low. Irrigate today for at least 30 mins."
-                }
-            ];
-            setRecommendations(dummy);
-            setLoading(false);
-        };
+        const fetchRecommendations = async () => {
 
-        loadDummyData();
+            const res = await fetch("/api/sensors/provider-recommendations");
+            if (!res.ok) {
+                const dummy: Recommendation[] = [
+                    {
+                        farmname: "Green Valley",
+                        farmowner: "Alice N.",
+                        moisture: 43,
+                        avgFlow: "1.8",
+                        recommendation: "No irrigation needed today. Moisture is sufficient."
+                    },
+                    {
+                        farmname: "Sunrise Farm",
+                        farmowner: "Emmanuel M.",
+                        moisture: 28,
+                        avgFlow: "0.7",
+                        recommendation: "Recommend irrigation tomorrow morning. Low moisture detected."
+                    },
+                    {
+                        farmname: "Hope Farm",
+                        farmowner: "Diane K.",
+                        moisture: 15,
+                        avgFlow: "0.4",
+                        recommendation: "Urgent: Moisture very low. Irrigate today for at least 30 mins."
+                    }
+                ];
+                setRecommendations(dummy);
+            } else {
+                const data = await res.json();
+                console.log("AI API Recommendations:", data);
+                setRecommendations(data);
+            }
+        }
+        const interval = setInterval(fetchRecommendations, 60000);
+
+        fetchRecommendations();
+        setLoading(false);
+        return () => clearInterval(interval);
+
     }, []);
-
     return (
         <div className="layout">
             {/* Header reused from FarmMonitoring */}
@@ -128,39 +120,41 @@ const ProviderRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
             </div>
 
             {/* Main content */}
-            <div className="provrecommendations-container" style={{ padding: "2rem" }}>
-                <div className="provider-recommendations-header">
-                    <h2>{t("providerRecommendations.subtitle") || "Overview of Smart AI Recommendations"}</h2>
-                    <p>{t("providerRecommendations.description") || "Review suggestions for irrigation efficiency and farm support"}</p>
-                </div>
-                {loading ? (
-                    <p>Loading recommendations...</p>
-                ) : (
-                    <div style={{ marginTop: "2rem", overflowX: "auto", overflowY: "auto", maxHeight: "60vh" }}>
-                        <table className="farm-table">
-                            <thead>
-                                <tr>
-                                    <th>Farm Name</th>
-                                    <th>Farm Owner</th>
-                                    <th>Moisture (%)</th>
-                                    <th>Avg Flow (L/min)</th>
-                                    <th>AI Recommendation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {recommendations.map((rec, index) => (
-                                    <tr key={index}>
-                                        <td>{rec.farmname}</td>
-                                        <td>{rec.farmowner}</td>
-                                        <td>{rec.moisture ?? "N/A"}</td>
-                                        <td>{rec.avgFlow}</td>
-                                        <td style={{ maxWidth: "400px", whiteSpace: "pre-wrap" }}>{rec.recommendation}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+            <div className="dashboard-main" style={{ padding: "2rem" }}>
+                <div className="provrecommendations-container" style={{ padding: "2rem" }}>
+                    <div className="provider-recommendations-header">
+                        <h2>{t("providerRecommendations.subtitle") || "Overview of Smart AI Recommendations"}</h2>
+                        <p>{t("providerRecommendations.description") || "Review suggestions for irrigation efficiency and farm support"}</p>
                     </div>
-                )}
+                    {loading ? (
+                        <p>Loading recommendations...</p>
+                    ) : (
+                        <div style={{ marginTop: "2rem", overflowX: "auto", overflowY: "auto", maxHeight: "60vh" }}>
+                            <table className="farm-table">
+                                <thead>
+                                    <tr>
+                                        <th>Farm Name</th>
+                                        <th>Farm Owner</th>
+                                        <th>Moisture (%)</th>
+                                        <th>Avg Flow (L/min)</th>
+                                        <th>AI Recommendation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {recommendations.map((rec, index) => (
+                                        <tr key={index}>
+                                            <td>{rec.farmname}</td>
+                                            <td>{rec.farmowner}</td>
+                                            <td>{rec.moisture ?? "N/A"}</td>
+                                            <td>{rec.avgFlow}</td>
+                                            <td style={{ maxWidth: "400px", whiteSpace: "pre-wrap" }}>{rec.recommendation}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

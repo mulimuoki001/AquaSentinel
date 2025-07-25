@@ -15,7 +15,7 @@ export const getProviderRecommendations = async (req: Request, res: Response) =>
         const userQuery = await (await db).query(`
       SELECT id, name AS farmowner, farmname, farmphone
       FROM users
-      WHERE role = 'farmer'
+      WHERE role = 'farmer' AND name <> 'New Farmer';
     `);
 
         const farms = userQuery.rows;
@@ -51,11 +51,11 @@ export const getProviderRecommendations = async (req: Request, res: Response) =>
       `;
 
             const aiRes = await openai.chat.completions.create({
-                model: "gpt-4o", // or "gpt-4-turbo" or "gpt-3.5-turbo" if you prefer
+                model: "gpt-4o",
                 messages: [
                     {
                         role: "system",
-                        content: "You are an expert irrigation advisor. Analyze the data and recommend whether the provider should be concerned about the farm. Be very brief and straightforward",
+                        content: "You are an expert irrigation advisor. Analyze the data and recommend whether the provider should be concerned about the farm. Remember the farmer is not irrigating, the process is automatic. What the providers needs to know is could there be an issue with the suystem, leakages, pump is having issues, or soil moisture sensor has an issue.Be very brief and straightforward and don't start with yes or no. The recommendations are intended to help the providers know  what they should be concerned with or which farm or farmer needs  attention",
                     },
                     {
                         role: "user",
@@ -68,15 +68,17 @@ export const getProviderRecommendations = async (req: Request, res: Response) =>
 
 
             const output = aiRes.choices[0]?.message?.content || "No recommendation available.";
-            console.log("Output:", output);
+            console.log(`Recommendation for ${farmname}, Farm Owner: ${farmowner}, Moisture: ${moisture}, Avg Flow: ${avgFlow}: ${output}`);
 
             recommendations.push({ farmname, farmowner, moisture, avgFlow, recommendation: output });
         }
 
         res.json(recommendations);
 
-    } catch (error) {
-        console.error("AI recommendation error:", error);
-        res.status(500).json({ error: "Failed to fetch AI recommendations" });
+    } catch (error: unknown) {
+        if (error instanceof Error && error.name === "RateLimitError") {
+            res.status(429).json({ error: "Rate limit exceeded. Please try again later." });
+        }
+        res.status(500).json({ error: "Internal server error.Failed to get provider recommendations" });
     }
 };

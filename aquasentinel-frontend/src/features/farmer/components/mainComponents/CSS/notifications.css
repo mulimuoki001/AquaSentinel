@@ -28,6 +28,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 2px var(--border-color);
   padding: 20px;
+  margin-top: 180px;
 }
 
 .notifications-header h2 {
@@ -106,6 +107,12 @@
 
 .mark-read:hover {
   color: #fff;
+}
+
+@media (max-width: 1020px) {
+  .notifications-header {
+    margin-top: 200px;
+  }
 }
 
 /* 📱 Responsive */

@@ -13,6 +13,7 @@
     border-radius: 8px;
     margin-bottom: 1.5rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 160px;
 }
 
 .farm-monitoring-header h2 {
@@ -94,6 +95,12 @@
 .farm-table td.status-off {
     color: #ff5252;
     font-weight: 700;
+}
+
+@media (max-width: 1020px) {
+    .farm-monitoring-header {
+        margin-top: 200px;
+    }
 }
 
 @media (max-width: 768px) {

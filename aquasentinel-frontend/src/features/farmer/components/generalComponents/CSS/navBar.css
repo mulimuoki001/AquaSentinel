@@ -185,6 +185,18 @@ body {
   margin-right: 10px;
 }
 
+.user-role {
+  font-size: 20px;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.role-icon {
+  width: 30px;
+  height: 30px;
+}
+
 .topBar-profile {
   display: flex;
   align-items: center;
@@ -349,14 +361,6 @@ body {
     font-size: 12x;
   }
 
-  .location img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .location p {
-    font-size: 10px;
-  }
 
   .notifications-topBar img {
     width: 20px;
@@ -379,6 +383,10 @@ body {
   .topBar-profile img {
     width: 20px;
     height: 20px;
+  }
+
+  .user-role {
+    font-size: 12px;
   }
 
   .topBar-profile p {
