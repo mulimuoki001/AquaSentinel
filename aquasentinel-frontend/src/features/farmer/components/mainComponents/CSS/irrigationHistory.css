@@ -31,7 +31,7 @@
   position: relative;
   /* Add this line */
   background: var(--card-bg);
-  padding: 16px;
+  padding: 6px;
   border-radius: 8px;
   flex: 1 1 30%;
   min-width: 240px;
@@ -61,6 +61,7 @@
   transform: translateY(-4px);
   box-shadow: 0 4px 12px var(--border-color);
 }
+
 
 .irrigation-history-card h3 {
   font-size: 12px;

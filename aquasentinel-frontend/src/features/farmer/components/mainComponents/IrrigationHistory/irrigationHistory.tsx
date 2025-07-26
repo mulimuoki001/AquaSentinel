@@ -18,6 +18,8 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const [avgFlowRate, setAvgFlowRate] = useState<number>(0);
     const [realTimeLiters, setRealTimeLiters] = useState<number>(0);
     const { t } = useTranslation();
+    const [statusFilter, setStatusFilter] = useState<string>("All");
+
     const userId = userData?.id;
     const [showHelp, setShowHelp] = useState<"water" | "duration" | "efficiency" | null>(null);
     const irrigationdata = useIrrigationSessions(userId);
@@ -31,12 +33,14 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
 
     const [liveDuration, setLiveDuration] = useState<number>(0);
 
-
+    const filteredSessions = irrigationdata.sessions.filter(session =>
+        statusFilter === "All" || session.status === statusFilter
+    );
 
     const rowsPerPage = 5;
 
-    const totalPages = Math.ceil(irrigationdata.sessions.length / rowsPerPage);
-    const paginatedSessions = irrigationdata.sessions.slice(
+    const totalPages = Math.ceil(filteredSessions.length / rowsPerPage);
+    const paginatedSessions = filteredSessions.slice(
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage
     );
@@ -220,6 +224,31 @@ export const IrrigationHistory: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                     </div>
                 </div>
                 <div className="irrigation-history-wrapper">
+                    <div className="filter-controls">
+                        <label htmlFor="status-filter">Filter by Status:</label>
+                        <select
+                            id="status-filter"
+                            value={statusFilter}
+                            onChange={(e) => {
+                                setStatusFilter(e.target.value);
+                                setCurrentPage(1); // Reset to page 1 when filter changes
+                            }}
+                            style={{
+                                marginLeft: "8px",
+                                padding: "6px",
+                                borderRadius: "6px",
+                                backgroundColor: "#0e2c38",
+                                color: "#fff",
+                                border: "1px solid #1568bb",
+                            }}
+                        >
+                            <option value="All">All</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Low flow">Low flow</option>
+                            <option value="In Progress">In Progress</option>
+                        </select>
+                    </div>
+
                     <div className="irrigation-history-scroll">
                         <table className="irrigation-history-table">
                             <thead>

@@ -61,7 +61,7 @@ export async function logPumpSession(status: "ON" | "OFF", userId?: number) {
       sessionStart.setHours(sh, sm, ss, 0);
 
       const durationMinutes = (now.getTime() - sessionStart.getTime()) / (1000 * 60);
-      const duration = durationMinutes.toFixed(2);
+      const duration = Math.abs(durationMinutes).toFixed(2);
 
       const endTime = timeNow;
 
@@ -135,9 +135,17 @@ export async function getPumpSessionsByUserId(userId: number) {
 
 export async function fetchAllPumpSessions() {
   const result = await (await db).query(`
-    SELECT * FROM pump_sessions
+    SELECT 
+      id,
+      date,
+      start_time,
+      end_time,
+      total_liters,
+      status,
+      ABS(duration) AS duration
+    FROM pump_sessions
     ORDER BY date DESC, id DESC
-    `);
+  `);
   return result.rows;
 }
 
