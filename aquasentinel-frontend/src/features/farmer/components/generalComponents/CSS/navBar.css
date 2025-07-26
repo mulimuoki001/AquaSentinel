@@ -185,23 +185,30 @@ body {
   margin-right: 10px;
 }
 
-.user-role {
-  font-size: 20px;
-  align-items: center;
-  display: flex;
-  gap: 10px;
-}
 
 .role-icon {
   width: 30px;
   height: 30px;
 }
 
+.user-role {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Wrapper for tooltip logic */
+
+
+.tooltip-sm-screen {
+  display: none;
+}
+
 .topBar-profile {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-right: 30px;
+  gap: 5px;
+
 }
 
 .topBar a {
@@ -268,26 +275,10 @@ body {
   font-size: 20px;
 }
 
-.today-date img {
+.topBar-profile img {
   width: 30px;
   height: 30px;
-}
-
-.topBar-profile {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.topBar-profile img {
-  width: 40px;
-  height: 40px;
   border-radius: 50%;
-}
-
-.topBar-profile p {
-  margin-left: 10px;
-  font-size: 20px;
 }
 
 /* Media queries for responsive design */
@@ -299,6 +290,10 @@ body {
   .location img {
     width: 30px;
     height: 30px;
+  }
+
+  .role-label {
+    font-size: 12px;
   }
 
   .location p {
@@ -371,10 +366,7 @@ body {
     font-size: 12px;
   }
 
-  .today-date img {
-    width: 20px;
-    height: 20px;
-  }
+
 
   .today-date p {
     font-size: 12px;
@@ -385,7 +377,7 @@ body {
     height: 20px;
   }
 
-  .user-role {
+  .role-label {
     font-size: 12px;
   }
 
@@ -404,7 +396,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
   .topBar {
     max-width: 768px;
     width: 100%;
@@ -414,10 +406,6 @@ body {
     justify-content: space-evenly;
   }
 
-  /* .topBar > div {
-    width: 100%;
-    justify-content: space-evenly;
-  } */
   .location {
     display: none;
   }
@@ -444,8 +432,16 @@ body {
     height: 40px;
   }
 
+  .role-label {
+    display: none;
+  }
 
-  .topBar-profile p {
+  .role-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .profile-name {
     display: none;
   }
 
@@ -464,6 +460,46 @@ body {
   .topBar p {
     font-size: 14px;
   }
+
+  /* Tooltip text */
+  .tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip-sm-screen {
+    display: block;
+    visibility: hidden;
+    position: absolute;
+    bottom: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #051e3b;
+    color: #fff;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+  }
+
+  .tooltip-wrapper:hover .tooltip-sm-screen {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .tooltip-sm-screen::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+  }
 }
 
 @media (max-width: 695px) {
@@ -479,6 +515,11 @@ body {
     height: 30px;
   }
 
+  .role-icon {
+    width: 30px;
+    height: 30px;
+  }
+
   .notifications-topBar img {
     width: 30px;
     height: 30px;
@@ -490,8 +531,13 @@ body {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 410px) {
   .topBar-profile img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .role-icon {
     width: 20px;
     height: 20px;
   }

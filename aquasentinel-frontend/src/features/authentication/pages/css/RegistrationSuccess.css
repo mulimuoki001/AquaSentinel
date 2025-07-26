@@ -1,5 +1,15 @@
 :root {
     --secondary-blue: #062f58;
+    --button-blue: #062f58;
+    --hover-blue: #046697;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(145deg, #030b0f, #4488aa);
+    /* Your original gradient */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .success-page {
@@ -7,58 +17,54 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px;
     min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px 20px;
     text-align: center;
-    color: #1a1919;
+    color: #ffffff;
 }
 
 .success-page h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
     color: #05ce0f;
 }
 
 .success-page p {
     font-size: 1rem;
-    margin-bottom: 30px;
+    margin: 10px 0;
+    max-width: 420px;
     color: #ffffff;
-    max-width: 400px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 30px;
 }
 
 .login-button,
 .register-another-button {
-    background-color: var(--secondary-blue);
-    color: #ffffff;
-    padding: 12px 24px;
+    background-color: var(--button-blue);
+    color: white;
+    padding: 12px 28px;
     font-size: 1rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    width: 240px;
+    transition: background-color 0.25s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
-
 
 .login-button:hover,
 .register-another-button:hover {
-    background-color: #046697;
+    background-color: var(--hover-blue);
 }
 
-/* Responsive Design */
-@media (max-width: 500px) {
-    .success-page h1 {
-        font-size: 1.5rem;
-    }
-
-    .success-page p {
-        font-size: 0.95rem;
-        padding: 0 10px;
-    }
-
-    .login-button,
-    .register-another-button {
-        padding: 10px 20px;
-        font-size: 0.95rem;
-    }
+.or-text {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #cccccc;
 }

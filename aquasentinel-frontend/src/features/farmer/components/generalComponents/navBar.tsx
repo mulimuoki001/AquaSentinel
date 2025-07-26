@@ -75,33 +75,51 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
           )}
         </div>
         <div className="topBar-info">
-          <p className="user-role">
-            {typeof roleIcon === 'object' && roleIcon.src ? (
-              <img className="role-icon" src={roleIcon.src} alt={roleIcon.alt} />
-            ) : (
-              <span></span>
-            )}
-            {(userData?.role ?? "").charAt(0).toUpperCase() + userData?.role?.slice(1)}
-          </p>
+          <div className="user-role">
+            <div className="tooltip-wrapper">
+              {typeof roleIcon === 'object' && roleIcon.src ? (
+                <img className="role-icon" src={roleIcon.src} alt={roleIcon.alt} />
+              ) : (
+                <span></span>
+              )}
+              <span className="tooltip-sm-screen">
+                {(userData?.role ?? "").charAt(0).toUpperCase() + userData?.role?.slice(1)}
+              </span>
+            </div>
+            <span className="role-label">
+              {(userData?.role ?? "").charAt(0).toUpperCase() + userData?.role?.slice(1)}
+            </span>
+          </div>
           <div className="location">
             <img src="../../Location.png" alt="Location" />
-            <p>Kayonza {t('nav.district')}</p>
+            <span>Kayonza {t('nav.district')}</span>
           </div>
           <div className="notifications-topBar">
-            <Link to="/dashboard/farmer/notifications" className={`notification-link ${location.pathname === "/dashboard/farmer/notifications" ? "active" : ""}`}>
-              <img src="../../alerts.png" alt="Location" />
-              {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
-            </Link>
+            <div className="tooltip-wrapper">
+              <Link to="/dashboard/farmer/notifications" className={`notification-link ${location.pathname === "/dashboard/farmer/notifications" ? "active" : ""}`}>
+                <img src="../../alerts.png" alt="Location" />
+                {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
+              </Link>
+              <span className="tooltip-sm-screen">
+                Alerts
+              </span>
+            </div>
+
           </div>
           <div className="today-date">
             {/* <img src="../../calendar.png" alt="Calendar" /> */}
             <p>{formattedDate}</p>
           </div>
           <div className="topBar-profile">
-            <Link to="/dashboard/farmer/farmer-profile" className={`profile-link ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
-              <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
-            </Link>
-            <p>{userData?.name}</p>
+            <div className="tooltip-wrapper">
+              <Link to="/dashboard/farmer/farmer-profile" className={`profile-link ${location.pathname === "/dashboard/farmer/farmer-profile" ? "active" : ""}`}>
+                <img src={userData?.profile_pic ? `/uploads/${encodeURIComponent(userData.profile_pic)}` : "../../profile-pic.png"} alt="Profile" className="profile-icon" />
+              </Link>
+              <span className="tooltip-sm-screen">
+                <span>{userData?.name}</span>
+              </span>
+            </div>
+            <span className="profile-name">{userData?.name}</span>
           </div>
         </div>
       </div>

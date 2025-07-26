@@ -200,6 +200,44 @@
         "subsidyImpact": "Subsidy Impact",
         "subsidyNote": "Adoption increased by 34% after subsidy rollouts."
     },
+    "rabAlerts": {
+        "liveAlerts": "Alerts & Incidents",
+        "liveAlertsTitle": "National Alerts & System Incidents",
+        "liveAlertsDescription": "Monitor system-level irrigation concerns, performance drops, and recovery trends across Rwanda.",
+        "district": "District",
+        "severity": "Severity",
+        "status": "Status",
+        "timestamp": "Reported At"
+    },
+    "rabCompliance": {
+        "compliance": "CE Reports",
+        "complianceTitle": "Compliance & Efficiency Reports",
+        "complianceDescription": "Track how farms are adhering to irrigation schedules and resource guidelines.",
+        "filterSeason": "Season",
+        "seasonA": "Season A",
+        "seasonB": "Season B",
+        "seasonC": "Season C",
+        "district": "District",
+        "totalFarms": "Total Farms",
+        "compliantFarms": "Compliant Farms",
+        "avgEfficiency": "Avg. Efficiency (%)",
+        "complianceRate": "Compliance Rate (%)",
+        "waterUsed": "Water Used (m³)",
+        "zone": "Zone",
+        "minEfficiency": "Min Efficiency (%)",
+        "minComplianceRate": "Min Compliance Rate (%)",
+        "maxEfficiency": "Max Efficiency (%)",
+        "maxComplianceRate": "Max Compliance Rate (%)"
+    },
+    "rabRecommendations": {
+        "pageTitle": "Recommendations & Policy Insights",
+        "title": "AI-Powered Recommendations"
+    },
+    "rabPolicyInsights": {
+        "title": "Policy Insights",
+        "description": "Generate insights based on compliance data.",
+        "note": "Note: Ensure compliance data is up-to-date for accurate insights."
+    },
     "providerRecommendations": {
         "title": " Recommendations",
         "subtitle": "Overview of Smart AI Recommendations",

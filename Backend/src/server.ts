@@ -7,8 +7,9 @@ import { setLatestPumpSession } from "./config/pumpSession.getter";
 import { getPhoneNumberByUserId } from "./models/user.model";
 import { startMoistureLoop, startWaterFlowLoop } from "./controllers/sensor.controller";
 import { sendSMS } from "./config/smsSender";
-
+import { logoutAll } from "./controllers/auth.controller";
 import { mqttClient } from "./config/mqttClient";
+import { log } from "console";
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
@@ -39,6 +40,7 @@ async function startServer() {
   try {
     await testDbConnection();
     await ensureDatabaseAndTables();
+    // Clear all sessions on startup
 
     await startMoistureLoop();
     await startWaterFlowLoop();

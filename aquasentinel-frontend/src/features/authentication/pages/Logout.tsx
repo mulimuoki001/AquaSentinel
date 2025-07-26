@@ -6,7 +6,7 @@ const LogoutPage = () => {
 
   const handleLogout = async () => {
     await logoutService.logout();
-    navigate('/login');
+    navigate('/');
   };
 
   return (

@@ -1,39 +1,20 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import useGlobalContext from "../../../../context/useGlobalContext";
-import mockData from "../MockData/mockData";
-import "../CSS/zoneMonitoring.css"; // Assuming you have a CSS file for styles
-import DistrictZoneMap from "./districtZoneMap";
-
+import { policyAlerts } from "./dummyAlerts";
+import "../CSS/rabAlerts.css"
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
 }
 
 
-interface mockDataInterface {
-    district: string;
-    zone: string;
-    farms: number;
-    compliant: number;
-    offlineFarms: number;
-    onlineFarms: number;
-    avgEfficiency: number; // percentage, e.g., 74 means 74%
-    waterUsed: number;     // in liters
-}
 
 
-export const DistrictZoneMonitoring: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+export const AlertsRAB: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { t } = useTranslation();
     const { currentLang, setLang } = useGlobalContext();
-    const [selectedDistrict, setSelectedDistrict] = useState("All");
-    const mockDistricts: mockDataInterface[] = mockData;
 
-    const filteredDistricts =
-        selectedDistrict === "All"
-            ? mockDistricts
-            : mockDistricts.filter((d) => d.district === selectedDistrict);
 
     return (
         <div className="layout">
@@ -41,13 +22,13 @@ export const DistrictZoneMonitoring: React.FC<NavBarProps> = ({ sidebarOpen, han
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
 
-                    <Link to="/dashboard/RAB/">
+                    <Link to="/dashboard/RAB/district-zone-monitoring">
                         <img src="../../fast-backward.png" className="back-icon" alt="back" />
                     </Link>
                     <div className="page-title-tex">
-                        <h1>{t("rabData.zoneMonitoringTitle")}</h1>
+                        <h1>{t("rabAlerts.liveAlerts")}</h1>
                     </div>
-                    <Link to="/dashboard/RAB/alerts">
+                    <Link to="/dashboard/RAB/compliance-reports">
                         <img src="../../fast-forward.png" alt="forward" />
                     </Link>
                 </div>
@@ -99,43 +80,35 @@ export const DistrictZoneMonitoring: React.FC<NavBarProps> = ({ sidebarOpen, han
             </div>
 
             {/* Main Content */}
-            <div className="zone-monitoring-container">
-                <div className="zone-monitoring-header">
-                    <p className="zone-desc">{t("rabData.zoneMonitoringDescription")}</p>
-                </div>
-                <div className="zone-monitoring-controls">
-                    <select value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)}>
-                        <option value="All">{t("rabData.filterAllDistricts")}</option>
-                        {mockDistricts.map((d, i) => (
-                            <option key={i} value={d.district}>
-                                {d.district}
-                            </option>
+            <div className="layout">
+                <div className="rab-alerts-container">
+                    <div className="rab-alerts-header">
+                        <h1>{t("rabAlerts.liveAlertsTitle")}</h1>
+                        <p>{t("rabAlerts.liveAlertsDescription")}</p>
+                    </div>
+
+                    <div className="rab-alerts-grid">
+                        {policyAlerts.map((alert) => (
+                            <div
+                                key={alert.id}
+                                className={`rab-alert-card severity-${alert.severity.toLowerCase()} ${alert.status === "Resolved" ? "resolved" : ""
+                                    }`}
+                            >
+                                <div className="rab-alert-meta">
+                                    <span className="region">{alert.region}</span>
+                                    <span className="timestamp">
+                                        {new Date(alert.timestamp).toLocaleString(currentLang)}
+                                    </span>
+                                </div>
+                                <h3>{alert.category}</h3>
+                                <p className="description">{alert.description}</p>
+                                <div className="status-badge">{alert.status}</div>
+                            </div>
                         ))}
-                    </select>
-                </div>
-                <div className="zone-monitoring-grid">
-                    {filteredDistricts.map((district, index) => (
-                        <div className="zone-card" key={index}>
-                            <h3>{district.district} District</h3>
-                            <p>
-                                {t("rabData.onlineFarms")}: <strong>{district.onlineFarms}</strong>
-                            </p>
-                            <p>
-                                {t("rabData.offlineFarms")}: <strong>{district.offlineFarms}</strong>
-                            </p>
-                            <p>
-                                {t("rabData.avgEfficiency")}: <strong>{district.avgEfficiency}%</strong>
-                            </p>
-                        </div>
-                    ))}
-                </div>
-                <div className="zone-map-container">
-                    <div className="zone-map">
-                        <p>{t("rabData.zoneMapPlaceholder")}</p>
-                        <div className="map-placeholder"><DistrictZoneMap /></div>
                     </div>
                 </div>
             </div>
+
         </div>
     );
 };

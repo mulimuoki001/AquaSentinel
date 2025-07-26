@@ -1,53 +1,31 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import useGlobalContext from "../../../../context/useGlobalContext";
-import mockData from "../MockData/mockData";
-import "../CSS/zoneMonitoring.css"; // Assuming you have a CSS file for styles
-import DistrictZoneMap from "./districtZoneMap";
-
+import RecommendationGenerator from "./AIRecommendations";
+import "../CSS/recommendationsPolicyInsights.css";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
 }
 
 
-interface mockDataInterface {
-    district: string;
-    zone: string;
-    farms: number;
-    compliant: number;
-    offlineFarms: number;
-    onlineFarms: number;
-    avgEfficiency: number; // percentage, e.g., 74 means 74%
-    waterUsed: number;     // in liters
-}
 
 
-export const DistrictZoneMonitoring: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+export const RecommendationsPolicyInsights: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { t } = useTranslation();
     const { currentLang, setLang } = useGlobalContext();
-    const [selectedDistrict, setSelectedDistrict] = useState("All");
-    const mockDistricts: mockDataInterface[] = mockData;
-
-    const filteredDistricts =
-        selectedDistrict === "All"
-            ? mockDistricts
-            : mockDistricts.filter((d) => d.district === selectedDistrict);
-
     return (
         <div className="layout">
             {/* Topbar */}
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-
-                    <Link to="/dashboard/RAB/">
+                    <Link to="/dashboard/RAB/compliance-reports">
                         <img src="../../fast-backward.png" className="back-icon" alt="back" />
                     </Link>
-                    <div className="page-title-tex">
-                        <h1>{t("rabData.zoneMonitoringTitle")}</h1>
+                    <div className="page-title-text">
+                        <h1>{t("rabRecommendations.pageTitle")}</h1>
                     </div>
-                    <Link to="/dashboard/RAB/alerts">
+                    <Link to="/dashboard/RAB">
                         <img src="../../fast-forward.png" alt="forward" />
                     </Link>
                 </div>
@@ -99,41 +77,17 @@ export const DistrictZoneMonitoring: React.FC<NavBarProps> = ({ sidebarOpen, han
             </div>
 
             {/* Main Content */}
-            <div className="zone-monitoring-container">
-                <div className="zone-monitoring-header">
-                    <p className="zone-desc">{t("rabData.zoneMonitoringDescription")}</p>
+            <div className="recommendations-policy-insights-container">
+                <div className="recommendations-header">
+                    <h2>{t("rabRecommendations.title") || "AI-Powered Recommendations"}</h2>
                 </div>
-                <div className="zone-monitoring-controls">
-                    <select value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)}>
-                        <option value="All">{t("rabData.filterAllDistricts")}</option>
-                        {mockDistricts.map((d, i) => (
-                            <option key={i} value={d.district}>
-                                {d.district}
-                            </option>
-                        ))}
-                    </select>
+                <div className="recommendation-generator">
+                    <RecommendationGenerator />
                 </div>
-                <div className="zone-monitoring-grid">
-                    {filteredDistricts.map((district, index) => (
-                        <div className="zone-card" key={index}>
-                            <h3>{district.district} District</h3>
-                            <p>
-                                {t("rabData.onlineFarms")}: <strong>{district.onlineFarms}</strong>
-                            </p>
-                            <p>
-                                {t("rabData.offlineFarms")}: <strong>{district.offlineFarms}</strong>
-                            </p>
-                            <p>
-                                {t("rabData.avgEfficiency")}: <strong>{district.avgEfficiency}%</strong>
-                            </p>
-                        </div>
-                    ))}
-                </div>
-                <div className="zone-map-container">
-                    <div className="zone-map">
-                        <p>{t("rabData.zoneMapPlaceholder")}</p>
-                        <div className="map-placeholder"><DistrictZoneMap /></div>
-                    </div>
+                <div className="policy-insights">
+                    <h2>{t("rabPolicyInsights.title") || "Policy Insights"}</h2>
+                    <p>{t("rabPolicyInsights.description") || "Generate insights based on compliance data."}</p>
+                    <p>{t("rabPolicyInsights.note") || "Note: Ensure compliance data is up-to-date for accurate insights."}</p>
                 </div>
             </div>
         </div>

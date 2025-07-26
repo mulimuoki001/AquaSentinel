@@ -20,6 +20,9 @@ import ProviderRecommendationsLayout from '../features/provider/components/mainC
 import ProviderAlertsLayout from '../features/provider/components/mainComponents/Alerts/providerAlertsLayout';
 import ProviderExportCenterLayout from '../features/provider/components/mainComponents/ExportCenter/providerExportCenterLayout';
 import DistrictZoneMonitoringLayout from '../features/RAB/components/mainComponents/DistrictZoneMonitoring/zoneMonitoringLayout';
+import AlertsRABLayout from '../features/RAB/components/mainComponents/Notifications/alertsRABLayout';
+import ComplianceReportsLayout from '../features/RAB/components/mainComponents/ComplianceReports/complianceReportsLayout';
+import RecommendationsPolicyInsightsLayout from '../features/RAB/components/mainComponents/RecommendationsPolicyInsights/recommendationsPolicyInsightsLayout';
 const AppRoutes = () => {
     return (
         <Routes>
@@ -48,6 +51,9 @@ const AppRoutes = () => {
             // RAB Dashboard Routes
             <Route path="/dashboard/RAB" element={<RABDashboard />} />
             <Route path="/dashboard/RAB/district-zone-monitoring" element={<PrivateRoute><DistrictZoneMonitoringLayout /></PrivateRoute>} />
+            <Route path="/dashboard/RAB/alerts" element={<PrivateRoute><AlertsRABLayout /></PrivateRoute>} />
+            <Route path="/dashboard/RAB/compliance-reports" element={<PrivateRoute><ComplianceReportsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/RAB/recommendations-policy-insights" element={<PrivateRoute><RecommendationsPolicyInsightsLayout /></PrivateRoute>} />
         </Routes>
     )
 };

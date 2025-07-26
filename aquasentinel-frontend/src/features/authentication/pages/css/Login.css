@@ -88,3 +88,18 @@ h2 {
 .register-page-link:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 500px) {
+  .login-container {
+    max-width: 300px;
+    padding: 1rem;
+  }
+
+  .input-field {
+    padding: 8px;
+  }
+
+  .login-button-container button {
+    padding: 8px;
+  }
+}

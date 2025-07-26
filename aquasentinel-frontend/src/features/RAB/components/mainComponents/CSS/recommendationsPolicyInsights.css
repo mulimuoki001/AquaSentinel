@@ -1,0 +1,81 @@
+.recommendations-policy-insights-container {
+    padding: 20px 40px;
+    color: var(--card-text);
+    border-radius: 10px;
+
+}
+
+.recommendations-header {
+    margin-top: 160px;
+}
+
+.recommendations-header h2,
+.policy-insights h2 {
+    font-size: 22px;
+    color: var(--border-color);
+    margin-bottom: 12px;
+
+}
+
+.recommendations-header,
+.policy-insights {
+    margin-bottom: 30px;
+}
+
+.policy-insights p {
+    font-size: 16px;
+    margin: 6px 0;
+    line-height: 1.6;
+}
+
+.recommendation-generator {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    overflow: auto;
+    max-height: 400px;
+}
+
+.generate-btn {
+    background-color: var(--border-color);
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.generate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ai-report {
+    background-color: var(--card-bg);
+    padding: 30px;
+    margin-top: 20px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    border-color: 2px solid var(--border-color);
+}
+
+.error-msg {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.suggestion-results {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    background-color: var(--card-bg);
+}
+
+@media (max-width: 1020px) {
+    .recommendations-header {
+        margin-top: 200px;
+    }
+}

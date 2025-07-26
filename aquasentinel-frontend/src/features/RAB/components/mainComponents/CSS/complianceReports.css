@@ -1,0 +1,132 @@
+.compliance-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+    color: var(--card-text);
+}
+
+.compliance-container h1 {
+    font-size: 24px;
+    color: var(--border-color);
+    margin-bottom: 8px;
+    margin-top: 160px;
+}
+
+.compliance-container p {
+    font-size: 15px;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+
+.compliance-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.compliance-controls select,
+.compliance-controls input {
+    background-color: #0e2c38;
+    color: #fff;
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    max-width: 160px;
+    flex: 1;
+    max-width: 100%;
+}
+
+.compliance-controls label {
+    font-weight: 600;
+    color: #16b1ff;
+    margin-right: 8px;
+}
+
+.compliance-controls input::placeholder {
+    color: #0678a5;
+    opacity: 1;
+}
+
+
+.compliance-table-container {
+    max-height: 400px;
+    overflow-y: auto;
+
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.compliance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+
+}
+
+.compliance-table th,
+.compliance-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #2c4e64;
+
+}
+
+.compliance-table th {
+    background-color: var(--card-bg);
+    color: #16b1ff;
+}
+
+.compliance-table td {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.export-section {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.export-btn {
+    background-color: var(--border-color);
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.summary-row {
+    background-color: rgba(21, 104, 187, 0.1);
+    font-weight: 600;
+    border-top: 2px solid var(--border-color);
+}
+
+.export-btn:hover {
+    background-color: #06c52f;
+}
+
+@media (max-width: 1020px) {
+    .compliance-container h1 {
+        margin-top: 200px;
+    }
+}
+
+
+/* Small screen adjustments */
+@media (max-width: 768px) {
+    .compliance-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .compliance-controls select,
+    .compliance-controls input {
+        width: 100%;
+    }
+}

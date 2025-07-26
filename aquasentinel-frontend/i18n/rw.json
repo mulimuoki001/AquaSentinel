@@ -179,6 +179,15 @@
         "exportReports": "Kohereza Raporo",
         "adminSettings": "Imicungire y’Abayobozi"
     },
+    "rabAlerts": {
+        "liveAlerts": "Impuruza n’Ibibazo Bikomeye",
+        "liveAlertsTitle": "Amakuru y’Igihugu n’Ibibazo bya Sisitemu",
+        "liveAlertsDescription": "Kurikirana imikorere mibi, kugabanuka k’ubushobozi, no gukira kwa sisitemu mu gihugu hose.",
+        "district": "Akarere",
+        "severity": "Ubukana",
+        "status": "Imiterere",
+        "timestamp": "Igihe byatangajwe"
+    },
     "rabData": {
         "zoneMonitoringTitle": "Igenzura ry’Uturere n’Ibice",
         "zoneMonitoringDescription": "Kurikirana uko uburyo bwo kuhira bukora mu turere n’udusozi.",
@@ -201,6 +210,35 @@
         "avgEfficiency": "Impuzandengo y'imikoreshereze y'amazi",
         "subsidyImpact": "Ingaruka z'Inkunga",
         "subsidyNote": "Imikoreshereze yikubye inshuro 34% nyuma y'inkunga."
+    },
+    "rabCompliance": {
+        "compliance": "CE – Imyitwarire n'Ubushobozi",
+        "complianceTitle": "Raporo z’Imyitwarire n’Ubushobozi",
+        "complianceDescription": "Kurikirana uko imirima yubahiriza gahunda n’amabwiriza yo kuhira.",
+        "filterSeason": "Igihembwe",
+        "seasonA": "Igihembwe A",
+        "seasonB": "Igihembwe B",
+        "seasonC": "Igihembwe C",
+        "district": "Akarere",
+        "totalFarms": "Imirima yose",
+        "compliantFarms": "Imirima yubahiriza",
+        "avgEfficiency": "Impuzandengo y’ubushobozi (%)",
+        "complianceRate": "Urugero rw’imyitwarire (%)",
+        "waterUsed": "Amazi yakoreshejwe (m³)",
+        "zone": "Akarere",
+        "minComplianceRate": "Urugero ruto rw’imyitwarire (%)",
+        "minEfficiency": "Impuzandengo y’ubushobozi ntoya (%)",
+        "maxComplianceRate": "Urugero rw'ubuhinzi ntoya (%)",
+        "maxEfficiency": "Impuzandengo y’ubushobozi ntoya (%)"
+    },
+    "rabRecommendations": {
+        "pageTitle": "Inama z'Ubwenge bw'Imashini",
+        "title": "Inama zishingiye kuri AI"
+    },
+    "rabPolicyInsights": {
+        "title": "Ibyifuzo bya Politiki",
+        "description": "Tanga ibyifuzo bishingiye ku makuru ya compliance.",
+        "note": "Icyitonderwa: Menya neza ko amakuru ari mashya kugira ngo ibyifuzo bibe nyabyo."
     },
     "providerRecommendations": {
         "title": "Inama zitangwa na AI",
