@@ -8,6 +8,7 @@ const Login = () => {
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
+	console.log("VITE_OPENAI_API_KEY:", import.meta.env.VITE_OPENAI_API_KEY);
 
 	useEffect(() => {
 		const checkToken = async () => {

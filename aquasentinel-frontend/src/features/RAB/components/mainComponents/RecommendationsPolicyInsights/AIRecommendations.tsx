@@ -7,6 +7,7 @@ const openai = new OpenAI({
     apiKey: import.meta.env.VITE_OPENAI_API_KEY,
     dangerouslyAllowBrowser: true,
 });
+console.log("VITE_OPENAI_API_KEY:", import.meta.env.VITE_OPENAI_API_KEY);
 
 interface ComplianceData {
     district: string;
