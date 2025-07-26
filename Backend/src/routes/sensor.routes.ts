@@ -4,6 +4,7 @@ import { authenticateJWT } from "../middleware/auth.middleware";
 import { getLivePumpSession, getAllPumpSessions, getUserPumpSessions, getTotalWaterUsedDailybyUser } from "../controllers/pumpSessions.controller";
 import { authorizeRoles } from "../middleware/role.middleware";
 import { getProviderRecommendations } from "../controllers/providerAi.controller";
+import { getUserSensorData } from "../controllers/userSensorData";
 import { get } from "http";
 
 const moistureRouter = Router();
@@ -30,5 +31,5 @@ moistureRouter.get("/total-water-used-daily-by-user/:userId", getTotalWaterUsedD
 
 // Get provider recommendations
 moistureRouter.get("/provider-recommendations", getProviderRecommendations);
-// moistureRouter.delete("/delete-all-water-flow-data", async (req, res) => await getAllWaterFlowData(req, res));
+moistureRouter.get("/user-sensor-data/:userId", getUserSensorData, authenticateJWT);
 export default moistureRouter;

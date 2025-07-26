@@ -7,6 +7,7 @@ import dashboardRoutes from "./routes/dashboard.routes";
 import userRoutes from "./routes/user.routes";
 import moistureRoutes from "./routes/sensor.routes";
 import AIrouter from "./controllers/rabAI.controller";
+import AIsmartrouter from "./controllers/farmerAI";
 const app = express();
 const __rootdir = path.resolve(); // root of your entire project
 dotenv.config();
@@ -31,6 +32,7 @@ app.use("/users", userRoutes);
 app.use("/dashboard/role", dashboardRoutes);
 app.use("/api/sensors", moistureRoutes);
 app.use("/api/ai", AIrouter);
+app.use("/api/farmer-ai", AIsmartrouter);
 
 app.use('/uploads', express.static(path.join(__rootdir, 'uploads')));
 console.log("Serving /uploads from:", path.join(__dirname, "..", "uploads"));

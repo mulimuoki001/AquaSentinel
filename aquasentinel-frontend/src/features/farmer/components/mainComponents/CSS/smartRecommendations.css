@@ -1,83 +1,117 @@
-:root {
-  --topbar-height: 100px;
-  --card-text: #F5F5F5;
-  --card-bg: #0e2c38;
-  --border-color: #1568bb;
-  --recommendation-bg: #597580;
-  --recommendation-text: ##ffffff;
-
-}
-
 .smart-recommendations-container {
-  padding: 20px;
-  color: white;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-.smart-recommendations {
-  background-color: var(--card-bg);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  box-sizing: border-box;
+  max-width: 960px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  color: #e6f0f3;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0 auto;
-  padding: 50px;
-  border-radius: 20px;
-  margin-top: 180px;
 }
 
-.recommendation {
-  background-color: var(--recommendation-bg);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 2px var(--border-color);
+.smart-ai-chat-box {
+  margin-top: 160px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(21, 104, 187, 0.3);
 }
 
-.recommendation h2 {
-  font-size: 18px;
-  margin-bottom: 8px;
-  color: var(--recommendation-text);
+.chat-header h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #16b1ff;
+  text-align: center;
 }
 
-.recommendation p {
+/* Button */
+.suggest-btn {
+  background-color: #16b1ff;
+  color: white;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.suggest-btn:hover {
+  background-color: #1298d4;
+  transform: scale(1.03);
+}
+
+/* Chat messages */
+.chat-messages {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1.2rem;
+  padding-right: 6px;
+}
+
+.ai-chat-bubble {
+  background-color: #12384c;
+  border-left: 5px solid #16b1ff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+}
+
+.ai-chat-bubble p {
+  margin: 6px 0;
+  line-height: 1.5;
   font-size: 14px;
-  color: var(--recommendation-text);
-  margin: 0;
+  color: #e1edf3;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .smart-recommendations {
-    margin-top: 200px;
-  }
+/* Chat input */
+.chat-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
+.chat-input input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: #1a3c4f;
+  border: 1px solid #1568bb;
+  color: #fff;
+  font-size: 15px;
+}
+
+.chat-input input::placeholder {
+  color: #aaa;
+}
+
+.chat-input button {
+  padding: 10px 16px;
+  background-color: #1ca2e3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-input button:hover {
+  background-color: #1394c4;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .smart-recommendations-container {
-    padding: 10px;
+  .chat-input {
+    flex-direction: column;
   }
 
-  .recommendation {
-    padding: 15px;
+  .chat-input input,
+  .chat-input button {
+    width: 100%;
   }
 
-  .recommendation h2 {
-    font-size: 16px;
-  }
-
-  .recommendation p {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .recommendation h2 {
-    font-size: 14px;
-  }
-
-  .recommendation p {
-    font-size: 12px;
+  .suggest-btn {
+    width: 100%;
   }
 }
