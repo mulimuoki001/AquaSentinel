@@ -140,6 +140,37 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.filter-controls {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  padding-left: 12px;
+  gap: 8px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.filter-controls label {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.filter-controls select {
+  background-color: #0e2c38;
+  color: #ffffff;
+  border: 1px solid #1568bb;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.filter-controls select:focus {
+  outline: none;
+  border-color: #1aa7ec;
+  box-shadow: 0 0 4px #1aa7ec;
+}
 
 /* === Table Section === */
 .irrigation-history-table {
