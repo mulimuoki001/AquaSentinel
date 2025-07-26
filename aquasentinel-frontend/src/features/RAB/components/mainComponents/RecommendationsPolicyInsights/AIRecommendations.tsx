@@ -1,14 +1,13 @@
 "use server";
 import { useState } from "react";
-import OpenAI from "openai";
 import ReactMarkdown from "react-markdown";
 import mockCompliance from "../ComplianceReports/mockComplianceReportsData";
 import "../CSS/recommendationsPolicyInsights.css";
-const openai = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
-});
-console.log("VITE_OPENAI_API_KEY:", import.meta.env.VITE_OPENAI_API_KEY);
+// const openai = new OpenAI({
+//     apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+//     dangerouslyAllowBrowser: true,
+// });
+// console.log("VITE_OPENAI_API_KEY:", import.meta.env.VITE_OPENAI_API_KEY);
 
 interface ComplianceData {
     district: string;
@@ -54,14 +53,14 @@ const RecommendationGenerator = () => {
                 Write the report clearly and professionally, And generte the report with good text formatting and structure. Make sure the report is complete and comprehensive, covering all the points mentioned above.
             `;
 
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o",
-                messages: [{ role: "user", content: prompt }],
-                max_tokens: 300,
+            const response = await fetch("/api/ai/generate-policy-report", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt }),
             });
 
-            const suggestionText = response.choices?.[0]?.message?.content;
-            setRecommendations(suggestionText || "No suggestions generated.");
+            const suggestionText = await response.json();
+            setRecommendations(suggestionText.content || "No suggestions generated.");
         } catch (err) {
             console.error(err);
             setError("Failed to generate suggestions. Please try again.");
