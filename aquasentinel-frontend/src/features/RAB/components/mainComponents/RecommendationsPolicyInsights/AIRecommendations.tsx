@@ -1,3 +1,4 @@
+"use server";
 import { useState } from "react";
 import OpenAI from "openai";
 import ReactMarkdown from "react-markdown";
