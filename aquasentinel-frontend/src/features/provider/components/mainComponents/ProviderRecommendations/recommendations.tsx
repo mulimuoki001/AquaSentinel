@@ -4,7 +4,7 @@ import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import mockFarmsData from "../MockData/mockFarmsData";
-
+import ReactMarkdown from "react-markdown";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
@@ -26,26 +26,32 @@ export const ProviderSmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpe
     });
 
     const formatFarmPrompt = (lang: string) => {
-        const summaries = mockFarmsData.map(farm => `Farm: ${farm.farmName}, Owner: ${farm.owner}, Moisture: ${farm.moisture}%, Efficiency: ${farm.avgEfficiency}%, Pump: ${farm.pumpStatus}`).join("\n");
+        const summaries = mockFarmsData.map(farm =>
+            `**Farm:** ${farm.farmName}  
+**Owner:** ${farm.owner}  
+**Moisture:** ${farm.moisture}%  
+**Efficiency:** ${farm.avgEfficiency}%  
+**Pump:** ${farm.pumpStatus}`).join("\n\n");
 
         return `
-You are an intelligent farm advisor. Based on today's overview (${todayDay}), analyze the following farm data and generate a well-structured, human-friendly report. Use markdown-style formatting or clear bullet points for readability.
+You are an intelligent farm advisor. Based on the following farm overview (${todayDay}), generate a markdown-formatted recommendation report.
 
-Farm Data:
+### 🔍 Overview  
+Summarize key trends in water usage, pump operation, and efficiency.
+
+### 📊 Per-Farm Recommendations  
+Provide:
+- Farm and Owner Name
+- Bullet points for Moisture, Efficiency, Pump Status
+- A short, **bold** actionable recommendation for each farm
+
+### Farm Data:
 ${summaries}
 
-In your response, include:
-1. A **brief overview** of general farm performance.
-2. **Per-farm insights** with:
-   - Farm Name and Owner
-   - Moisture %, Efficiency %, and Pump Status
-   - Clear actionable recommendation (bold it)
-3. Format the response clearly with line breaks and headings.
-
-Respond in ${lang === "rw" ? "Kinyarwanda" : "English"} only.
-`;
-
+Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
+    `;
     };
+
 
     const handleAskAI = async (customPrompt?: string) => {
         setLoading(true);
@@ -128,8 +134,8 @@ Respond in ${lang === "rw" ? "Kinyarwanda" : "English"} only.
                         {messages.map((m, i) => (
                             <div key={i} className="ai-chat-bubble">
                                 <p><strong>🧑 Prompt:</strong> {m.prompt.slice(0, 100)}...</p>
-
-                                <p><strong>🤖 AI:</strong> {m.response}</p>
+                                <p><strong>🤖 Response:</strong></p>
+                                <ReactMarkdown>{m.response}</ReactMarkdown>
                             </div>
                         ))}
                     </div>

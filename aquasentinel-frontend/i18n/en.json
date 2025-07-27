@@ -267,7 +267,9 @@
         "districtsCovered": "Districts Covered",
         "avgEfficiency": "Avg. Water Efficiency",
         "subsidyImpact": "Subsidy Impact",
-        "subsidyNote": "Adoption increased by 34% after subsidy rollouts."
+        "subsidyNote": "Adoption increased by 34% after subsidy rollouts.",
+        "complianceRate": "Compliance Rate",
+        "totalFarms": "Total Farms By Zone"
     },
     "rabAlerts": {
         "liveAlerts": "Alerts & Incidents",
@@ -300,7 +302,9 @@
     },
     "rabRecommendations": {
         "pageTitle": "Recommendations & Policy Insights",
-        "title": "AI-Powered Recommendations"
+        "title": "AI-Powered Recommendations",
+        "assistantTitle": "RAB AI Assistant",
+        "clearHistory": "Clear History"
     },
     "rabPolicyInsights": {
         "title": "Policy Insights",

@@ -50,6 +50,35 @@
   transition: background-color 0.3s ease;
 }
 
+.ai-chat-bubble {
+  background-color: #1c4253;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.ai-chat-bubble h3,
+.ai-chat-bubble strong {
+  color: #87cefa;
+}
+
+.ai-chat-bubble ul {
+  margin-left: 2rem;
+  list-style: disc;
+
+}
+
+.ai-chat-bubble li {
+  text-decoration: none;
+}
+
+.ai-chat-bubble p {
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+
 .clear-history-btn:hover {
   background-color: #6b0303;
 }

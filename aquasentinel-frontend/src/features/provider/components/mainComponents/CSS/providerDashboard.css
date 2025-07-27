@@ -83,7 +83,7 @@
     margin-top: 2rem;
 }
 
-/* Shared style for both chart and map containers */
+
 .dashboard-chart {
     max-width: 500px;
     flex: 1 1 45%;

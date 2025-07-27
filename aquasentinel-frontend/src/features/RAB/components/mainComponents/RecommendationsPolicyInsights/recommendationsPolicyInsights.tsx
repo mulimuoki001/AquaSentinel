@@ -8,12 +8,11 @@ interface NavBarProps {
     handleLogout: () => void;
 }
 
-
-
-
 export const RecommendationsPolicyInsights: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { t } = useTranslation();
     const { currentLang, setLang } = useGlobalContext();
+
+
     return (
         <div className="layout">
             {/* Topbar */}
@@ -78,12 +77,8 @@ export const RecommendationsPolicyInsights: React.FC<NavBarProps> = ({ sidebarOp
 
             {/* Main Content */}
             <div className="recommendations-policy-insights-container">
-                <div className="recommendations-header">
-                    <h2>{t("rabRecommendations.title") || "AI-Powered Recommendations"}</h2>
-                </div>
-                <div className="recommendation-generator">
-                    <RecommendationGenerator />
-                </div>
+
+                <RecommendationGenerator />
                 <div className="policy-insights">
                     <h2>{t("rabPolicyInsights.title") || "Policy Insights"}</h2>
                     <p>{t("rabPolicyInsights.description") || "Generate insights based on compliance data."}</p>

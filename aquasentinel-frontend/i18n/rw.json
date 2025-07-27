@@ -278,7 +278,8 @@
         "districtsCovered": "Utugari dukorerwamo",
         "avgEfficiency": "Impuzandengo y'imikoreshereze y'amazi",
         "subsidyImpact": "Ingaruka z'Inkunga",
-        "subsidyNote": "Imikoreshereze yikubye inshuro 34% nyuma y'inkunga."
+        "subsidyNote": "Imikoreshereze yikubye inshuro 34% nyuma y'inkunga.",
+        "complianceRate": "Urwego rw'ubwuzuzanye"
     },
     "rabCompliance": {
         "compliance": "CE – Imyitwarire n'Ubushobozi",
@@ -302,7 +303,9 @@
     },
     "rabRecommendations": {
         "pageTitle": "Inama z'Ubwenge bw'Imashini",
-        "title": "Inama zishingiye kuri AI"
+        "title": "Inama zishingiye kuri AI",
+        "assistantTitle": "Umufasha wa AI w'Ikigo",
+        "clearHistory": "Siba Amateka"
     },
     "rabPolicyInsights": {
         "title": "Ibyifuzo bya Politiki",

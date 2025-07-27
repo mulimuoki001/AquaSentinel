@@ -25,6 +25,7 @@ import AlertsRABLayout from '../features/RAB/components/mainComponents/Notificat
 import ComplianceReportsLayout from '../features/RAB/components/mainComponents/ComplianceReports/complianceReportsLayout';
 import ProviderSettingsLayout from '../features/provider/components/mainComponents/ProviderSettings/providerSettingsLayout';
 import RecommendationsPolicyInsightsLayout from '../features/RAB/components/mainComponents/RecommendationsPolicyInsights/recommendationsPolicyInsightsLayout';
+import AdminSettingsLayout from '../features/RAB/components/mainComponents/AdminSettings/adminSettingsLayout';
 const AppRoutes = () => {
     return (
         <Routes>
@@ -58,6 +59,7 @@ const AppRoutes = () => {
             <Route path="/dashboard/RAB/alerts" element={<PrivateRoute><AlertsRABLayout /></PrivateRoute>} />
             <Route path="/dashboard/RAB/compliance-reports" element={<PrivateRoute><ComplianceReportsLayout /></PrivateRoute>} />
             <Route path="/dashboard/RAB/recommendations-policy-insights" element={<PrivateRoute><RecommendationsPolicyInsightsLayout /></PrivateRoute>} />
+            <Route path="/dashboard/RAB/admin-settings" element={<PrivateRoute><AdminSettingsLayout /></PrivateRoute>} />
         </Routes>
     )
 };

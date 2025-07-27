@@ -3,9 +3,15 @@ body {
     background: linear-gradient(145deg, #030b0f, #4488aa);
 }
 
+.RAB-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 3rem;
+}
+
 .overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
     padding: 1.5rem;
     margin-top: 160px;
@@ -51,9 +57,84 @@ body {
     color: #ffffff;
 }
 
-@media (max-width: 1020px) {
-    .overview-grid {
+
+.rab-dashboard-charts-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.rab-dashboard-chart {
+    max-width: 500px;
+    flex: 1 1 45%;
+    color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(22, 177, 255, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.district-zone-map-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.rab-dashboard-map {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    max-width: 1000px;
+    flex: 1 1 45%;
+    color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(22, 177, 255, 0.15);
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 1020px) {}
+
+@media (max-width: 1100px) {
+    .rab-dashboard-chart {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 940px) {
+    .rab-dashboard-chart {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-chart,
+    .dashboard-map {
+        flex: 1 1 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .RAB-dashboard-container {
         grid-template-columns: 1fr;
-        margin-top: 200px;
+        padding: 1rem;
+    }
+
+    .RAB-dashboard-card,
+    .dashboard-section {
+        grid-column: span 1 !important;
+    }
+}
+
+@media (max-width: 678px) {
+    .rab-dashboard-chart {
+        max-width: 500px;
     }
 }

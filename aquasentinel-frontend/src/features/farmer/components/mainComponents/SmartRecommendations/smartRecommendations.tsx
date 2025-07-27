@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-
+import ReactMarkdown from "react-markdown";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
@@ -34,27 +34,35 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
 
     const formatSensorPrompt = (data: any, lang: string) => {
         const flows = data.waterFlowData.map(
-            (d: { time: string; flowrate: number }) => `Time: ${d.time}, Flowrate: ${d.flowrate} L/min`
+            (d: { time: string; flowrate: number }) => `- ⏱ Time: ${d.time}, 💧 Flowrate: ${d.flowrate} L/min`
         ).join("\n");
 
         const moistures = data.moistureData.map(
-            (d: { time: string; moisture: number }) => `Time: ${d.time}, Moisture: ${d.moisture}%`
+            (d: { time: string; moisture: number }) => `- ⏱ Time: ${d.time}, 🌱 Moisture: ${d.moisture}%`
         ).join("\n");
 
         return `
-        You are a helpful irrigation assistant. Provide smart advice for a Rwandan farmer using the following data:
+You are a helpful irrigation assistant. Based on the following data collected on **${todayDay}**, generate a markdown-formatted report to advise a smallholder farmer in Rwanda.
 
-        Water Flow Readings:
-            ${flows}
+### 📊 Water Flow Readings
+${flows}
 
-            Soil Moisture Readings:
-            ${moistures}
+### 🌱 Soil Moisture Readings
+${moistures}
 
-            Suggest short and relevant tips in ${lang === "rw" ? "Kinyarwanda" : "English"}.
-            Also make some recommendations based on today's date: ${todayDay}
-            Use the latest data for your suggestions and complete all recommendations in a single response.
-            `;
+---
+
+### 💡 What To Include in Your Report:
+
+1. **General Summary** of irrigation condition.
+2. Bullet-point **recommendations** based on trends or low values.
+3. Use simple, clear, and helpful language.
+4. Format it for readability.
+
+Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
+    `;
     };
+
 
     const handleAskAI = async (customPrompt?: string, useSensorData = false) => {
         setLoading(true);
@@ -177,8 +185,9 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                     <div className="chat-messages">
                         {messages.map((m, i) => (
                             <div key={i} className="ai-chat-bubble">
-                                <p><strong>🧑 You:</strong> {m.prompt}</p>
-                                <p><strong>🤖 AI:</strong> {m.response}</p>
+                                <p><strong>🧑 Prompt:</strong> {m.prompt.slice(0, 100)}...</p>
+                                <p><strong>🤖 Response:</strong></p>
+                                <ReactMarkdown>{m.response}</ReactMarkdown>
                             </div>
                         ))}
                     </div>
