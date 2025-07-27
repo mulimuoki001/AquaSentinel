@@ -106,7 +106,7 @@ const ProviderSettings: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) 
                     </label>
                 </div>
 
-                <h2 style={{ marginTop: "2rem" }}>{t("provider.accountOptions") || "Account Options"}</h2>
+                <h2 style={{ marginTop: "2rem" }}>{t("providerSettings.accountOptions") || "Account Options"}</h2>
                 <div className="settings-section">
                     <button className="settings-btn" onClick={() => alert("Password reset coming soon")}>🔐 {t('providerSettings.changePassword')}</button>
                     <button className="settings-btn logout-btn" onClick={handleLogout}>🚪 {t('providerSettings.logout')}</button>

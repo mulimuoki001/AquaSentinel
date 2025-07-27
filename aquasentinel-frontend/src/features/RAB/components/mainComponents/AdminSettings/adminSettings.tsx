@@ -1,103 +1,116 @@
-import { Link } from "react-router-dom";
-// import useGlobalContext from "../../../../context/useGlobalContext";
+import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-
+import "../../../../provider/components/mainComponents/CSS/providerSettings.css";
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
 }
 
-const AdminSettings: React.FC<NavBarProps> = ({ sidebarOpen }) => {
+const AdminSettings: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+    const { currentLang, setLang } = useGlobalContext();
     const { t } = useTranslation();
+    const [notificationPrefs, setNotificationPrefs] = useState({
+        moistureAlerts: true,
+        pumpStatusAlerts: true,
+        efficiencyAlerts: false,
+        aiInsights: true,
+    });
 
-    const [defaultLang, setDefaultLang] = useState("en");
-    const [timezone, setTimezone] = useState("Africa/Kigali");
-    const [theme, setTheme] = useState("dark");
     const [exportFormat, setExportFormat] = useState("PDF");
-    const [dataRetention, setDataRetention] = useState("90");
-    // const [notifications, setNotifications] = useState({
-    //     lowMoisture: true,
-    //     pumpFailure: true,
-    //     offlineDevices: true,
-    // });
-    // const [security, setSecurity] = useState({
-    //     twoFA: true,
-    //     passwordExpiry: false,
-    // });
+    const [viewMode, setViewMode] = useState("map");
+    const [offlineSync, setOfflineSync] = useState(false);
 
-
+    const handleToggle = (key: keyof typeof notificationPrefs) => {
+        setNotificationPrefs(prev => ({ ...prev, [key]: !prev[key] }));
+    };
 
     return (
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <Link to="/dashboard/admin/">
-                        <img src="../../fast-backward.png" className="back-icon" alt="back" />
-                    </Link>
-                    <div className="page-title-text">
-                        <h1>{t("admin.settings") || "Admin Settings"}</h1>
+
+                    <div className="page-title-tex">
+                        <h1>{t("providerSettings.settings") || "Settings"}</h1>
                     </div>
+
                 </div>
             </div>
 
-            <div className="admin-settings-container">
-                <h2>🧩 Platform Management</h2>
+            <div className="provider-settings-container">
+                <h2>{t("providerSettings.languageSettings") || "Language Preference"}</h2>
                 <div className="settings-section">
-                    <label>Default Language</label>
-                    <select value={defaultLang} onChange={e => setDefaultLang(e.target.value)}>
+                    <label htmlFor="lang-select" style={{ color: "#ccc", marginRight: "8px" }}>🌐</label>
+                    <select
+                        id="lang-select"
+                        value={currentLang}
+                        onChange={(e) => setLang(e.target.value)}
+                        className="profile-link"
+                        style={{
+                            background: "#0e2c38",
+                            border: "1px solid #1568bb",
+                            padding: "6px 10px",
+                            borderRadius: "6px",
+                            fontSize: "16px",
+                            color: "#fff",
+                            cursor: "pointer"
+                        }}
+                    >
                         <option value="en">English</option>
                         <option value="rw">Kinyarwanda</option>
                     </select>
-
-                    <label>Timezone</label>
-                    <input type="text" value={timezone} onChange={e => setTimezone(e.target.value)} />
-
-                    <label>Theme</label>
-                    <select value={theme} onChange={e => setTheme(e.target.value)}>
-                        <option value="dark">Dark</option>
-                        <option value="light">Light</option>
-                    </select>
                 </div>
 
-                <h2>📊 Data & Analytics</h2>
+                <h2 style={{ marginTop: "2rem" }}>{t("providerSettings.notificationPreferences") || "Notification Preferences"}</h2>
                 <div className="settings-section">
-                    <label>Export Format</label>
-                    <select value={exportFormat} onChange={e => setExportFormat(e.target.value)}>
+                    {Object.entries(notificationPrefs).map(([key, value]) => (
+                        <label key={key} style={{ display: "block", margin: "8px 0" }}>
+                            <input
+                                type="checkbox"
+                                checked={value}
+                                onChange={() => handleToggle(key as keyof typeof notificationPrefs)}
+                            /> {key.replace(/([A-Z])/g, ' $1')}
+                        </label>
+                    ))}
+                </div>
+
+                <h2 style={{ marginTop: "2rem" }}>{t("providerSettings.exportFormat") || "Export Preferences"}</h2>
+                <div className="settings-section">
+                    <select
+                        value={exportFormat}
+                        onChange={(e) => setExportFormat(e.target.value)}
+                        style={{ background: "#0e2c38", color: "#fff", padding: "6px", borderRadius: "4px" }}
+                    >
                         <option value="CSV">CSV</option>
                         <option value="PDF">PDF</option>
                         <option value="JSON">JSON</option>
                     </select>
-
-                    <label>Data Retention (days)</label>
-                    <input type="number" value={dataRetention} onChange={e => setDataRetention(e.target.value)} />
                 </div>
 
-                <h2>🔔 Notifications</h2>
-                {/* <div className="settings-section">
-                    {Object.entries(notifications).map(([key, value]) => (
-                        <label key={key}>
-                            <input
-                                type="checkbox"
-                                checked={value}
-                                onChange={() => toggle(notifications, setNotifications, key)}
-                            /> Enable {key.replace(/([A-Z])/g, ' $1')}
-                        </label>
-                    ))}
-                </div> */}
+                <h2 style={{ marginTop: "2rem" }}>{t("providerSettings.dashboardViewPreferences") || "View Mode"}</h2>
+                <div className="settings-section">
+                    <label>
+                        <input type="radio" value="table" checked={viewMode === "table"} onChange={() => setViewMode("table")} /> Table View
+                    </label>
+                    <label style={{ marginLeft: "1rem" }}>
+                        <input type="radio" value="map" checked={viewMode === "map"} onChange={() => setViewMode("map")} /> Map View
+                    </label>
+                </div>
 
-                <h2>🔐 Security Settings</h2>
-                {/* <div className="settings-section">
-                    {Object.entries(security).map(([key, value]) => (
-                        <label key={key}>
-                            <input
-                                type="checkbox"
-                                checked={value}
-                                onChange={() => toggle(security, setSecurity, key)}
-                            /> {key.replace(/([A-Z])/g, ' $1')}
-                        </label>
-                    ))}
-                </div> */}
+
+
+                <h2 style={{ marginTop: "2rem" }}>{t("providerSettings.offlineMode") || "Offline Sync"}</h2>
+                <div className="settings-section">
+                    <label>
+                        <input type="checkbox" checked={offlineSync} onChange={() => setOfflineSync(prev => !prev)} /> {t("providerSettings.enableOfflineSync") || "Enable Offline Sync"}
+                    </label>
+                </div>
+
+                <h2 style={{ marginTop: "2rem" }}>{t("providerSettings.accountOptions") || "Account Options"}</h2>
+                <div className="settings-section">
+                    <button className="settings-btn" onClick={() => alert("Password reset coming soon")}>🔐 {t('providerSettings.changePassword')}</button>
+                    <button className="settings-btn logout-btn" onClick={handleLogout}>🚪 {t('providerSettings.logout')}</button>
+                </div>
             </div>
         </div>
     );
