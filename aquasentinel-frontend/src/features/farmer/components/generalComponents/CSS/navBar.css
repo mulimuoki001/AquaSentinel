@@ -154,26 +154,21 @@ body {
 }
 
 .topBar-logo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin-left: 5px;
+  max-width: 190px;
+  max-height: 50px;
+  margin-right: 5px;
+  border-radius: 20px;
+}
+
+.topBar-close-menu,
+.topBar-open-menu-icon {
+  max-width: 40px;
+  max-height: 43px;
   margin-left: 5px;
 }
 
-.topBar-icons .topBar-logo {
-  max-width: 190px;
-  max-height: 40px;
-  border-radius: 20px;
-  margin-right: 20px;
-}
-
-.topBar-icons .topBar-close-menu,
-.topBar-open-menu-icon {
-  max-width: 50px;
-  max-height: 53px;
-}
-
-.topBar-icons .topBar-close-menu:hover,
+.topBar-close-menu:hover,
 .topBar-open-menu-icon:hover {
   cursor: pointer;
 }
@@ -319,7 +314,7 @@ body {
   }
 
   .topBar-profile p {
-    font-size: 12px;
+    font-size: 8px;
   }
 
   .topBar-close-menu,
@@ -346,8 +341,9 @@ body {
     max-height: 30px;
   }
 
-  .topBar-icons .topBar-logo {
-    margin-right: 20px;
+  .topBar-logo {
+    max-width: 150px;
+    max-height: 40px;
   }
 }
 
@@ -507,6 +503,8 @@ body {
     width: 95;
     margin: 0 auto;
   }
+
+
 }
 
 @media (max-width: 450px) {
@@ -555,5 +553,11 @@ body {
   .topBar-open-menu-icon {
     width: 20px;
     height: 20px;
+  }
+
+  .topBar-logo {
+    max-width: 250px;
+    max-height: 20px;
+
   }
 }
