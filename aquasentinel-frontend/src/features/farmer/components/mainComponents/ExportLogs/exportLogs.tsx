@@ -135,30 +135,35 @@ export const ExportLogs: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout })
                 </div>
                 <div className="export-buttons">
                     <div className="tooltip-container">
-                        <button className="export-btn csv" onClick={handleExportCSV}>
+                        <button className="export-buttn csv" onClick={handleExportCSV}>
                             <img src={CSVIcon} alt="CSV" className="export-icon" />
                             <h3>{t("exportLogs.exportCSV")}</h3>
                         </button>
                         <div className="tooltip-text">
                             <strong>{t("exportLogs.csvTitle")}</strong><br />
-                            - {t("exportLogs.csvPoint1")}<br />
-                            - {t("exportLogs.csvPoint2")}<br />
-                            - {t("exportLogs.csvPoint3")}
-                            {t("exportLogs.csvDesc")}
+                            <ul>
+                                <li>{t("exportLogs.csvPoint1")}</li>
+                                <li>{t("exportLogs.csvPoint2")}</li>
+                                <li>{t("exportLogs.csvPoint3")}</li>
+                            </ul>
+                            <strong>{t("exportLogs.csvDesc")}</strong>
                         </div>
                     </div>
 
                     <div className="tooltip-container">
-                        <button className="export-btn pdf" onClick={handleExportPDF}>
+                        <button className="export-buttn pdf" onClick={handleExportPDF}>
                             <img src={PDFIcon} alt="PDF" className="export-icon" />
                             <h3>{t("exportLogs.exportPDF")}</h3>
                         </button>
                         <div className="tooltip-text">
                             <strong>{t("exportLogs.pdfTitle")}</strong><br />
-                            - {t("exportLogs.pdfPoint1")}<br />
-                            - {t("exportLogs.pdfPoint2")}<br />
-                            - {t("exportLogs.pdfPoint3")}
-                            {t("exportLogs.pdfDesc")}
+                            <ul>
+                                <li>{t("exportLogs.pdfPoint1")}</li>
+                                <li>{t("exportLogs.pdfPoint2")}</li>
+                                <li>{t("exportLogs.pdfPoint3")}</li>
+                            </ul>
+                            <strong>{t("exportLogs.pdfDesc")}</strong>
+
                         </div>
                     </div>
                 </div>

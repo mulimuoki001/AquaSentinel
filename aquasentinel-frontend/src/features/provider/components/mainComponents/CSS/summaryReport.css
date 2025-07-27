@@ -30,3 +30,10 @@
     font-size: 1.6rem;
     font-weight: bold;
 }
+
+
+@media (max-width: 450px) {
+    .summary-cards-grid {
+        margin-top: 150px;
+    }
+}

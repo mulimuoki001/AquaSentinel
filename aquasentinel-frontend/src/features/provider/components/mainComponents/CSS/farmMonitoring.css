@@ -167,3 +167,9 @@
         min-width: 700px;
     }
 }
+
+@media (max-width: 450px) {
+    .farm-monitoring-header {
+        margin-top: 150px;
+    }
+}

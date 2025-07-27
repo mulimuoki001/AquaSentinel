@@ -67,3 +67,9 @@
     }
 
 }
+
+@media (max-width: 450px) {
+    .provider-settings-container h2 {
+        margin-top: 150px;
+    }
+}

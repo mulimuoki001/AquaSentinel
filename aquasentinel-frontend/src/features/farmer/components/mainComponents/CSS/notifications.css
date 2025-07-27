@@ -27,7 +27,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 2px var(--border-color);
   padding: 20px;
-  margin-top: 180px;
+  margin-top: 170px;
 }
 
 .notifications-header h2 {
@@ -123,4 +123,14 @@
   .mark-read {
     align-self: flex-end;
   }
+}
+
+@media (max-width: 450px) {
+  .notifications-header {
+    margin-top: 140px;
+    font-size: 12px;
+  }
+
+
+
 }

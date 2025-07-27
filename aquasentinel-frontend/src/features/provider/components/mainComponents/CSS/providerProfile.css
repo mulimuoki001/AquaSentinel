@@ -40,3 +40,9 @@
         margin-top: 190px;
     }
 }
+
+@media (max-width: 450px) {
+    .provider-profile-container h2 {
+        margin-top: 150px;
+    }
+}

@@ -103,3 +103,10 @@
 
     }
 }
+
+
+@media (max-width: 450px) {
+    .zone-monitoring-header {
+        margin-top: 150px;
+    }
+}

@@ -496,9 +496,17 @@ body {
 }
 
 @media (max-width: 450px) {
+  .topBar {
+    height: 60px;
+  }
+
   .topBar-logo {
     max-width: 200px;
     max-height: 30px;
+  }
+
+  .sidebar.open {
+    top: 60px;
   }
 
   .topBar-profile img {

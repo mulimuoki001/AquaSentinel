@@ -140,3 +140,10 @@
         width: 100%;
     }
 }
+
+
+@media (max-width: 450px) {
+    .compliance-container h1 {
+        margin-top: 150px;
+    }
+}

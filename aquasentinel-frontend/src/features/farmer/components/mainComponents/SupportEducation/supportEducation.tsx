@@ -31,6 +31,7 @@ export const SupportEducation: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                 <div className="page-title">
                     <Link to="/dashboard/farmer/notifications"><img src="../../fast-backward.png" className="back-icon" alt="back" /></Link>
                     <div className="page-title-text1"> <h1>{t('support.title')}</h1></div>
+                    <Link to="/dashboard/farmer"><img src="../../fast-forward.png" alt="forward" /></Link>
                 </div>
                 <div className="header-nav">
                     <div className="header-language">

@@ -86,3 +86,10 @@
         margin-top: 200px;
     }
 }
+
+
+@media (max-width: 450px) {
+    .recommendations-header {
+        margin-top: 150px;
+    }
+}

@@ -94,3 +94,10 @@
         margin-top: 200px;
     }
 }
+
+
+@media (max-width: 450px) {
+    .rab-alerts-header {
+        margin-top: 150px;
+    }
+}

@@ -188,3 +188,9 @@ input:-webkit-autofill:focus {
     width: 100%;
   }
 }
+
+@media (max-width: 450px) {
+  .profile-card {
+    margin-top: 140px;
+  }
+}

@@ -110,7 +110,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin-top: 170px;
+  margin-top: 160px;
   gap: 20px;
 }
 
@@ -473,7 +473,7 @@
   }
 
   .dashboard-cards {
-    margin-top: 220px;
+    margin-top: 200px;
   }
 }
 
@@ -702,8 +702,6 @@
     margin-right: 0px;
   }
 
-
-
   .page-title img {
     width: 20px;
     height: 20px;
@@ -738,6 +736,13 @@
   }
 
 
+}
+
+@media (max-width: 450px) {
+
+  .dashboard-cards {
+    margin-top: 180px;
+  }
 }
 
 @media (max-width: 500px) {
@@ -782,6 +787,12 @@
 
   .alert p {
     font-size: 10px;
+  }
+}
+
+@media (max-width: 450px) {
+  .dashboard-header.open {
+    margin-top: 60px;
   }
 }
 

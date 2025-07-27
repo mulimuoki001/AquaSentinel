@@ -152,3 +152,12 @@ input:checked+.slider:before {
     width: 100%;
   }
 }
+
+@media (max-width: 450px) {
+
+
+  .settings-grid {
+    margin-top: 140px;
+  }
+
+}

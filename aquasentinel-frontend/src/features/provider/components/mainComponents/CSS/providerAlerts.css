@@ -71,3 +71,10 @@
 .alert-card.danger {
     border-left-color: #e53935;
 }
+
+
+@media (max-width: 450px) {
+    .alerts-grid {
+        margin-top: 120px;
+    }
+}

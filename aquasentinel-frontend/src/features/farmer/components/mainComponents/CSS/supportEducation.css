@@ -157,3 +157,9 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 450px) {
+  .support-tabs {
+    margin-top: 140px;
+  }
+}

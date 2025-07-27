@@ -175,3 +175,12 @@
     width: 100%;
   }
 }
+
+@media (max-width: 450px) {
+
+
+  .smart-ai-chat-box {
+    margin-top: 140px;
+  }
+
+}

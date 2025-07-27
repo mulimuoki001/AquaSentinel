@@ -275,3 +275,10 @@
     flex: 1 1 100%;
   }
 }
+
+@media (max-width: 450px) {
+
+  .irrigation-history-cards {
+    margin-top: 150px;
+  }
+}
