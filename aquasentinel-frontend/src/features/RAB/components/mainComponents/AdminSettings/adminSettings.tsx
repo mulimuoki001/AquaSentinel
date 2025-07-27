@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import useGlobalContext from "../../../../context/useGlobalContext";
+// import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
@@ -8,28 +8,25 @@ interface NavBarProps {
     handleLogout: () => void;
 }
 
-const AdminSettings: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+const AdminSettings: React.FC<NavBarProps> = ({ sidebarOpen }) => {
     const { t } = useTranslation();
-    const { currentLang: _, setLang } = useGlobalContext();
 
     const [defaultLang, setDefaultLang] = useState("en");
     const [timezone, setTimezone] = useState("Africa/Kigali");
     const [theme, setTheme] = useState("dark");
     const [exportFormat, setExportFormat] = useState("PDF");
     const [dataRetention, setDataRetention] = useState("90");
-    const [notifications, setNotifications] = useState({
-        lowMoisture: true,
-        pumpFailure: true,
-        offlineDevices: true,
-    });
-    const [security, setSecurity] = useState({
-        twoFA: true,
-        passwordExpiry: false,
-    });
+    // const [notifications, setNotifications] = useState({
+    //     lowMoisture: true,
+    //     pumpFailure: true,
+    //     offlineDevices: true,
+    // });
+    // const [security, setSecurity] = useState({
+    //     twoFA: true,
+    //     passwordExpiry: false,
+    // });
 
-    const toggle = (obj: any, setFn: any, key: string) => {
-        setFn((prev: any) => ({ ...prev, [key]: !prev[key] }));
-    };
+
 
     return (
         <div className="layout">
@@ -77,7 +74,7 @@ const AdminSettings: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => 
                 </div>
 
                 <h2>🔔 Notifications</h2>
-                <div className="settings-section">
+                {/* <div className="settings-section">
                     {Object.entries(notifications).map(([key, value]) => (
                         <label key={key}>
                             <input
@@ -87,10 +84,10 @@ const AdminSettings: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => 
                             /> Enable {key.replace(/([A-Z])/g, ' $1')}
                         </label>
                     ))}
-                </div>
+                </div> */}
 
                 <h2>🔐 Security Settings</h2>
-                <div className="settings-section">
+                {/* <div className="settings-section">
                     {Object.entries(security).map(([key, value]) => (
                         <label key={key}>
                             <input
@@ -100,7 +97,7 @@ const AdminSettings: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => 
                             /> {key.replace(/([A-Z])/g, ' $1')}
                         </label>
                     ))}
-                </div>
+                </div> */}
             </div>
         </div>
     );
