@@ -1,5 +1,4 @@
 :root {
-  --topbar-height: 100px;
   --card-text: #F5F5F5;
   --card-bg: #0e2c38;
   --border-color: #1568bb;
@@ -21,7 +20,7 @@
 }
 
 .dashboard-header.open {
-  margin-top: var(--topbar-height);
+  margin-top: 90px;
   display: flex;
   align-items: center;
   margin-bottom: 5px;

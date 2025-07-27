@@ -1,8 +1,7 @@
 :root {
   --border-color: #1568bb;
   --navbar-bg: #0e2c38;
-
-  --topbar-height: 60px;
+  --topbar-height: 90px;
 }
 
 * {
@@ -15,18 +14,14 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
-  /* prevent horizontal scroll */
 }
 
 /* Sidebar Css */
 .sidebar.open {
   position: fixed;
   top: var(--topbar-height);
-  /* height of your topBar */
   left: 0;
-
   height: calc(100vh - var(--topbar-height, 60px));
-  /* fills the rest of the screen */
   background-color: var(--navbar-bg);
   color: #fff;
   z-index: 999;
@@ -124,10 +119,9 @@ body {
 /* Top Bar Css*/
 .topBar {
   width: 100vw;
-  /* 100% of the viewport width */
   position: fixed;
   box-sizing: border-box;
-  height: var(--topbar-height);
+  height: 90px;
   top: 0;
   left: 0;
   right: 0;
@@ -154,8 +148,7 @@ body {
 }
 
 .topBar-logo {
-  margin-left: 5px;
-  max-width: 190px;
+  max-width: 160px;
   max-height: 50px;
   margin-right: 5px;
   border-radius: 20px;
@@ -164,7 +157,7 @@ body {
 .topBar-close-menu,
 .topBar-open-menu-icon {
   max-width: 40px;
-  max-height: 43px;
+  max-height: 35px;
   margin-left: 5px;
 }
 
@@ -323,11 +316,6 @@ body {
     height: 30px;
   }
 
-  .sidebar-close-menu,
-  .sidebar-open-menu {
-    width: 30px;
-    height: 30px;
-  }
 
   .sidebar-dashboard-overview,
   .sidebar-smart-recommendations,
@@ -508,6 +496,11 @@ body {
 }
 
 @media (max-width: 450px) {
+  .topBar-logo {
+    max-width: 200px;
+    max-height: 30px;
+  }
+
   .topBar-profile img {
     width: 30px;
     height: 30px;

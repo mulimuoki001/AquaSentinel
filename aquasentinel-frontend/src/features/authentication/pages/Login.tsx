@@ -34,7 +34,6 @@ const Login = () => {
 		}
 		try {
 			const response = await loginUser(email, password);
-			console.log('Login successful:', response);
 			setError('');
 			const token = response.newToken;
 			const role = response.role;
