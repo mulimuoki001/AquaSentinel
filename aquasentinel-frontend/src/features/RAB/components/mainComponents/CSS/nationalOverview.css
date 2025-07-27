@@ -138,3 +138,15 @@ body {
         max-width: 500px;
     }
 }
+
+@media (max-width: 500px) {
+    .rab-dashboard-chart {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 500px) {
+    .rab-dashboard-chart {
+        max-width: 300px;
+    }
+}
