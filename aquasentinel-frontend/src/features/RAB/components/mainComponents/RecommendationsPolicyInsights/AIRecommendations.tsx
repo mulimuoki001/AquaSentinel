@@ -53,7 +53,7 @@ const RecommendationGenerator = () => {
                 Write the report clearly and professionally, And generte the report with good text formatting and structure. Make sure the report is complete and comprehensive, covering all the points mentioned above.
             `;
 
-            const response = await fetch("/api/ai/generate-policy-report", {
+            const response = await fetch("/api/rab-ai/generate-policy-report", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt }),

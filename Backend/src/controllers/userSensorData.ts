@@ -10,7 +10,7 @@ export async function getUserSensorData(req: Request, res: Response) {
     try {
         const [waterFlowResult, moistureResult] = await Promise.all([
             (await db).query(
-                `SELECT date, time, flowrate, pumpStatus FROM water_flow_sensor_data WHERE user_id = $1 ORDER BY date DESC, time DESC LIMIT 50`,
+                `SELECT date, time, flowrate, pumpStatus FROM water_flow_sensor_data WHERE user_id = $1 ORDER BY date DESC, time DESC LIMIT 100`,
                 [userId]
             ),
             (await db).query(

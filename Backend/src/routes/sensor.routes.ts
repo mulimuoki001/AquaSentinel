@@ -3,7 +3,6 @@ import { fetchRecentMoisture, getWaterUsedLast1hr, fetchRecentWaterFlow, getPump
 import { authenticateJWT } from "../middleware/auth.middleware";
 import { getLivePumpSession, getAllPumpSessions, getUserPumpSessions, getTotalWaterUsedDailybyUser } from "../controllers/pumpSessions.controller";
 import { authorizeRoles } from "../middleware/role.middleware";
-import { getProviderRecommendations } from "../controllers/providerAi.controller";
 import { getUserSensorData } from "../controllers/userSensorData";
 import { get } from "http";
 
@@ -30,6 +29,5 @@ moistureRouter.get("/user-pump-sessions/:userId", getUserPumpSessions, authentic
 moistureRouter.get("/total-water-used-daily-by-user/:userId", getTotalWaterUsedDailybyUser, authenticateJWT);
 
 // Get provider recommendations
-moistureRouter.get("/provider-recommendations", getProviderRecommendations);
 moistureRouter.get("/user-sensor-data/:userId", getUserSensorData, authenticateJWT);
 export default moistureRouter;

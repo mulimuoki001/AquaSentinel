@@ -1,6 +1,6 @@
 :root {
-    --card-bg: #0e2c38;
-    --card1-bg: #91d3ec;
+    --card-bg: #0a3d52;
+    --card1-bg: #022531;
 
     --border-color: #1568bb;
     --background-color: #117caa;
@@ -39,6 +39,60 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.filters select,
+.filters input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    min-width: 180px;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+.filters button {
+    background-color: #0e2c38;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.filters button:hover {
+    background-color: #1568bb;
+}
+
+.map-container {
+    margin-top: 2rem;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.map-container-leaflet {
+    height: 500px;
+    width: 80%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
 .provider-recommendations-header h2 {
     font-size: 1rem;
     font-weight: 600;
@@ -59,7 +113,7 @@
     border-collapse: collapse;
     border-radius: 10px;
     overflow: hidden;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background-color: var(--card-bg);
     color: #e6faff;
@@ -76,6 +130,11 @@
     font-weight: 600;
     border-bottom: 1px solid var(--border-color);
 
+}
+
+.farm-table th {
+    background-color: var(--card1-bg);
+    position: sticky;
 }
 
 

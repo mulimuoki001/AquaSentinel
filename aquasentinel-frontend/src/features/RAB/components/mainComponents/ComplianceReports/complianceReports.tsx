@@ -20,13 +20,14 @@ export const ComplianceReports: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const [search, setSearch] = useState("");
     const [zone, setZone] = useState("");
 
-    const [minEfficiency, setMinEfficiency] = useState(0);
-    const [minComplianceRate, setMinComplianceRate] = useState(0);
+    const [minEfficiency, setMinEfficiency] = useState("");
+    const [minComplianceRate, setMinComplianceRate] = useState("");
     const filteredData = mockCompliance.filter((row) => {
         const matchesDistrict = row.district.toLowerCase().includes(search.toLowerCase());
         const matchesZone = zone ? row.zone === zone : true;
-        const meetsEfficiency = row.avgEfficiency >= minEfficiency;
-        const meetsCompliance = (row.compliant / row.farms) * 100 >= minComplianceRate;
+        const meetsEfficiency = minEfficiency === "" || row.avgEfficiency >= parseFloat(minEfficiency);
+        const meetsCompliance = minComplianceRate === "" || ((row.compliant / row.farms) * 100) >= parseFloat(minComplianceRate);
+
         return matchesDistrict && meetsEfficiency && meetsCompliance && matchesZone;
     });
 
@@ -136,26 +137,30 @@ export const ComplianceReports: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                                 </option>
                             ))}
                         </select>
-                        <label htmlFor="min-efficiency" className="min-efficiency-label">
-                            {t("rabCompliance.minEfficiency")}
-                        </label>
                         <input
                             type="number"
-                            placeholder="Min Efficiency %"
                             value={minEfficiency}
-                            onChange={(e) => setMinEfficiency(Number(e.target.value))}
+                            onChange={(e) => setMinEfficiency(e.target.value)}
+                            placeholder="Min Efficiency (%)"
                         />
-                        <label htmlFor="compliance-rate" className="compliance-rate-label">
-                            {t("rabCompliance.minComplianceRate")}
-                        </label>
+
                         <input
                             type="number"
-                            placeholder="Min Compliance %"
                             value={minComplianceRate}
-                            onChange={(e) => setMinComplianceRate(Number(e.target.value))}
+                            onChange={(e) => setMinComplianceRate(e.target.value)}
+                            placeholder="Min Compliance Rate (%)"
                         />
-                    </div>
 
+                        <button onClick={() => {
+                            setSearch("");
+                            setZone("");
+                            setMinComplianceRate("");
+                            setMinEfficiency("");
+                        }}>
+                            Reset Filters
+                        </button>
+
+                    </div>
                     <div className="compliance-table-container">
                         <table className="compliance-table">
                             <thead>

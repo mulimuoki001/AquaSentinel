@@ -1,0 +1,69 @@
+/* src/features/provider/css/providerSettings.css */
+
+.provider-settings-container {
+    padding: 2rem;
+    color: #ffffff;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 2px 2px rgba(22, 177, 255, 0.1);
+}
+
+.provider-settings-container h2 {
+    margin-top: 160px;
+}
+
+.settings-section {
+    margin-top: 1rem;
+
+    padding: 1rem;
+    border-radius: 8px;
+
+}
+
+.settings-section label {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.settings-section input[type="checkbox"],
+.settings-section input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #1568bb;
+}
+
+.settings-section select {
+    margin-top: 0.5rem;
+    font-size: 16px;
+}
+
+.settings-btn {
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #1568bb;
+    color: #fff;
+    cursor: pointer;
+}
+
+.settings-btn:hover {
+    background-color: #0e4c8b;
+}
+
+.logout-btn {
+    background-color: #bb1515;
+}
+
+.logout-btn:hover {
+    background-color: #8a1010;
+}
+
+@media (max-width: 1020px) {
+    .provider-settings-container h2 {
+        margin-top: 170px;
+    }
+
+}

@@ -97,7 +97,7 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                         <img src="../../fast-backward.png" className="back-icon" alt="back" />
                     </Link>
                     <div className="page-title-text">
-                        <h1>{t("recommendations.title")}</h1>
+                        <h1>{t("recommendations.pageTitle")}</h1>
                     </div>
                     <Link to="/dashboard/farmer/export-logs">
                         <img src="../../fast-forward.png" alt="forward" />
@@ -159,11 +159,21 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
                         </div>
                     </div>
 
-                    <button onClick={() => handleAskAI(`Suggest smart irrigation advice based on recent pump sessions for farmer ${userName}`, true)}
-                        disabled={loading} className="suggest-btn">
-                        {loading ? "Thinking..." : "🧠 Generate AI Suggestions from My Data"}
-                    </button>
-
+                    <div className="chat-buttons">
+                        <button onClick={() => handleAskAI(`Suggest smart irrigation advice based on recent pump sessions for farmer ${userName}`, true)}
+                            disabled={loading} className="suggest-btn">
+                            {loading ? "Thinking..." : "🧠 Generate AI Suggestions from My Data"}
+                        </button>
+                        <button
+                            onClick={() => {
+                                setMessages([]);
+                                localStorage.removeItem("provider_ai_recommendations");
+                            }}
+                            className="clear-history-btn"
+                        >
+                            Clear History
+                        </button>
+                    </div>
                     <div className="chat-messages">
                         {messages.map((m, i) => (
                             <div key={i} className="ai-chat-bubble">

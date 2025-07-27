@@ -20,8 +20,10 @@ import ProviderRecommendationsLayout from '../features/provider/components/mainC
 import ProviderAlertsLayout from '../features/provider/components/mainComponents/Alerts/providerAlertsLayout';
 import ProviderExportCenterLayout from '../features/provider/components/mainComponents/ExportCenter/providerExportCenterLayout';
 import DistrictZoneMonitoringLayout from '../features/RAB/components/mainComponents/DistrictZoneMonitoring/zoneMonitoringLayout';
+import ProviderProfileLayout from '../features/provider/components/mainComponents/ProviderProfile/providerProfileLayout';
 import AlertsRABLayout from '../features/RAB/components/mainComponents/Notifications/alertsRABLayout';
 import ComplianceReportsLayout from '../features/RAB/components/mainComponents/ComplianceReports/complianceReportsLayout';
+import ProviderSettingsLayout from '../features/provider/components/mainComponents/ProviderSettings/providerSettingsLayout';
 import RecommendationsPolicyInsightsLayout from '../features/RAB/components/mainComponents/RecommendationsPolicyInsights/recommendationsPolicyInsightsLayout';
 const AppRoutes = () => {
     return (
@@ -47,6 +49,8 @@ const AppRoutes = () => {
             <Route path="/dashboard/provider/recommendations" element={<PrivateRoute><ProviderRecommendationsLayout /></PrivateRoute>} />
             <Route path="/dashboard/provider/alerts" element={<PrivateRoute><ProviderAlertsLayout /></PrivateRoute>} />
             <Route path="/dashboard/provider/export-center" element={<PrivateRoute><ProviderExportCenterLayout /></PrivateRoute>} />
+            <Route path="/dashboard/provider/provider-profile" element={<PrivateRoute><ProviderProfileLayout /></PrivateRoute>} />
+            <Route path="/dashboard/provider/settings" element={<PrivateRoute><ProviderSettingsLayout /></PrivateRoute>} />
 
             // RAB Dashboard Routes
             <Route path="/dashboard/RAB" element={<RABDashboard />} />

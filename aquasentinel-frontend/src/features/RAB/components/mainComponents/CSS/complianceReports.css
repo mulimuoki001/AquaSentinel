@@ -46,8 +46,18 @@
     margin-right: 8px;
 }
 
+.compliance-controls button {
+    background-color: #0e2c38;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 .compliance-controls input::placeholder {
-    color: #0678a5;
+    color: #f8fcfd;
     opacity: 1;
 }
 

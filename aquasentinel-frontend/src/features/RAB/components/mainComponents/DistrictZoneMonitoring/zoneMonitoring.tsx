@@ -129,11 +129,10 @@ export const DistrictZoneMonitoring: React.FC<NavBarProps> = ({ sidebarOpen, han
                         </div>
                     ))}
                 </div>
-                <div className="zone-map-container">
-                    <div className="zone-map">
-                        <p>{t("rabData.zoneMapPlaceholder")}</p>
-                        <div className="map-placeholder"><DistrictZoneMap /></div>
-                    </div>
+                <div className="map-container">
+
+                    <DistrictZoneMap />
+
                 </div>
             </div>
         </div>

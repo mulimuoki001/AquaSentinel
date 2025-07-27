@@ -19,17 +19,21 @@ export const ProviderIrrigationSessions: React.FC<NavBarProps> = ({
 }) => {
     const { currentLang, setLang } = useGlobalContext();
     const { t } = useTranslation();
+    const [statusFilter, setStatusFilter] = useState<string>("All");
     const { sessions, loading, error } = useAllPumpSessions();
-    console.log("Sessions:", sessions);
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 6;
 
-    const totalPages = Math.ceil(sessions.length / rowsPerPage);
-    const paginatedSessions = sessions.slice(
+    const filteredSessions = sessions.filter(session =>
+        statusFilter === "All" || session.status === statusFilter
+    );
+    const totalPages = Math.ceil(filteredSessions.length / rowsPerPage);
+    const paginatedSessions = filteredSessions.slice(
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage
     );
+
 
     const completedSessions = sessions.filter(s => s.status === "Completed").length;
     const efficiencyRate = sessions.length > 0
@@ -55,7 +59,7 @@ export const ProviderIrrigationSessions: React.FC<NavBarProps> = ({
                         <img src="../../fast-backward.png" className="back-icon" alt="back" />
                     </Link>
                     <div className="page-title-text-irrigation">
-                        <h1>{t("irrigation.title")}</h1>
+                        <h1>{t("provider.IrrigationSessions")}</h1>
                     </div>
                     <Link to="/dashboard/provider/recommendations">
                         <img src="../../fast-forward.png" alt="forward" />
@@ -121,9 +125,34 @@ export const ProviderIrrigationSessions: React.FC<NavBarProps> = ({
                 </div>
 
                 <div className="irrigation-history-wrapper">
+                    <div className="filter-controls">
+                        <label htmlFor="status-filter">Filter by Status:</label>
+                        <select
+                            id="status-filter"
+                            value={statusFilter}
+                            onChange={(e) => {
+                                setStatusFilter(e.target.value);
+                                setCurrentPage(1); // Reset to page 1 when filter changes
+                            }}
+                            style={{
+                                marginLeft: "8px",
+                                padding: "6px",
+                                borderRadius: "6px",
+                                backgroundColor: "#0e2c38",
+                                color: "#fff",
+                                border: "1px solid #1568bb",
+                            }}
+                        >
+                            <option value="All">All</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Low flow">Low flow</option>
+                            <option value="In Progress">In Progress</option>
+                        </select>
+                    </div>
                     {loading && <p>Loading irrigation sessions...</p>}
                     {error && <p>Error: {error}</p>}
                     {!loading && !error && (
+
                         <div className="irrigation-history-scroll">
                             <table className="irrigation-history-table">
                                 <thead>

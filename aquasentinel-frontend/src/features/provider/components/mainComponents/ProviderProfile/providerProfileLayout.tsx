@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logoutService from "../../../../authentication/authServices/Logout";
 import NavBar from "../../generalComponents/navBar";
-import ProviderSmartRecommendations from "./recommendations";
-const ProviderRecommendationsLayout = () => {
+import logoutService from "../../../../authentication/authServices/Logout";
+import ProviderProfile from "./providerProfile";
+
+const ProviderProfileLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
+
     const handleLogout = async () => {
         await logoutService.logout();
         navigate('/login');
@@ -14,9 +16,9 @@ const ProviderRecommendationsLayout = () => {
     return (
         <div className="layout">
             <NavBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} handleLogout={handleLogout} />
-            <ProviderSmartRecommendations sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
+            <ProviderProfile sidebarOpen={sidebarOpen} handleLogout={handleLogout} />
         </div>
     );
 };
 
-export default ProviderRecommendationsLayout;
+export default ProviderProfileLayout;

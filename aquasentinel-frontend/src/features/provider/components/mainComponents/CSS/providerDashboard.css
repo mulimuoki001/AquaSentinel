@@ -1,58 +1,122 @@
 /* dashboardOverview.css */
 
 .provider-dashboard-container {
+    display: flex;
+    flex-direction: column;
     padding: 2rem 3rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2rem;
 
 }
 
+.dashboard-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
 .provider-dashboard-card {
-    background-color: var(--alert-bg);
-    color: var(--alert-text);
+    background-color: #0e2c38;
+    /* Match dark dashboard background */
+    color: #ffffff;
     padding: 1.5rem;
     border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(22, 177, 255, 0.2);
     text-align: center;
-    margin-top: 160px;
+    transition: transform 0.3s ease;
 }
 
 .provider-dashboard-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(22, 177, 255, 0.3);
 }
 
 .provider-dashboard-card h2 {
+    font-size: 18px;
+    color: #16b1ff;
     margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-    color: var(--border-color);
+    text-transform: uppercase;
 }
 
 .provider-dashboard-card p {
-    font-size: 1.5rem;
+    font-size: 28px;
     font-weight: bold;
+    color: #ffffff;
+}
+
+.dashboard-sections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .dashboard-section {
-    background-color: #083d54;
-    color: white;
+    background-color: #0e2c38;
+    /* Matches AquaSentinel theme */
+    color: #ffffff;
     padding: 1.5rem;
     border-radius: 16px;
-    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(22, 177, 255, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.dashboard-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(22, 177, 255, 0.2);
 }
 
 .dashboard-section h3 {
-    font-size: 1.2rem;
+    font-size: 20px;
+    color: white;
     margin-bottom: 0.5rem;
-    color: var(--border-color);
 }
 
-@media screen and (max-width: 1024px) {
-    .provider-dashboard-card {
-        margin-top: 200px;
+.dashboard-section p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.dashboard-charts-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Shared style for both chart and map containers */
+.dashboard-chart {
+    max-width: 500px;
+    flex: 1 1 45%;
+    color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(22, 177, 255, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.dashboard-map {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    max-width: 600px;
+    flex: 1 1 45%;
+    color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(22, 177, 255, 0.15);
+    transition: transform 0.3s ease;
+}
+
+/* Responsive fallback: stack on small screens */
+@media (max-width: 768px) {
+
+    .dashboard-chart,
+    .dashboard-map {
+        flex: 1 1 100%;
     }
 }
+
+
 
 @media screen and (max-width: 768px) {
     .provider-dashboard-container {

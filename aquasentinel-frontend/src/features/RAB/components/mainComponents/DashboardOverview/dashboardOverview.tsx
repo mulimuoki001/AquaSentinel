@@ -15,7 +15,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <div className="page-title-text"> <h1>{t('rab.nationalOverview')}</h1></div>
+                    <div className="page-title-tex"> <h1>{t('rab.nationalOverview')}</h1></div>
                     <Link to="/dashboard/RAB/district-zone-monitoring"><img src="../../fast-forward.png" alt="forward" /></Link>
                 </div>
                 <div className="header-nav">

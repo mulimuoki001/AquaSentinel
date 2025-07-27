@@ -14,7 +14,6 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
   const { userData } = useGlobalContext();
   const { t } = useTranslation();
   const location = useLocation();
-  const { unreadCount } = useGlobalContext();
 
   //Todays date
   const today = new Date();
@@ -94,7 +93,6 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
             <div className="tooltip-wrapper">
               <Link to="/dashboard/provider/notifications" className={`notification-link ${location.pathname === "/dashboard/provider/notifications" ? "active" : ""}`}>
                 <img src="../../alerts.png" alt="Location" />
-                {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
               </Link>
               <span className="tooltip-sm-screen">
                 Alerts

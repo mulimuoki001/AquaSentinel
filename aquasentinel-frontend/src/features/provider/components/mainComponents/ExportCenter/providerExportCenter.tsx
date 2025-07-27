@@ -2,6 +2,12 @@
 import { Link } from "react-router-dom";
 import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
+import exportCSV from "./CSVDataExport";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ChartImage from "./ChartImage";
+import PDFReport from "./PDFReport";
+import mockFarmsData from "../MockData/mockFarmsData";
+import { useState, useEffect } from "react";
 
 interface NavBarProps {
     sidebarOpen: boolean;
@@ -11,6 +17,18 @@ interface NavBarProps {
 const ProviderExportCenter: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { currentLang, setLang } = useGlobalContext();
     const { t } = useTranslation();
+    const [chartImg, setChartImg] = useState<string | null>(null);
+    const totalFarms = mockFarmsData.length;
+    const totalWater = mockFarmsData.reduce((sum, f) => sum + f.waterUsedToday, 0).toLocaleString();
+    const avgEfficiency = (mockFarmsData.reduce((sum, f) => sum + f.avgEfficiency, 0) / totalFarms).toFixed(1);
+    const alerts = mockFarmsData.filter(f => f.moisture < 25 || f.pumpStatus === "OFF").length;
+
+    const handleExportCSV = () => {
+        exportCSV();
+    };
+    useEffect(() => {
+        console.log("🧪 Chart image received in Export Center:", chartImg); // ← DEBUG
+    }, [chartImg]);
 
     return (
         <div className="layout">
@@ -19,7 +37,7 @@ const ProviderExportCenter: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                     <Link to="/dashboard/provider/recommendations">
                         <img src="../../fast-backward.png" className="back-icon" alt="back" />
                     </Link>
-                    <div className="page-title-text">
+                    <div className="page-title-tex">
                         <h1>{t("providerExportCenter.title") || "Export Center"}</h1>
                     </div>
                     <Link to="/dashboard/provider/alerts">
@@ -68,8 +86,31 @@ const ProviderExportCenter: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout
                     <p>{t("providerExportCenter.description") || "Export irrigation sessions or summaries for offline use."}</p>
 
                     <div className="export-options">
-                        <button className="btn-export">📄 Export All Sessions (CSV)</button>
-                        <button className="btn-export">📊 Export Summary Stats (PDF)</button>
+                        <button className="btn-export" onClick={handleExportCSV}>📄 Export Current Report Data (CSV)</button>
+                        <div>
+                            <ChartImage onReady={setChartImg} />
+                            {!chartImg && <p style={{ color: "#fff" }}>Generating PDF chart...</p>}
+
+
+                            {chartImg && (
+                                <PDFDownloadLink
+                                    document={
+                                        <PDFReport
+                                            chartImage={chartImg}
+                                            totalFarms={totalFarms}
+                                            totalWater={totalWater}
+                                            avgEfficiency={avgEfficiency}
+                                            alerts={alerts}
+                                        />
+                                    }
+                                    fileName="AquaSentinel_Summary.pdf"
+                                    className="btn-export"
+                                >
+                                    📊 Export Summary Stats (PDF)
+                                </PDFDownloadLink>
+                            )}
+                        </div>
+                        <ChartImage onReady={setChartImg} />
                     </div>
                 </div>
             </div>

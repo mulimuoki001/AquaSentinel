@@ -35,17 +35,21 @@ const DistrictZoneMap = () => {
     };
 
     return (
-        <MapContainer
-            style={{ height: "500px", width: "100%", marginTop: "1rem" }}
-            center={[-1.94, 30.06]}
-            zoom={8}
-        >
-            <TileLayer
-                attribution='&copy; OpenStreetMap'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <GeoJSON data={rwandaDistricts as any} onEachFeature={onEachDistrict} />
-        </MapContainer>
+        <div className="map-container-leaflet">
+            <h2 style={{ textAlign: "center", color: "#fff" }}>District Zone Map</h2>
+            <MapContainer
+                style={{ height: "500px", width: "100%", marginTop: "1rem" }}
+                center={[-1.94, 30.06]}
+                zoom={8}
+                zoomControl={false}
+            >
+                <TileLayer
+                    attribution='&copy; OpenStreetMap'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <GeoJSON data={rwandaDistricts as any} onEachFeature={onEachDistrict} />
+            </MapContainer>
+        </div>
     );
 };
 

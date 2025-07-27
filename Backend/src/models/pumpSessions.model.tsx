@@ -142,7 +142,11 @@ export async function fetchAllPumpSessions() {
       end_time,
       total_liters,
       status,
-      ABS(duration) AS duration
+      ABS(duration) AS duration,
+      farmowner,
+      farmname,
+      farmlocation,
+      farmphone
     FROM pump_sessions
     ORDER BY date DESC, id DESC
   `);

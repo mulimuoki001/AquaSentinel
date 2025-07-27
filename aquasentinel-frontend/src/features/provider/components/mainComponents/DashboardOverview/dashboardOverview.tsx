@@ -1,6 +1,13 @@
+// DashboardOverview.tsx
 import { Link } from "react-router-dom";
 import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import CellLevelMap from "../FarmMonitoring.ts/farmMap";
+import mockFarmsData from "../MockData/mockFarmsData";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface NavBarProps {
     sidebarOpen: boolean;
@@ -11,11 +18,81 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
     const { t } = useTranslation();
     const { currentLang, setLang } = useGlobalContext();
 
+    const totalFarms = mockFarmsData.length;
+    const totalWaterUsed = mockFarmsData.reduce((sum, farm) => sum + farm.waterUsedToday, 0);
+    const avgIrrigationTime = 60; // Replace with actual data
+    const activeAlerts = mockFarmsData.filter(farm => farm.moisture < 25 || farm.pumpStatus === "OFF").length;
+
+    const districtLabels = [...new Set(mockFarmsData.map(f => f.district))];
+    const TotalLandCoverage = mockFarmsData.reduce((sum, f) => sum + f.farmSize, 0).toLocaleString();
+    const avgEffByDistrict = districtLabels.map(label => {
+        const districtFarms = mockFarmsData.filter(f => f.district === label);
+        const totalEff = districtFarms.reduce((sum, f) => sum + f.avgEfficiency, 0);
+        return (totalEff / districtFarms.length).toFixed(1);
+    });
+    const chartOptions = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    color: "#ffffff" // Legend label color
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: "#ffffff", // ✅ X-axis label color
+                    maxRotation: 40,
+                    minRotation: 30,
+                    font: {
+                        size: 12
+                    }
+                },
+                grid: {
+                    color: "rgba(255,255,255,0.1)" // optional: make gridlines subtle
+                }
+            },
+            y: {
+                ticks: {
+                    color: "#ffffff", // ✅ Y-axis label color
+                    font: {
+                        size: 12
+                    }
+                },
+                grid: {
+                    color: "rgba(255,255,255,0.1)"
+                },
+                min: 0,
+                max: 100
+            }
+        }
+    };
+
+    const chartData = {
+        labels: districtLabels,
+        datasets: [
+            {
+                label: "Avg Efficiency (%)",
+                data: avgEffByDistrict,
+                backgroundColor: avgEffByDistrict.map(value => {
+                    const numValue = parseFloat(value); // Convert value to a number
+                    if (numValue >= 80) return "#4caf50";   // High: Green
+                    if (numValue >= 60) return "#ffc107";   // Medium: Yellow
+                    return "#f44336";                    // Low: Red
+                }),
+
+            },
+        ],
+    };
+
+
     return (
         <div className="layout">
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <div className="page-title-text">
+                    <div className="page-title-tex">
                         <h1>{t('provider.dashboard')}</h1>
                     </div>
                     <Link to="/dashboard/provider/farm-monitoring">
@@ -30,17 +107,7 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                             value={currentLang}
                             onChange={(e) => setLang(e.target.value)}
                             className="profile-link"
-                            style={{
-                                background: "#0e2c38",
-                                border: "1px solid #ccc",
-                                padding: "4px 6px",
-                                borderRadius: "4px",
-                                fontSize: "16px",
-                                color: "#fff",
-                                cursor: "pointer",
-                                borderBlockColor: "#1568bb",
-                                borderColor: "#1568bb"
-                            }}
+                            style={{ background: "#0e2c38", border: "1px solid #ccc", padding: "4px 6px", borderRadius: "4px", fontSize: "16px", color: "#fff", cursor: "pointer", borderColor: "#1568bb" }}
                         >
                             <option value="en">English</option>
                             <option value="rw">Kinyarwanda</option>
@@ -59,33 +126,42 @@ export const DashboardOverview: React.FC<NavBarProps> = ({ sidebarOpen, handleLo
                 </div>
             </div>
 
-            <div className="provider-dashboard-container" style={{ padding: "2rem 3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "2rem" }}>
-                <div className="provider-dashboard-card highlight-card">
-                    <h2>Total Farms</h2>
-                    <p>132</p>
+            <div className="provider-dashboard-container" >
+                <div className="farm-monitoring-header">
+                    <h2>{t('provider.providerOverview')}</h2>
+                    <p>{t('provider.providerOverviewDescription')}</p>
                 </div>
-                <div className="provider-dashboard-card highlight-card">
-                    <h2>Water Used Today</h2>
-                    <p>6,450 L</p>
-                </div>
-                <div className="provider-dashboard-card highlight-card">
-                    <h2>Avg Irrigation Time</h2>
-                    <p>32 mins</p>
-                </div>
-                <div className="provider-dashboard-card highlight-card">
-                    <h2>Active Alerts</h2>
-                    <p>5</p>
+                <div className="dashboard-cards-grid">
+                    <div className="provider-dashboard-card highlight-card"><h2>{t('providerDashboard.totalFarms')}</h2><p>{totalFarms}</p></div>
+                    < div className="provider-dashboard-card highlight-card" ><h2>{t('providerDashboard.waterUsedToday')}</h2><p>{totalWaterUsed.toLocaleString()} L</p></div>
+                    <div className="provider-dashboard-card highlight-card"><h2>{t('providerDashboard.avgIrrigationTime')}</h2><p>{avgIrrigationTime} mins</p></div>
+                    <div className="provider-dashboard-card highlight-card"><h2>{t('providerDashboard.landCoverage')}</h2><p>{TotalLandCoverage} (ha)</p></div><div className="provider-dashboard-card highlight-card"><h2>{t('providerDashboard.activeAlerts')}</h2><p>{activeAlerts}</p></div>
                 </div>
 
-                <div className="dashboard-section" style={{ gridColumn: "span 2", background: "#083d54", color: "white", padding: "1.5rem", borderRadius: "16px" }}>
-                    <h3>Farm Insights</h3>
-                    <p style={{ marginTop: "0.5rem", lineHeight: 1.6 }}>Real-time analytics on water efficiency, irrigation trends, and regional performance. Compare across farms and identify areas for support.</p>
+                <div className="dashboard-sections-grid">
+                    <div className="dashboard-section" >
+                        <h3>{t('providerDashboard.insightsTitle')}</h3>
+                        <p style={{ marginTop: "0.5rem", lineHeight: 1.6 }}>{t('providerDashboard.insightsDescription')}</p>
+                    </div>
+
+                    <div className="dashboard-section" >
+                        <h3>{t('providerDashboard.recommendationsTitle')}</h3>
+                        <p style={{ marginTop: "0.5rem", lineHeight: 1.6 }}>{t('providerDashboard.recommendationsDescription')}</p>
+                    </div>
+
                 </div>
-                <div className="dashboard-section" style={{ gridColumn: "span 2", background: "#083d54", color: "white", padding: "1.5rem", borderRadius: "16px" }}>
-                    <h3>Recommendations Overview</h3>
-                    <p style={{ marginTop: "0.5rem", lineHeight: 1.6 }}>Summary of automated irrigation advice sent to farmers today. Review effectiveness and tailor recommendations for better results.</p>
+                <div className="dashboard-charts-grid">
+                    <div className="dashboard-chart">
+                        <h3>{t('providerDashboard.avgEfficiency')}</h3>
+                        <Bar data={chartData} options={chartOptions as any} />
+                    </div>
+                    <div className="dashboard-map">
+                        <CellLevelMap />
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
+
+export default DashboardOverview;

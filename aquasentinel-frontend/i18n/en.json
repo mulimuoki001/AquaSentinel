@@ -57,7 +57,8 @@
         "of": "of"
     },
     "recommendations": {
-        "title": "Smart Recommendations",
+        "pageTitle": "Smart Farm Recommendations",
+        "title": "Farmer AI Assistant",
         "none": "No new recommendations today"
     },
     "exportLogs": {
@@ -147,6 +148,8 @@
     },
     "provider": {
         "dashboard": "Dashboard Overview",
+        "providerOverview": "Provider Overview",
+        "providerOverviewDescription": "Monitor all registered farms, irrigation systems, and water usage across zones, districts, cells, and villages.",
         "farmMonitoring": "Farm Monitoring",
         "IrrigationSessions": "Irrigation Sessions",
         "alerts": "Alerts & Notifications",
@@ -158,6 +161,20 @@
         "profile": "Profile",
         "district": "District"
     },
+    "providerDashboard": {
+        "totalFarms": "Total Farms",
+        "waterUsedToday": "Water Used Today",
+        "avgIrrigationTime": "Avg Irrigation Time",
+        "activeAlerts": "Active Alerts",
+        "insightsTitle": "Farm Insights",
+        "insightsDescription": "Real-time analytics on water efficiency, irrigation trends, and regional performance. Compare across farms and identify areas for support.",
+        "recommendationsTitle": "Recommendations Overview",
+        "recommendationsDescription": "Summary of automated irrigation advice sent to farmers today. Review effectiveness and tailor recommendations for better results.",
+        "avgEfficiency": "Avg Efficiency by District",
+        "settings": "Settings",
+        "logout": "Logout",
+        "landCoverage": "Total Land Coverage"
+    },
     "providerFarmMonitoring": {
         "farmMonitoring": "Farm Monitoring",
         "farmOverviewTitle": "Farm Overview",
@@ -166,7 +183,59 @@
         "owner": "Owner",
         "location": "Location",
         "moisture": "Moisture (%)",
-        "pumpStatus": "Pump Status"
+        "pumpStatus": "Pump Status",
+        "avgEfficiency": "Avg. Efficiency (%)",
+        "lastIrrigated": "Last Irrigated",
+        "farmSize": "Farm Size (ha)"
+    },
+    "providerSmartRecommendations": {
+        "title": "AI Smart Recommendations",
+        "assistantTitle": "Provider AI Assistant",
+        "generateInsights": "🧠 Generate Insights from Current Data",
+        "thinking": "Thinking...",
+        "clearHistory": "Clear History",
+        "prompt": "Prompt",
+        "ai": "AI",
+        "inputPlaceholder": "Ask something about today's farms...",
+        "send": "Send"
+    },
+    "providerSettings": {
+        "settings": "Settings",
+        "languageSettings": "Language Preference",
+        "accountOptions": "Account Options",
+        "notificationPreferences": "Notification Preferences",
+        "exportFormat": "Export Format",
+        "dashboardViewPreferences": "Dashboard View Preferences",
+        "theme": "Theme",
+        "offlineMode": "Offline Mode",
+        "changePassword": "🔐 Change Password",
+        "logout": "🚪 Logout",
+        "enableOfflineSync": "Enable Offline Sync",
+        "view": {
+            "table": "Table View",
+            "map": "Map View"
+        },
+        "themeOptions": {
+            "dark": "Dark",
+            "light": "Light"
+        },
+        "formats": {
+            "csv": "CSV",
+            "pdf": "PDF",
+            "json": "JSON"
+        },
+        "alerts": {
+            "moistureAlerts": "Moisture Alerts",
+            "pumpStatusAlerts": "Pump Status Alerts",
+            "efficiencyAlerts": "Efficiency Alerts",
+            "aiInsights": "AI Insights"
+        }
+    },
+    "providerProfile": {
+        "profile": "Profile",
+        "profileSettings": "Profile Details",
+        "name": "Name",
+        "email": "Email"
     },
     "rab": {
         "nationalOverview": "National Overview",

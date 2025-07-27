@@ -1,0 +1,42 @@
+.provider-profile-container {
+    padding: 2rem;
+
+    color: #ffffff;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 2px 2px rgba(22, 177, 255, 0.1);
+
+}
+
+.provider-profile-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #1568bb;
+    padding-bottom: 0.5rem;
+    color: #ffffff;
+    margin-top: 160px;
+}
+
+.settings-section {
+    padding: 1rem 1.5rem;
+    background-color: #0e2c38;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    line-height: 2;
+}
+
+.settings-section p {
+    font-size: 1rem;
+    color: #dddddd;
+}
+
+.settings-section strong {
+    color: #ffffff;
+}
+
+@media (max-width: 1020px) {
+    .provider-profile-container h2 {
+        margin-top: 190px;
+    }
+}

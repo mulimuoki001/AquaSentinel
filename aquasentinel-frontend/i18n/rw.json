@@ -59,7 +59,8 @@
         "of": "mu"
     },
     "recommendations": {
-        "title": "Inama z'Ubwenge",
+        "pageTitle": "Inama z'Ubwenge bw'Imashini",
+        "title": "Ubwiru bwa Farmer AI",
         "none": "Nta nama nshya zabonetse uyu munsi"
     },
     "exportLogs": {
@@ -149,6 +150,8 @@
     },
     "provider": {
         "dashboard": "Isura y'Itangiriro",
+        "providerOverview": "Isura y'Itangiriro ry'Umuhinzi",
+        "providerOverviewDescription": "Kurikirana imirima yose yanditswe, sisitemu zo kuhira, n'ikoreshwa ry'amazi mu turere, utugari, n'imidugudu.",
         "farmMonitoring": "Kurwanya Ubuhinzi",
         "IrrigationSessions": "Seansi za Kurwanya",
         "alerts": "Amatangazo & Impuruza",
@@ -160,6 +163,20 @@
         "logout": "Sohoka",
         "district": "Akarere"
     },
+    "providerDashboard": {
+        "totalFarms": "Imirima Yose",
+        "waterUsedToday": "Amazi Yakoreshejwe Uyu Munsi",
+        "avgIrrigationTime": "Igihe Cy’Ubuhinzi Biringaniye",
+        "activeAlerts": "Impuruza z’Icyi Gihe",
+        "insightsTitle": "Ibyo Kumenya ku Mirima",
+        "insightsDescription": "Isesengura rihita ku mikoreshereze y’amazi, uburyo bwo kuhira no kugereranya uturere. Bifasha kumenya aho gufashiriza abahinzi.",
+        "recommendationsTitle": "Icyegeranyo cy’Inama",
+        "recommendationsDescription": "Icyegeranyo cy’inama za buri munsi zoherejwe ku bahinzi. Genzura uko zakoze kandi utegure izindi zinoze.",
+        "avgEfficiency": "Imikorere y’Ubuhinzi ku Karere",
+        "settings": "Igenamiterere",
+        "logout": "Sohoka",
+        "landCoverage": "Ubuso bw'Imirima"
+    },
     "providerFarmMonitoring": {
         "farmMonitoring": "Kugenzura Imirima",
         "farmOverviewTitle": "Isura Rusange y’Imirima",
@@ -168,7 +185,59 @@
         "owner": "Nyir'Umurima",
         "location": "Aho uherereye",
         "moisture": "Ubushuhe (%)",
-        "pumpStatus": "Imikorere ya Pomp"
+        "pumpStatus": "Imikorere ya Pomp",
+        "avgEfficiency": "Impuzandengo y'Imikorere (%)",
+        "lastIrrigated": "Igihe cyanyuma kuhira",
+        "farmSize": "Ingano y'Umurima (ha)"
+    },
+    "providerSmartRecommendations": {
+        "title": "Inama Zishingiye kuri AI",
+        "assistantTitle": "Umufasha wa AI w’Umuyobozi",
+        "generateInsights": "🧠 Tanga Inama Zishingiye ku Makuru",
+        "thinking": "Irimo gutekereza...",
+        "clearHistory": "Siba Amateka",
+        "prompt": "Ikibazo",
+        "ai": "AI",
+        "inputPlaceholder": "Andika ikibazo kijyanye n’amasambu y’uyu munsi...",
+        "send": "Ohereza"
+    },
+    "providerSettings": {
+        "settings": "Ibyifuzo",
+        "languageSettings": "Ururimi Ruhitamo",
+        "accountOptions": "Amakuru ya Konti",
+        "notificationPreferences": "Ibyifuzo by’Itangazo",
+        "exportFormat": "Uburyo bwo Gucapa",
+        "dashboardViewPreferences": "Uburyo bwo Kwerekana Dashboard",
+        "theme": "Imiterere",
+        "offlineMode": "Uburyo butari kuri interineti",
+        "changePassword": "🔐 Hindura Ijambobanga",
+        "logout": "🚪 Sohoka",
+        "enableOfflineSync": "Shyiraho Sinkronizasiya idakoresha internet",
+        "view": {
+            "table": "Imbonerahamwe",
+            "map": "Ikarita"
+        },
+        "themeOptions": {
+            "dark": "Urumuri ruke",
+            "light": "Urumuri rwinshi"
+        },
+        "formats": {
+            "csv": "CSV",
+            "pdf": "PDF",
+            "json": "JSON"
+        },
+        "alerts": {
+            "moistureAlerts": "Amabwiriza y’Ubwuma",
+            "pumpStatusAlerts": "Amakuru y’Imashini y’amazi",
+            "efficiencyAlerts": "Amakuru y’Ubushobozi",
+            "aiInsights": "Ibyifuzo by’Ubwenge bw’Ubukorano"
+        }
+    },
+    "providerProfile": {
+        "profile": "Umwirondoro",
+        "profileSettings": "Amakuru y’Umwirondoro",
+        "name": "Izina",
+        "email": "Imeyili"
     },
     "rab": {
         "nationalOverview": "Incamake y’Igihugu",

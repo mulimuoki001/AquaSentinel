@@ -1,7 +1,7 @@
 /* src/features/provider/components/CSS/exportCenter.css */
 
 .export-container {
-    background-color: var(--alert-bg);
+    background-color: #0e2c38;
     color: var(--alert-text);
     padding: 2rem;
     margin: 2rem;

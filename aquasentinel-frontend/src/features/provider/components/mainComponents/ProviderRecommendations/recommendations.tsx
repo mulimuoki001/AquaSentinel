@@ -1,81 +1,88 @@
-import React, { useEffect, useState } from "react";
+// SmartRecommendations.tsx
 import { Link } from "react-router-dom";
 import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
-
-interface Recommendation {
-    farmname: string;
-    farmowner: string;
-    moisture: number;
-    avgFlow: string;
-    recommendation: string;
-}
+import { useState } from "react";
+import mockFarmsData from "../MockData/mockFarmsData";
 
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
 }
 
-const ProviderRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
+interface AIResponse {
+    prompt: string;
+    response: string;
+}
+
+export const ProviderSmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { currentLang, setLang } = useGlobalContext();
     const { t } = useTranslation();
+    const todayDay = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    const [loading, setLoading] = useState(false);
+    const [input, setInput] = useState("");
+    const [messages, setMessages] = useState<AIResponse[]>(() => {
+        return JSON.parse(localStorage.getItem("provider_ai_recommendations") || "[]");
+    });
 
-    const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
-    const [loading, setLoading] = useState(true);
+    const formatFarmPrompt = (lang: string) => {
+        const summaries = mockFarmsData.map(farm => `Farm: ${farm.farmName}, Owner: ${farm.owner}, Moisture: ${farm.moisture}%, Efficiency: ${farm.avgEfficiency}%, Pump: ${farm.pumpStatus}`).join("\n");
 
-    useEffect(() => {
-        const fetchRecommendations = async () => {
+        return `
+You are an intelligent farm advisor. Based on today's overview (${todayDay}), analyze the following farm data and generate a well-structured, human-friendly report. Use markdown-style formatting or clear bullet points for readability.
 
-            const res = await fetch("/api/sensors/provider-recommendations");
-            if (!res.ok) {
-                const dummy: Recommendation[] = [
-                    {
-                        farmname: "Green Valley",
-                        farmowner: "Alice N.",
-                        moisture: 43,
-                        avgFlow: "1.8",
-                        recommendation: "No irrigation needed today. Moisture is sufficient."
-                    },
-                    {
-                        farmname: "Sunrise Farm",
-                        farmowner: "Emmanuel M.",
-                        moisture: 28,
-                        avgFlow: "0.7",
-                        recommendation: "Recommend irrigation tomorrow morning. Low moisture detected."
-                    },
-                    {
-                        farmname: "Hope Farm",
-                        farmowner: "Diane K.",
-                        moisture: 15,
-                        avgFlow: "0.4",
-                        recommendation: "Urgent: Moisture very low. Irrigate today for at least 30 mins."
-                    }
-                ];
-                setRecommendations(dummy);
-            } else {
-                const data = await res.json();
-                console.log("AI API Recommendations:", data);
-                setRecommendations(data);
-            }
+Farm Data:
+${summaries}
+
+In your response, include:
+1. A **brief overview** of general farm performance.
+2. **Per-farm insights** with:
+   - Farm Name and Owner
+   - Moisture %, Efficiency %, and Pump Status
+   - Clear actionable recommendation (bold it)
+3. Format the response clearly with line breaks and headings.
+
+Respond in ${lang === "rw" ? "Kinyarwanda" : "English"} only.
+`;
+
+    };
+
+    const handleAskAI = async (customPrompt?: string) => {
+        setLoading(true);
+        try {
+            const promptToSend = customPrompt || formatFarmPrompt(currentLang);
+            const res = await fetch("/api/provider-ai/generate-farm-monitoring-recommendations", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: promptToSend })
+            });
+            const data = await res.json();
+            const newEntry = { prompt: promptToSend, response: data.content };
+            const updated = [newEntry, ...messages].slice(0, 3);
+            setMessages(updated);
+            localStorage.setItem("provider_ai_recommendations", JSON.stringify(updated));
+            setInput("");
+        } catch (err) {
+            alert("AI suggestion failed.");
+        } finally {
+            setLoading(false);
         }
-        const interval = setInterval(fetchRecommendations, 60000);
+    };
+    const clearHistory = () => {
+        setMessages([]);
+        localStorage.removeItem("provider_ai_recommendations");
+    };
 
-        fetchRecommendations();
-        setLoading(false);
-        return () => clearInterval(interval);
-
-    }, []);
     return (
         <div className="layout">
-            {/* Header reused from FarmMonitoring */}
             <div className={`dashboard-header ${sidebarOpen ? "hidden" : "open"}`}>
                 <div className="page-title">
-                    <Link to="/dashboard/provider/irrigation-sessions">
+                    <Link to="/dashboard/provider/irrigation-sessions ">
                         <img src="../../fast-backward.png" className="back-icon" alt="back" />
                     </Link>
-
-                    <h1>{t("providerRecommendations.title") || "AI-Powered Recommendations"}</h1>
-
+                    <div className="page-title-text">
+                        <h1>{t('providerSmartRecommendations.title')}</h1>
+                    </div>
                     <Link to="/dashboard/provider/export-center">
                         <img src="../../fast-forward.png" alt="forward" />
                     </Link>
@@ -84,80 +91,61 @@ const ProviderRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLog
                 <div className="header-nav">
                     <div className="header-language">
                         <label htmlFor="lang-select" className="profile-link" style={{ marginRight: "8px" }}>🌐</label>
-                        <select
-                            id="lang-select"
-                            value={currentLang}
-                            onChange={(e) => setLang(e.target.value)}
-                            className="profile-link"
-                            style={{
-                                background: "#0e2c38",
-                                border: "1px solid #ccc",
-                                padding: "4px 6px",
-                                borderRadius: "4px",
-                                fontSize: "16px",
-                                color: "#fff",
-                                cursor: "pointer",
-                                borderColor: "#1568bb"
-                            }}
-                        >
+                        <select id="lang-select" value={currentLang} onChange={(e) => setLang(e.target.value)} className="profile-link"
+                            style={{ background: "#0e2c38", border: "1px solid #1568bb", padding: "4px 6px", borderRadius: "4px", color: "#fff", fontSize: "16px", cursor: "pointer" }}>
                             <option value="en">English</option>
                             <option value="rw">Kinyarwanda</option>
                         </select>
                     </div>
                     <div className="header-settings">
                         <Link to="/dashboard/provider/settings">
-                            <img className="settings-icon" src="../../Settings.png" alt="Settings" />
+                            <img className="settings-icon" src="../../Settings.png" alt="settings" />
                         </Link>
-                        <a className="settings-link" href="/dashboard/provider/settings">
-                            {t("dashboard.settings")}
-                        </a>
+                        <a className="settings-link" href="/dashboard/provider/settings">Settings</a>
                     </div>
                     <div className="header-logout">
                         <img className="logout-icon" src="../../logout.png" alt="Logout" onClick={handleLogout} />
-                        <a className="logout-link" onClick={handleLogout}>{t("dashboard.logout")}</a>
+                        <a className="logout-link" onClick={handleLogout}>Logout</a>
                     </div>
                 </div>
             </div>
 
-            {/* Main content */}
-            <div className="dashboard-main" style={{ padding: "2rem" }}>
-                <div className="provrecommendations-container" style={{ padding: "2rem" }}>
-                    <div className="provider-recommendations-header">
-                        <h2>{t("providerRecommendations.subtitle") || "Overview of Smart AI Recommendations"}</h2>
-                        <p>{t("providerRecommendations.description") || "Review suggestions for irrigation efficiency and farm support"}</p>
+            <div className="smart-recommendations-container">
+                <div className="smart-ai-chat-box">
+                    <div className="chat-header">
+                        <h2>{t('providerSmartRecommendations.assistantTitle')}</h2>
                     </div>
-                    {loading ? (
-                        <p>Loading recommendations...</p>
-                    ) : (
-                        <div style={{ marginTop: "2rem", overflowX: "auto", overflowY: "auto", maxHeight: "60vh" }}>
-                            <table className="farm-table">
-                                <thead>
-                                    <tr>
-                                        <th>Farm Name</th>
-                                        <th>Farm Owner</th>
-                                        <th>Moisture (%)</th>
-                                        <th>Avg Flow (L/min)</th>
-                                        <th>AI Recommendation</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {recommendations.map((rec, index) => (
-                                        <tr key={index}>
-                                            <td>{rec.farmname}</td>
-                                            <td>{rec.farmowner}</td>
-                                            <td>{rec.moisture ?? "N/A"}</td>
-                                            <td>{rec.avgFlow}</td>
-                                            <td style={{ maxWidth: "400px", whiteSpace: "pre-wrap" }}>{rec.recommendation}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                    <div className="chat-buttons">
+                        <button onClick={() => handleAskAI()} disabled={loading} className="suggest-btn">
+                            {loading ? t('providerSmartRecommendations.thinking') : t('providerSmartRecommendations.generateInsights')}
+                        </button>
+                        <button onClick={clearHistory} className="clear-history-btn">
+                            {t('providerSmartRecommendations.clearHistory')}
+                        </button>
+                    </div>
+
+                    <div className="chat-messages">
+                        {messages.map((m, i) => (
+                            <div key={i} className="ai-chat-bubble">
+                                <p><strong>🧑 Prompt:</strong> {m.prompt.slice(0, 100)}...</p>
+
+                                <p><strong>🤖 AI:</strong> {m.response}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="chat-input">
+                        <input
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder={t('providerSmartRecommendations.inputPlaceholder')}
+                        />
+                        <button onClick={() => handleAskAI(input)} disabled={loading || !input}>{t('providerSmartRecommendations.send')}</button>
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default ProviderRecommendations;
+export default ProviderSmartRecommendations;
