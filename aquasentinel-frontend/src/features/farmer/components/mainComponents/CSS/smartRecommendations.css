@@ -153,6 +153,12 @@
   background-color: #1394c4;
 }
 
+@media (max-width: 1020px) {
+  .smart-ai-chat-box {
+    margin-top: 200px;
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .chat-input {

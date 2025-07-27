@@ -2,7 +2,7 @@
   --border-color: #1568bb;
   --navbar-bg: #0e2c38;
 
-  --topbar-height: 100px;
+  --topbar-height: 60px;
 }
 
 * {
@@ -21,7 +21,7 @@ body {
 /* Sidebar Css */
 .sidebar.open {
   position: fixed;
-  top: var(--topbar-height, 60px);
+  top: var(--topbar-height);
   /* height of your topBar */
   left: 0;
 
@@ -127,7 +127,7 @@ body {
   /* 100% of the viewport width */
   position: fixed;
   box-sizing: border-box;
-  height: var(--topbar-height, 60px);
+  height: var(--topbar-height);
   top: 0;
   left: 0;
   right: 0;
