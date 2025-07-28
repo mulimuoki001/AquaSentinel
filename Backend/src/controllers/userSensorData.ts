@@ -8,21 +8,17 @@ export async function getUserSensorData(req: Request, res: Response) {
     }
 
     try {
-        const [waterFlowResult, moistureResult] = await Promise.all([
+        const [waterFlowResult] = await Promise.all([
             (await db).query(
-                `SELECT date, time, flowrate, pumpStatus FROM water_flow_sensor_data WHERE user_id = $1 ORDER BY date DESC, time DESC LIMIT 100`,
+                `SELECT * FROM water_flow_sensor_data WHERE user_id = $1 ORDER BY date DESC, time DESC LIMIT 100`,
                 [userId]
             ),
-            (await db).query(
-                `SELECT date, time, moisture FROM soil_moisture_sensor_data WHERE user_id = $1 ORDER BY date DESC, time DESC LIMIT 100`,
-                [userId]
-            ),
+
         ]);
 
         return res.json({
             userId,
             waterFlowData: waterFlowResult.rows,
-            moistureData: moistureResult.rows,
         });
     } catch (error) {
         console.error("Error fetching sensor data:", error);

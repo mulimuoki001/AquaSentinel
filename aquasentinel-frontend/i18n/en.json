@@ -59,7 +59,14 @@
     "recommendations": {
         "pageTitle": "Smart Farm Recommendations",
         "title": "Farmer AI Assistant",
-        "none": "No new recommendations today"
+        "none": "No new recommendations today",
+        "generateInsights": "🧠 Generate Insights from Current Data",
+        "thinking": "Thinking...",
+        "clearHistory": "Clear History",
+        "prompt": "Prompt",
+        "ai": "AI",
+        "inputPlaceholder": "Ask something about today's farms...",
+        "send": "Send"
     },
     "exportLogs": {
         "title": "Export Logs",

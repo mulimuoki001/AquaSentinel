@@ -23,7 +23,7 @@ moistureRouter.get("/all-water-flow-data-per-user/:userId", fetchAllWaterFlowDat
 
 
 // Pump Session
-moistureRouter.get("/live-pump-session", getLivePumpSession, authenticateJWT);
+moistureRouter.get("/live-pump-session", getLivePumpSession);
 moistureRouter.get("/all-pump-sessions", getAllPumpSessions, authenticateJWT, authorizeRoles("provider"));
 moistureRouter.get("/user-pump-sessions/:userId", getUserPumpSessions, authenticateJWT);
 moistureRouter.get("/total-water-used-daily-by-user/:userId", getTotalWaterUsedDailybyUser, authenticateJWT);

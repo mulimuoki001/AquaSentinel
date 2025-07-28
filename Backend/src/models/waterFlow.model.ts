@@ -175,6 +175,7 @@ export async function getAllWaterFlowDataPerUser(userId: number) {
     FROM water_flow_sensor_data
     WHERE userid = $1
     ORDER BY timestamp ASC
+    LIMIT 100
   `;
   const { rows } = await (await db).query(query, [userId]);
   return rows;

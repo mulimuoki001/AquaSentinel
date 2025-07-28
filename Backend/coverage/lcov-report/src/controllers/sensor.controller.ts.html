@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.56% </span>
+                <span class="strong">47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>57/115</span>
+                <span class='fraction'>55/117</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">11.76% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/32</span>
+                <span class='fraction'>4/34</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.29% </span>
+                <span class="strong">43.63% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>50/108</span>
+                <span class='fraction'>48/110</span>
             </div>
         
             
@@ -277,7 +277,10 @@
 <a name='L212'></a><a href='#L212'>212</a>
 <a name='L213'></a><a href='#L213'>213</a>
 <a name='L214'></a><a href='#L214'>214</a>
-<a name='L215'></a><a href='#L215'>215</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -346,8 +349,14 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -439,7 +448,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -450,7 +458,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -489,7 +496,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response, NextFunction, RequestHandler } from "express";
 import { getRecentMoistureData, saveMoistureData } from "../models/moisture.model";
@@ -559,9 +565,15 @@ export async function <span class="fstat-no" title="function not covered" >start
 <span class="cstat-no" title="statement not covered" >            try {</span>
                 const current = <span class="cstat-no" title="statement not covered" >latestMoistureRecord.moisture || 0;</span>
                 const change = <span class="cstat-no" title="statement not covered" >latestMoistureRecord.moistureChange || 0;</span>
+                const userId = <span class="cstat-no" title="statement not covered" >latestMoistureRecord.userId;</span>
+<span class="cstat-no" title="statement not covered" >                if (!userId) {</span>
+<span class="cstat-no" title="statement not covered" >                    console.error("UserId is null or undefined");</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
 <span class="cstat-no" title="statement not covered" >                lastMoisture = current;</span>
 &nbsp;
                 const data = <span class="cstat-no" title="statement not covered" >{</span>
+                    userId,
                     moisture: current,
                     moistureChange: change,
                     moistureUnit: latestMoistureRecord.moistureUnit || "%",
@@ -574,7 +586,7 @@ export async function <span class="fstat-no" title="function not covered" >start
             }
         }
 &nbsp;
-    }, 5000); // every 1 second
+    }, 5000); // every 5 seconds
 }
 &nbsp;
 &nbsp;
@@ -651,7 +663,6 @@ export const getFlowRateGraphData = async (req: Request, res: Response) =&gt; {
     try {
         const end = new Date();
         const start = new Date(end.getTime() - 60 * 60 * 1000); // 1 hour ago
-        console.log("Time Range:", start.toISOString(), "to", end.toISOString());
         const buckets = await getFlowRateBuckets(start, end, 1); // 1 minute buckets
         res.json({ success: true, data: buckets });
     } catch (error) {
@@ -666,7 +677,6 @@ export async function fetchAllWaterFlowDataPerUser(req: Request, res: Response,)
 &nbsp;
         const userId = Number(req.params.userId);
         const data = await getAllWaterFlowDataPerUser(userId);
-        console.log("Water flow data for user", userId, ":", data);
         res.json({ success: true, data });
 &nbsp;
     } catch (error) {
@@ -704,15 +714,14 @@ export const getWaterUsageTodayHandler = async (req: Request, res: Response): Pr
 <span class="cstat-no" title="statement not covered" >        console.error("❌ Error fetching today's water usage:", error);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({ success: false, message: "Failed to fetch water usage for today" });</span>
     }
-};
-&nbsp;</pre></td></tr></table></pre>
+};</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-17T03:56:43.731Z
+                at 2025-07-28T22:33:16.575Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

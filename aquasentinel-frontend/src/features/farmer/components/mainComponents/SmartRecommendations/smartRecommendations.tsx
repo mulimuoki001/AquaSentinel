@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import useGlobalContext from "../../../../context/useGlobalContext";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 interface NavBarProps {
     sidebarOpen: boolean;
@@ -11,6 +11,18 @@ interface AIResponse {
     prompt: string;
     response: string;
 }
+
+interface FlowData {
+    id: number;
+    userid: number;
+    flowrate: number;
+    flowunit: string;
+    pumpstatus: "ON" | "OFF";
+    timestamp: string;
+    date: string;
+    time: string;
+}
+
 
 export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { currentLang, setLang, userData } = useGlobalContext();
@@ -26,11 +38,39 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
     const [messages, setMessages] = useState<AIResponse[]>(() => {
         return JSON.parse(localStorage.getItem("farmer_ai_recommendations") || "[]");
     });
-    const fetchSensorData = async (userId: number) => {
-        const res = await fetch(`/api/sensors/user-sensor-data/${userId}`);
-        if (!res.ok) throw new Error("Failed to fetch sensor data");
-        return res.json();
-    };
+    const [flowData, setFlowData] = useState<FlowData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+
+    })
+
+    useEffect(() => {
+        const fetchFlowData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const userId = localStorage.getItem("userId");
+                const res = await fetch(`/api/sensors/all-water-flow-data-per-user/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Failed to fetch: ${res.status}`);
+                }
+
+                const json = await res.json();
+                setFlowData(json.data || []);
+
+            } catch (err: any) {
+                console.error("❌ Error fetching flow data:", err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchFlowData();
+    }, []);
 
     const formatSensorPrompt = (data: any, lang: string) => {
         const flows = data.waterFlowData.map(
@@ -42,25 +82,25 @@ export const SmartRecommendations: React.FC<NavBarProps> = ({ sidebarOpen, handl
         ).join("\n");
 
         return `
-You are a helpful irrigation assistant. Based on the following data collected on **${todayDay}**, generate a markdown-formatted report to advise a smallholder farmer in Rwanda.
+        You are a helpful irrigation assistant. Based on the following data collected on **${todayDay}**, generate a markdown-formatted report to advise a smallholder farmer in Rwanda.
 
-### 📊 Water Flow Readings
-${flows}
+        ### 📊 Water Flow Readings
+        ${flows}
 
-### 🌱 Soil Moisture Readings
-${moistures}
+        ### 🌱 Soil Moisture Readings
+        ${moistures}
 
----
+        ---
 
-### 💡 What To Include in Your Report:
+        ### 💡 What To Include in Your Report:
 
-1. **General Summary** of irrigation condition.
-2. Bullet-point **recommendations** based on trends or low values.
-3. Use simple, clear, and helpful language.
-4. Format it for readability.
+        1. **General Summary** of irrigation condition.
+        2. Bullet-point **recommendations** based on trends or low values.
+        3. Use simple, clear, and helpful language.
+        4. Format it for readability.
 
-Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
-    `;
+        Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
+            `;
     };
 
 
@@ -70,9 +110,16 @@ Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
         try {
             let promptToSend = customPrompt || input;
 
-            if (useSensorData && userData?.id) {
-                const sensorData = await fetchSensorData(userData.id);
-                promptToSend = formatSensorPrompt(sensorData, currentLang);
+
+
+            if (useSensorData) {
+                promptToSend = formatSensorPrompt(
+                    {
+                        waterFlowData: flowData,
+                        moistureData: [], // Optional: add real moisture later
+                    },
+                    currentLang
+                );
             }
 
             const res = await fetch("/api/farmer-ai/smart-recommendations", {
@@ -166,11 +213,16 @@ Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
                             <h2>{t("recommendations.title")}</h2>
                         </div>
                     </div>
+                    {isLoading && (
+                        <div style={{ padding: "12px", color: "#1568bb", fontWeight: "bold", textAlign: "center" }}>
+                            🔄 Loading your recent sensor data...
+                        </div>
+                    )}
 
                     <div className="chat-buttons">
                         <button onClick={() => handleAskAI(`Suggest smart irrigation advice based on recent pump sessions for farmer ${userName}`, true)}
                             disabled={loading} className="suggest-btn">
-                            {loading ? "Thinking..." : "🧠 Generate AI Suggestions from My Data"}
+                            {loading ? t("recommendations.thinking") : t("recommendations.generateInsights")}
                         </button>
                         <button
                             onClick={() => {
@@ -179,7 +231,7 @@ Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
                             }}
                             className="clear-history-btn"
                         >
-                            Clear History
+                            {t("recommendations.clearHistory")}
                         </button>
                     </div>
                     <div className="chat-messages">
@@ -196,9 +248,9 @@ Respond in **${lang === "rw" ? "Kinyarwanda" : "English"}** only.
                         <input
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                            placeholder="Ask anything about irrigation..."
+                            placeholder={t("recommendations.inputPlaceholder")}
                         />
-                        <button onClick={() => handleAskAI()} disabled={loading || !input}>Send</button>
+                        <button onClick={() => handleAskAI()} disabled={loading || !input}>{t("recommendations.send")}</button>
                     </div>
                 </div>
             </div>

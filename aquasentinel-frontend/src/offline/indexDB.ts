@@ -1,99 +1,81 @@
 import { openDB } from 'idb';
+import type {
+    MoistureData,
+    WaterFlowData,
+    WaterUsageTodayBuckets,
+    WaterFlowRateBucket,
+    PumpSession,
+    UserData
+} from '../features/types/types';
 
-export interface SensorData {
-    id: string;
+// ✅ IndexedDB-friendly types (no Date objects)
+export interface IndexedWaterFlowData extends Omit<WaterFlowData, 'timestamp'> {
     timestamp: string;
-    moisture: number;
-    flowRate: number;
-    zoneId: string;
-    synced?: boolean;
 }
 
-export interface IrrigationSession {
-    sessionId: string;
-    userId: string;
-    startTime: string;
-    endTime: string | null;
-    totalLiters: number;
-    status: string;
-    synced?: boolean;
-}
+type StoreNames =
+    | 'moistureData'
+    | 'waterFlowData'
+    | 'waterUsageToday'
+    | 'flowRateBuckets'
+    | 'pumpSessions'
+    | 'userData';
 
-type StoreName = 'sensorData' | 'irrigationSessions';
+type DBTypes = {
+    moistureData: MoistureData;
+    waterFlowData: IndexedWaterFlowData;
+    waterUsageToday: WaterUsageTodayBuckets;
+    flowRateBuckets: WaterFlowRateBucket;
+    pumpSessions: PumpSession;
+    userData: UserData;
+};
 
-const dbPromise = openDB('AquaSentinelDB', 1, {
+const DB_NAME = 'AquaSentinelDB';
+const DB_VERSION = 1;
+
+const dbPromise = openDB<DBTypes>(DB_NAME, DB_VERSION, {
     upgrade(db) {
-        if (!db.objectStoreNames.contains('sensorData')) {
-            db.createObjectStore('sensorData', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('moistureData')) {
+            db.createObjectStore('moistureData', { keyPath: 'moistureUnit' }); // override key as needed
         }
-        if (!db.objectStoreNames.contains('irrigationSessions')) {
-            db.createObjectStore('irrigationSessions', { keyPath: 'sessionId' });
+        if (!db.objectStoreNames.contains('waterFlowData')) {
+            db.createObjectStore('waterFlowData', { keyPath: 'timestamp' });
         }
-    },
+        if (!db.objectStoreNames.contains('waterUsageToday')) {
+            db.createObjectStore('waterUsageToday', { keyPath: 'bucket_start' });
+        }
+        if (!db.objectStoreNames.contains('flowRateBuckets')) {
+            db.createObjectStore('flowRateBuckets', { keyPath: 'bucket_start' });
+        }
+        if (!db.objectStoreNames.contains('pumpSessions')) {
+            db.createObjectStore('pumpSessions', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('userData')) {
+            db.createObjectStore('userData', { keyPath: 'id' });
+        }
+    }
 });
 
-// Save a record (default synced: false)
-export const saveToStore = async <T extends { synced?: boolean }>(
-    storeName: StoreName,
-    data: T
+export const saveToStore = async <K extends StoreNames>(
+    storeName: K,
+    data: DBTypes[K]
 ): Promise<void> => {
     const db = await dbPromise;
     const tx = db.transaction(storeName, 'readwrite');
-    await tx.store.put({ ...data, synced: false });
+    await tx.store.put(data);
     await tx.done;
 };
 
-// Get all records
-export const getAllFromStore = async <T>(storeName: StoreName): Promise<T[]> => {
+export const getAllFromStore = async <K extends StoreNames>(
+    storeName: K
+): Promise<DBTypes[K][]> => {
     const db = await dbPromise;
-    return db.getAll(storeName);
+    return await db.getAll(storeName);
 };
 
-// Get only unsynced records
-export const getUnsyncedFromStore = async <T extends { synced?: boolean }>(
-    storeName: StoreName
-): Promise<T[]> => {
-    const db = await dbPromise;
-    const all = await db.getAll(storeName);
-    return all.filter((item) => !item.synced);
-};
-
-// Mark records as synced (based on key)
-export const markAsSynced = async (
-    storeName: StoreName,
-    key: string
+export const clearStore = async <K extends StoreNames>(
+    storeName: K
 ): Promise<void> => {
-    const db = await dbPromise;
-    const tx = db.transaction(storeName, 'readwrite');
-    const store = tx.store;
-    const item = await store.get(key);
-
-    if (item) {
-        item.synced = true;
-        await store.put(item);
-    }
-
-    await tx.done;
-};
-
-// Optional: Clear all synced records
-export const clearSyncedRecords = async (storeName: StoreName): Promise<void> => {
-    const db = await dbPromise;
-    const tx = db.transaction(storeName, 'readwrite');
-    const store = tx.store;
-    const all = await store.getAll();
-
-    for (const item of all) {
-        if (item.synced) {
-            await store.delete(storeName === 'sensorData' ? item.id : item.sessionId);
-        }
-    }
-
-    await tx.done;
-};
-
-// Clear entire store
-export const clearStore = async (storeName: StoreName): Promise<void> => {
     const db = await dbPromise;
     const tx = db.transaction(storeName, 'readwrite');
     await tx.store.clear();

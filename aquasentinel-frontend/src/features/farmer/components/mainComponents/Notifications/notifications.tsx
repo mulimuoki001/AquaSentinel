@@ -1,83 +1,75 @@
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { DateTime } from "luxon";
 import useGlobalContext from "../../../../context/useGlobalContext";
-import api from "../../../../../utils/axiosInstance";
 import { useTranslation } from "react-i18next";
-interface Notification {
-    id: string;
-    title: string;
-    read: boolean;
-    createdAt: string;
-    time: string;
-}
 
 interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
 }
-interface PumpSession {
-    id: number;
-    user_id: number;
-    date: string;
-    start_time: string;
-    end_time: string | null;
-    duration: number;
-    total_liters: number;
-    status: string;
-}
+// interface PumpSession {
+//     id: number;
+//     user_id: number;
+//     date: string;
+//     start_time: string;
+//     end_time: string | null;
+//     duration: number;
+//     total_liters: number;
+//     status: string;
+// }
 
 export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { notifications, setNotifications } = useGlobalContext();
-    const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
+    // const [lastStatus, setLastStatus] = useState<"ON" | "OFF" | null>(null);
     const { currentLang, setLang } = useGlobalContext();
 
     const { t } = useTranslation();
 
     // Polling for latest session
 
-    useEffect(() => {
-        const interval = setInterval(async () => {
-            try {
-                const res = await api.get("/api/sensors/live-pump-session");
-                const data = await res.data as { session: PumpSession | null };
+    // useEffect(() => {
+    //     const interval = setInterval(async () => {
+    //         try {
+    //             const res = await api.get("/api/sensors/live-pump-session");
+    //             const data = await res.data as { session: PumpSession | null };
 
-                if (data.session) {
-                    const session = data.session;
-                    const currentStatus: "ON" | "OFF" = session.end_time ? "OFF" : "ON";
-                    const uniqueId = `${session.id}-${session.end_time ?? "live"}`;
+    //             if (data.session) {
+    //                 const session = data.session;
+    //                 const currentStatus: "ON" | "OFF" = session.end_time ? "OFF" : "ON";
+    //                 const uniqueId = `${session.id}-${session.end_time ?? "live"}`;
 
-                    if (currentStatus !== lastStatus) {
-                        const alert = currentStatus === "OFF" ? t("notifications.alert.off") : t("notifications.alert.on");
-                        const createdAt = DateTime.now().toISO();
+    //                 if (currentStatus !== lastStatus) {
+    //                     const alert = currentStatus === "OFF" ? t("notifications.alert.off") : t("notifications.alert.on");
+    //                     const createdAt = DateTime.now().toISO();
 
-                        setNotifications((prev) => {
-                            const alreadyExists = prev.some((n) => n.id === uniqueId);
-                            if (alreadyExists) return prev;
+    //                     setNotifications((prev) => {
+    //                         const alreadyExists = prev.some((n) => n.id === uniqueId);
+    //                         if (alreadyExists) return prev;
 
-                            const newNotification: Notification = {
-                                id: uniqueId,
-                                title: alert,
-                                read: false,
-                                createdAt,
-                                time: "now",
-                            };
+    //                         const newNotification: Notification = {
+    //                             id: uniqueId,
+    //                             title: alert,
+    //                             read: false,
+    //                             createdAt,
+    //                             time: "now",
+    //                         };
 
-                            const updated = [newNotification, ...prev];
-                            localStorage.setItem("pump_notifications", JSON.stringify(updated));
-                            return updated;
-                        });
+    //                         const updated = [newNotification, ...prev];
+    //                         localStorage.setItem("pump_notifications", JSON.stringify(updated));
+    //                         return updated;
+    //                     });
 
-                        setLastStatus(currentStatus); // 🔁 track last known status
-                    }
-                }
-            } catch (err) {
-                console.error("❌ Failed to fetch session:", err);
-            }
-        }, 5000);
+    //                     setLastStatus(currentStatus); // 🔁 track last known status
+    //                 }
+    //             }
+    //         } catch (err) {
+    //             console.error("❌ Failed to fetch session:", err);
+    //         }
+    //     }, 5000);
 
-        return () => clearInterval(interval);
-    }, [lastStatus, setNotifications]);
+    //     return () => clearInterval(interval);
+    // }, [lastStatus, setNotifications]);
 
     // Update relative time every minute
     useEffect(() => {

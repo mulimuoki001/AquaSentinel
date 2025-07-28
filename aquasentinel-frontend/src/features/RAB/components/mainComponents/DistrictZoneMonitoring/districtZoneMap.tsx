@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import rwandaDistricts from '../MockData/gadm41_RWA_2.json';
-import mockData from "../MockData/mockData"; // ✅ your enriched data
+import mockData from "../MockData/mockData";
 
 const getColor = (eff: number) => {
     return eff >= 85 ? "#00c853" :

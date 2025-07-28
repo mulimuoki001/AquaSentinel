@@ -164,7 +164,6 @@ export const getFlowRateGraphData = async (req: Request, res: Response) => {
     try {
         const end = new Date();
         const start = new Date(end.getTime() - 60 * 60 * 1000); // 1 hour ago
-        console.log("Time Range:", start.toISOString(), "to", end.toISOString());
         const buckets = await getFlowRateBuckets(start, end, 1); // 1 minute buckets
         res.json({ success: true, data: buckets });
     } catch (error) {
@@ -179,7 +178,6 @@ export async function fetchAllWaterFlowDataPerUser(req: Request, res: Response,)
 
         const userId = Number(req.params.userId);
         const data = await getAllWaterFlowDataPerUser(userId);
-        console.log("Water flow data for user", userId, ":", data);
         res.json({ success: true, data });
 
     } catch (error) {

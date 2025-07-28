@@ -61,7 +61,14 @@
     "recommendations": {
         "pageTitle": "Inama z'Ubwenge bw'Imashini",
         "title": "Ubwiru bwa Farmer AI",
-        "none": "Nta nama nshya zabonetse uyu munsi"
+        "none": "Nta nama nshya zabonetse uyu munsi",
+        "generateInsights": "🧠 Ukoresha Inama n'Ubwenge bw'Imashini",
+        "thinking": "Ukoreshwa...",
+        "clearHistory": "Ufura Imama",
+        "prompt": "Ikibazo",
+        "ai": "AI",
+        "inputPlaceholder": "Andika ikibazo kijyanye n'amasambu y'uyu munsi...",
+        "send": "Komeza"
     },
     "exportLogs": {
         "title": "Ohereza Amakuru",

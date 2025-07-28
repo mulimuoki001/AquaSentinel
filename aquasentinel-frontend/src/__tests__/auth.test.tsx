@@ -127,6 +127,9 @@ describe('Login Page', () => {
 
 
 describe('Logout Page', () => {
+    beforeEach(() => {
+        mockNavigate.mockClear();
+    });
     it('logs out and navigates to login', async () => {
         const mockLogout = logoutService.logout as ReturnType<typeof vi.fn>;
         mockLogout.mockResolvedValue(undefined);
@@ -141,7 +144,7 @@ describe('Logout Page', () => {
 
         await waitFor(() => {
             expect(mockLogout).toHaveBeenCalled();
-            expect(mockNavigate).toHaveBeenCalledWith('/login');
+            expect(mockNavigate).toHaveBeenCalledWith('/');
         });
     });
 });

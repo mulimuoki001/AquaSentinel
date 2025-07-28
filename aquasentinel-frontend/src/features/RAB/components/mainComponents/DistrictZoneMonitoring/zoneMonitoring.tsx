@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import useGlobalContext from "../../../../context/useGlobalContext";
 import mockData from "../MockData/mockData";
-import "../CSS/zoneMonitoring.css"; // Assuming you have a CSS file for styles
+import "../CSS/zoneMonitoring.css";
 import DistrictZoneMap from "./districtZoneMap";
 
 interface NavBarProps {

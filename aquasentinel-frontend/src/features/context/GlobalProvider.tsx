@@ -55,15 +55,14 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [moistureRes, flowRes, usedRes, runtimeRes, bucketsRes, sessionRes, waterUsageTodayRes] =
+                const [moistureRes, flowRes, usedRes, runtimeRes, bucketsRes,] =
                     await Promise.all([
                         fetch("/api/sensors/moisture"),
                         fetch("/api/sensors/water-flow"),
                         fetch("/api/sensors/water-used-last-1hr"),
                         fetch("/api/sensors/pump-runtime"),
                         fetch("/api/sensors/flow-rate-graph"),
-                        fetch("/api/sensors/live-pump-session"),
-                        fetch("/api/sensors/water-usage-today"),
+
                     ]);
 
                 const token = localStorage.getItem("token");
@@ -98,35 +97,38 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
 
                 const bucketsData = await bucketsRes.json();
                 setWaterFlowRateBuckets(bucketsData?.data || []);
-                console.log("Water usage buckets:", bucketsData?.data);
-                const waterUsageToday = await waterUsageTodayRes.json();
-                console.log("Water usage today:", waterUsageToday?.totalWaterUsed);
-                const sessionData = await sessionRes.json();
-                const session = sessionData?.session;
-                if (session) {
-                    const currentStatus: "ON" | "OFF" = session.end_time ? "OFF" : "ON";
-                    const uniqueId = `${session.id}-${session.end_time ?? "live"}`;
+                try {
+                    const sessionRes = await fetch("/api/sensors/live-pump-session", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+                    const sessionData = await sessionRes.json();
+                    const session = sessionData?.session;
+                    if (session) {
+                        const currentStatus: "ON" | "OFF" = session.end_time ? "OFF" : "ON";
+                        const uniqueId = `${session.id}-${session.end_time ?? "live"}`;
 
-                    if (currentStatus !== lastStatus) {
-                        const newNotif: Notification = {
-                            id: uniqueId,
-                            title: currentStatus === "OFF" ? "Pump turned OFF" : "Pump turned ON",
-                            read: false,
-                            createdAt: DateTime.now().toISO(),
-                            time: "now",
-                        };
+                        if (currentStatus !== lastStatus) {
+                            const newNotif: Notification = {
+                                id: uniqueId,
+                                title: currentStatus === "OFF" ? "Pump turned OFF" : "Pump turned ON",
+                                read: false,
+                                createdAt: DateTime.now().toISO(),
+                                time: "now",
+                            };
 
-                        setNotifications((prev) => {
-                            if (prev.some((n) => n.id === newNotif.id)) return prev;
-                            const updated = [newNotif, ...prev];
-                            localStorage.setItem("pump_notifications", JSON.stringify(updated));
-                            return updated;
-                        });
+                            setNotifications((prev) => {
+                                if (prev.some((n) => n.id === newNotif.id)) return prev;
+                                const updated = [newNotif, ...prev];
+                                localStorage.setItem("pump_notifications", JSON.stringify(updated));
+                                return updated;
+                            });
 
-                        setLastStatus(currentStatus);
+                            setLastStatus(currentStatus);
+                        }
                     }
-                }
+                } catch (err) {
 
+                }
                 setError(null);
 
 

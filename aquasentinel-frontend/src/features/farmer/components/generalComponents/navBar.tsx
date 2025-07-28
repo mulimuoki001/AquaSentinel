@@ -119,7 +119,7 @@ const NavBar: React.FC<NavBarProps> = ({ sidebarOpen, setSidebarOpen, handleLogo
                 <span>{userData?.name}</span>
               </span>
             </div>
-            <span className="profile-name">{userData?.name}</span>
+            <span className=" profile-name">{userData?.name}</span>
           </div>
         </div>
       </div>

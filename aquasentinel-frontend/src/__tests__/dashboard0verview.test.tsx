@@ -50,10 +50,10 @@ describe('DashboardOverview Component', () => {
             </MemoryRouter>
         );
 
-        expect(screen.getByText('Dashboard Overview')).toBeInTheDocument();
+        expect(screen.getByText(/dashboard\.overview/i)).toBeInTheDocument();
         expect(screen.getByText('45')).toBeInTheDocument(); // moisture
         expect(screen.getByText('120')).toBeInTheDocument(); // water used
         expect(screen.getByText('40 mins')).toBeInTheDocument(); // runtime
-        expect(screen.getByText(/No new alerts/i)).toBeInTheDocument(); // alerts
+        expect(screen.getByText(/dashboard\.noNewAlerts/i)).toBeInTheDocument(); // alerts
     });
 });

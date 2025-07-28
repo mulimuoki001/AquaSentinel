@@ -14,7 +14,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
     padding: 1.5rem;
-    margin-top: 160px;
+    margin-top: 140px;
 }
 
 .dashboard-overview-container {
@@ -99,7 +99,18 @@ body {
     transition: transform 0.3s ease;
 }
 
-@media (max-width: 1020px) {}
+@media (max-width: 1020px) {
+    .overview-grid {
+        margin-top: 150px;
+    }
+}
+
+
+@media (max-width: 800px) {
+    .overview-grid {
+        margin-top: 170px;
+    }
+}
 
 @media (max-width: 1100px) {
     .rab-dashboard-chart {

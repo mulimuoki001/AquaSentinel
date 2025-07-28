@@ -136,7 +136,7 @@
   position: relative;
   /* Add this line */
   background: var(--card-bg);
-  padding: 16px;
+  padding: 12px;
   border-radius: 8px;
   flex: 1 1 30%;
   min-width: 240px;
@@ -144,7 +144,7 @@
   box-shadow: 2px 1px var(--border-color);
   display: flex;
   flex-direction: column;
-  height: 80px;
+  height: 100px;
   justify-content: space-around;
   align-items: center;
   overflow: hidden;
