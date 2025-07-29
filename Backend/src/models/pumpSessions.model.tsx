@@ -1,9 +1,11 @@
 import { db } from "../config/db";
 import { Request, Response } from "express";
+import { DateTime } from "luxon";
 
 
 export async function logPumpSession(status: "ON" | "OFF", userId?: number) {
   const now = new Date();
+
   const timeNow = now.toLocaleTimeString("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
