@@ -11,6 +11,9 @@ export async function logPumpSession(status: "ON" | "OFF", userId?: number) {
   });
   console.log("Time Now:", timeNow);
   if (status === "ON") {
+    const now = new Date(); // refreshed now
+    const startTime = now.toLocaleTimeString("en-GB");
+
     const check = await (await db).query(`
       SELECT id FROM pump_sessions
       WHERE end_time IS NULL
