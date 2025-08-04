@@ -67,7 +67,6 @@ export const login: RequestHandler = async (req, res) => {
         }
       );
       const expirationTime = Date.now() + 60; // 60 seconds
-      console.log("Expiration time:", expirationTime);
       await setActiveToken(user.id, newToken, expirationTime);
 
       res.status(200).json({
@@ -118,7 +117,6 @@ export const logout: RequestHandler = async (req, res) => {
         (err: NodeJS.ErrnoException | null) => {
           if (err)
             console.error("❌ Error saving token blacklist:", err.message);
-          else console.log("✅ Token added to blacklist and saved to file");
         }
       );
       //Delete token from database

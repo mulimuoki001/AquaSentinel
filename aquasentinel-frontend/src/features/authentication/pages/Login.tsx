@@ -54,7 +54,7 @@ const Login = () => {
 	return (
 		<div className='login-container'>
 			<h2>Login</h2>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} noValidate aria-label="login form">
 				<label>Email:
 					<input
 						type="email"

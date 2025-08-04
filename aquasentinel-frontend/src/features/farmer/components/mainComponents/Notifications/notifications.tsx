@@ -8,16 +8,7 @@ interface NavBarProps {
     sidebarOpen: boolean;
     handleLogout: () => void;
 }
-// interface PumpSession {
-//     id: number;
-//     user_id: number;
-//     date: string;
-//     start_time: string;
-//     end_time: string | null;
-//     duration: number;
-//     total_liters: number;
-//     status: string;
-// }
+
 
 export const Notifications: React.FC<NavBarProps> = ({ sidebarOpen, handleLogout }) => {
     const { notifications, setNotifications } = useGlobalContext();

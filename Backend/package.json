@@ -8,8 +8,7 @@
     "lint": "eslint . --ext .ts",
     "build": "tsc",
     "start": "NODE_ENV=production ts-node src/server.ts",
-    "test:backend": "jest --detectOpenHandles  --forceExit",
-    "lint:backend": "eslint . --ext .ts"
+    "test:backend": "jest --detectOpenHandles  --forceExit"
   },
   "engines": {
     "node": "18.x"
